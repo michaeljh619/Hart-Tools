@@ -1,3 +1,6 @@
+5/2/15:
+- Added transparent dark joystick and buttons
+
 4/14/15:
 - Added "Assets" tools file to Assets package
 
