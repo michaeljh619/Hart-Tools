@@ -1,4 +1,4 @@
-package com.mrHart.Input;
+package com.mrhart.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,30 +7,33 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
+import com.mrhart.assets.InputLoader;
+import com.mrhart.backend.Messages;
+import com.mrhart.backend.Touch;
 
+/**
+ * An onscreen UI button that can be used for input from the user.
+ *
+ * @author Michael James Hart, mrhartgames@yahoo.com
+ * @version v2.00
+ * @since 11/01/2015
+ */
 public class Button {
 	// Named Constants
-	private static final String BUTTON_DIR = "button/";
-	private static final int BUTTON_SIZE = 80;
+	private static final int TOUCH_INDEXES = 3;
 	
-	private static final int TOUCH_INDEXES = 10;
+	public static final int STYLE_DARK = 1;
+	public static final int STYLE_LIGHT = 2;
+	public static final int STYLE_DARK_TRANSPARENT = 3;
 	
 	public static final int BUTTON_A = 1;
-	private static final String BUTTON_A_FILE = "a.png";
 	public static final int BUTTON_B = 2;
-	private static final String BUTTON_B_FILE = "b.png";
 	public static final int BUTTON_L = 3;
-	private static final String BUTTON_L_FILE = "l.png";
 	public static final int BUTTON_R = 4;
-	private static final String BUTTON_R_FILE = "r.png";
 	public static final int BUTTON_X = 5;
-	private static final String BUTTON_X_FILE = "x.png";
 	public static final int BUTTON_Y = 6;
-	private static final String BUTTON_Y_FILE = "y.png";
 	public static final int BUTTON_ACCEPT = 7;
-	private static final String BUTTON_ACCEPT_FILE = "accept.png";
 	public static final int BUTTON_CANCEL = 8;
-	private static final String BUTTON_CANCEL_FILE = "cancel.png";
 	
 	// Instance Variables
 	public Vector2 origin;
@@ -41,7 +44,6 @@ public class Button {
 	
 	private Circle circle;
 	
-	private Texture texture;
 	private TextureRegion textureRegion;
 	
 	// Variables for methods
@@ -66,58 +68,39 @@ public class Button {
 		
 		circle = new Circle(origin.x, origin.y, radius);
 		
-		load(styleOfButton, buttonPicture);
+		switch(styleOfButton){
+		case STYLE_DARK:
+			if(buttonPicture == BUTTON_A)
+				textureRegion = InputLoader.button_dark_A;
+			else if(buttonPicture == BUTTON_B)
+				textureRegion = InputLoader.button_dark_B;
+			else
+				System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
+						+ "buttonPicture parameter is not a valid input!");
+			break;
+		case STYLE_LIGHT:
+			if(buttonPicture == BUTTON_A)
+				textureRegion = InputLoader.button_light_A;
+			else if(buttonPicture == BUTTON_B)
+				textureRegion = InputLoader.button_light_B;
+			else
+				System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
+						+ "buttonPicture parameter is not a valid input!");
+			break;
+		case STYLE_DARK_TRANSPARENT:
+			if(buttonPicture == BUTTON_A)
+				textureRegion = InputLoader.button_darkTransparent_A;
+			else if(buttonPicture == BUTTON_B)
+				textureRegion = InputLoader.button_darkTransparent_B;
+			else
+				System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
+						+ "buttonPicture parameter is not a valid input!");
+			break;
+		default:
+				System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
+						+ "styleOfButton parameter is not a valid input!");
+		}
 	}
-	
-	
-	
-	/*****************************************
-	 * Loader Methods
-	 *****************************************/
-	
-	private void load(int style, int buttonPicture){
-		String directory = GamePad.getDir(style) + BUTTON_DIR;
-		
-		texture = new Texture(Gdx.files.internal(directory
-				+ getFileName(buttonPicture)));
-		textureRegion = new TextureRegion(texture, 0, 0,
-				BUTTON_SIZE, BUTTON_SIZE);
-		textureRegion.flip(false, true);
-	}
-	
-	private String getFileName(int type){
-		if(type == BUTTON_A){
-			return BUTTON_A_FILE;
-		}
-		else if(type == BUTTON_B){
-			return BUTTON_B_FILE;
-		}
-		else if(type == BUTTON_L){
-			return BUTTON_L_FILE;
-		}
-		else if(type == BUTTON_R){
-			return BUTTON_R_FILE;
-		}
-		else if(type == BUTTON_X){
-			return BUTTON_X_FILE;
-		}
-		else if(type == BUTTON_Y){
-			return BUTTON_Y_FILE;
-		}
-		else if(type == BUTTON_ACCEPT){
-			return BUTTON_ACCEPT_FILE;
-		}
-		else if(type == BUTTON_CANCEL){
-			return BUTTON_CANCEL_FILE;
-		}
-		
-		return "";
-	}
-	
-	/*****************************************
-	 * Loader Methods [END]
-	 *****************************************/
-	
 	
 	
 	/*****************************************
@@ -189,8 +172,8 @@ public class Button {
 	private Vector2 getTouchIndex(){
 		for(int index = 0; index < TOUCH_INDEXES; index++){
 			if (Gdx.input.isTouched(index)){
-				tempX = InputHandler.convertX(Gdx.input.getX(index));
-				tempY = InputHandler.convertY(Gdx.input.getY(index));
+				tempX = Touch.convertX(Gdx.input.getX(index));
+				tempY = Touch.convertY(Gdx.input.getY(index));
 				
 				if(isInRange(tempX, tempY)){
 					return new Vector2(tempX, tempY);

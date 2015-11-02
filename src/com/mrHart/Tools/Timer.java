@@ -1,4 +1,4 @@
-package com.mrHart.Tools;
+package com.mrhart.tools;
 
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -36,12 +36,12 @@ import com.badlogic.gdx.utils.TimeUtils;
  * for timing, a hacker can run a script that continuously changes the system time, resulting in a timer
  * that either never reaches its goal (by setting system time to the same time each CPU cycle) or a timer
  * that instantaneously reaches its goal (by setting system time to a further time each CPU cycle). Not
- * sure if I should be worried about this just yet. 
+ * sure if I should be worried about this just yet.
  * 
  * 
- * @author Michael James Hart, michaeljh619@yahoo.com
+ * @author Michael James Hart, mrhartgames@yahoo.com
  * @version v2.00
- * @since 12/27/2014
+ * @since 11/01/2015
  * 
  */
 public class Timer {
@@ -60,7 +60,7 @@ public class Timer {
 	private long secondsToWait;
 	private long millisecondsToWait;
 	
-	public Task[] tasks;
+//	public Task[] tasks;
 	
 	
 	/*****************************************
@@ -169,7 +169,7 @@ public class Timer {
 		if (startTime > 0 && endTime > 0){
 			if (TimeUtils.nanoTime() >= endTime) {
 				// Null all the tasks, since no tasks will be executed once the timer is finished
-				nullAllTasks();
+//				nullAllTasks();
 				
 				startTime = endTime = 0;
 				return true;
@@ -197,7 +197,7 @@ public class Timer {
 	 */
 	public void reset(){
 		startTime = endTime = 0;
-		nullAllTasks();
+//		nullAllTasks();
 	}
 	
 	/*****************************************
@@ -222,39 +222,39 @@ public class Timer {
 	 * 
 	 * @return Returns the position in the array that the task was added
 	 */
-	public int addTask(int delayType, long timeDelay){
-		// This may be the very first Task being added, therefore
-		// check if the array still hasn't been initialized
-		if(tasks == null){
-			tasks = new Task[TASKS_SIZE];
-		}
-		
-		// Search for an empty task slot
-		for(int x = 0; x < TASKS_SIZE; x++){
-			if(tasks[x] == null){
-				tasks[x] = new Task(delayType, timeDelay);
-				return x;
-			}
-		}
-		
-		// If this code is reached, that means the size of the array has been exceeded and
-		// no further tasks can be added to the timer.
-		return -1;
-	}
+//	public int addTask(int delayType, long timeDelay){
+//		// This may be the very first Task being added, therefore
+//		// check if the array still hasn't been initialized
+//		if(tasks == null){
+//			tasks = new Task[TASKS_SIZE];
+//		}
+//		
+//		// Search for an empty task slot
+//		for(int x = 0; x < TASKS_SIZE; x++){
+//			if(tasks[x] == null){
+//				tasks[x] = new Task(delayType, timeDelay);
+//				return x;
+//			}
+//		}
+//		
+//		// If this code is reached, that means the size of the array has been exceeded and
+//		// no further tasks can be added to the timer.
+//		return -1;
+//	}
 	
 	/**
 	 * Releases all memory to all tasks held by this timer
 	 */
-	public void nullAllTasks(){
-		// Search for an empty task slot
-		if(tasks != null){
-			for(int x = 0; x < TASKS_SIZE; x++){
-				if(tasks[x] != null){
-					tasks[x] = null;
-				}
-			}
-		}
-	}
+//	public void nullAllTasks(){
+//		// Search for an empty task slot
+//		if(tasks != null){
+//			for(int x = 0; x < TASKS_SIZE; x++){
+//				if(tasks[x] != null){
+//					tasks[x] = null;
+//				}
+//			}
+//		}
+//	}
 	
 	/*****************************************
 	 * Task Methods [END]

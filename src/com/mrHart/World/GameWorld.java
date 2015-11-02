@@ -1,103 +1,54 @@
-package com.mrHart.World;
+package com.mrhart.world;
 
-import com.mrHart.Assets.AssetLoader;
-import com.mrHart.State.GameState;
-import com.mrHart.Tools.Timer;
+import com.mrhart.mode.Mode;
+import com.mrhart.mode.Mode_Logo;
+import com.mrhart.mode.Mode_Test_Ship;
+import com.mrhart.state.GameState;
 
 /**
  * GameWorld handles all updates to game objects, the timing of the world, transitions of backgrounds etc.
  * No rendering should be done here and most of the events' progression should rely on GameStates and
  * timers.
  * 
- * @author Michael
- * @version v1.00
- * @since 9/12/2014
+ * @author Michael James Hart, mrhartgames@yahoo.com
+ * @version v2.00
+ * @since 11/01/2015
  * 
  */
 public class GameWorld {
+	/*
+	 * Named Constants
+	 */
+	// Used to initialize the game in a certain mode
+	private static int JUMP_TO_STATE = GameState.STATE_LOGO;
 	
-	// Create a few timers for use
-	protected Timer timerAlpha;
+	/*
+	 * Instance Vars
+	 */
+	// Modes of the game
+	protected Mode currentMode;
+	private Mode_Logo mode_logo;
+	// Volume Modifier
+	public static float volume = 1.0f;
 	
-	// Important variable, used for ensuring things only occur once
-	private int oneTimeAlpha;
 	
 	/**
 	 * The Constructor should load the logo assets and initialize a timer for
 	 * rendering, sounds, and game flow.
 	 */
 	public GameWorld() {
-		// Set up alpha timer for the logo
-		timerAlpha = new Timer();
-		
-		// Initialize Game
-		AssetLoader.loadLogo();
-		
 		// Start the GameState
     	GameState.start();
-    	
-    	// Setup one time for sounds
-    	oneTimeAlpha = 0;
+    	// This is the original jump state, this is how the game should always initialize
+    	if(JUMP_TO_STATE == GameState.STATE_LOGO){
+    		mode_logo = new Mode_Logo();
+    		currentMode = mode_logo;
+    	}
 	}
 
-	/**
-	 * Updates all of the objects that need to be updated in the game. Will need
-	 * to communicate with GameState to see what objects actually need to be
-	 * updated.
-	 * 
-	 * @param delta
-	 */
 	public void update(float delta) {
-		updateGameObjects(delta);
-		updateSound();
-		updateTransitions();
-		updateGameState();
-	}
-
-	/**
-	 * Updates all Game Objects inside gameObjects package
-	 */
-	private void updateGameObjects(float delta) {
-		switch (GameState.currentState) {
-		
-		}
-	}
-
-	/**
-	 * Checks for events that would force the GameState to move to the next
-	 * state. Inside each case may be more if/then statements to take into
-	 * account that states may not always just load one state.
-	 * 
-	 * For example, GAME may go to PAUSED or TITLE.
-	 */
-	private void updateGameState() {
-		switch (GameState.currentState) {
-		
-		}
-	}
-
-	/**
-	 * Checks events to see if a sound should be played
-	 */
-	private void updateSound() {
-		switch (GameState.currentState) {
-			case GameState.STATE_LOGO:
-				if(timerAlpha.isActive()){
-					if (timerAlpha.tasks[3].isFinished() && oneTimeAlpha == 0){
-						AssetLoader.logo_s_beat.play();
-						oneTimeAlpha = 1;
-					}
-					else if (timerAlpha.tasks[9].isFinished() && oneTimeAlpha == 1){
-						AssetLoader.logo_s_beat.play();
-						oneTimeAlpha = 2;
-					}
-				}
-		}
-	}
-
-	private void updateTransitions() {
-		switch (GameState.currentState) {
-		
-		}
+		// Update current mode
+		currentMode.update(delta);
 	}
 }
+

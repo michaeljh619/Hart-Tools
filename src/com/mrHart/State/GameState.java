@@ -1,7 +1,4 @@
-package com.mrHart.State;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+package com.mrhart.state;
 
 /**
  * GameState controls the flow of the game. Basically, the game is always in one State and one SubState.
@@ -20,16 +17,16 @@ import java.util.logging.Logger;
  * 
  * Note: GameState is a purely static class, it should never be instantiated.
  * 
- * @author Michael
+ * @author Michael James Hart, mrhartgames@yahoo.com
  * @version v1.5
- * @since 12/27/2014
+ * @since 11/01/2015
  *
  */
 
 public class GameState {
 	
 	// Logger objects
-	private final static Logger logger = [TOP CLASS NAME].logger;
+//	private final static Logger logger = [TOP CLASS NAME].logger;
 	
 	
 	
@@ -44,6 +41,7 @@ public class GameState {
 	public final static int STATE_LOGO = 1;		// Mr. Hart Logo State
 	public final static int STATE_MENU = 2;		// For the Main menu
 	public final static int STATE_GAME = 3;		// Used for when the game is playing
+	public final static int STATE_TEST = 4;		// Used for when the game is playing
 	
 	// User Created States
 	/* YOUR STATES GOES HERE */
@@ -124,9 +122,6 @@ public class GameState {
 		
 		requestedState = STATE_NULL;
 		requestedSubState = SUBSTATE_NULL;
-		
-		logger.log(Level.FINER, "\n[GameState Log | start]{\n"
-				+ "\tGameState Initialized\n}\n");
 	}
 	
 	
@@ -151,15 +146,6 @@ public class GameState {
 	public static void requestState(int state, String callingMethod){
 		stateHasBeenRequested = true;
 		requestedState = state;
-
-		// Logs where the request originated from
-		logger.log(Level.FINE, "[GameState Log | requestState]{\n"
-				+ "\tcurrentState: " + currentState + "\n"
-				+ "\trequestedState: " + requestedState + "\n"
-				+ "\t------------------"
-				+ "\tRequested from:\n" 
-				+ "\tClass: " + callingMethod.split(" ")[0]
-				+ "\t | Method: " + callingMethod.split(" ")[1] + "\n}");
 	}
 	
 	/**
@@ -168,9 +154,6 @@ public class GameState {
 	public static void clearRequestState(){
 		stateHasBeenRequested = false;
 		requestedState = STATE_NULL;
-		
-		logger.log(Level.FINER, "\n[GameState Log | clearRequestState]{\n"
-				+ "\tState Request Cleared\n}\n");
 	}
 	
 	/**
@@ -180,11 +163,6 @@ public class GameState {
 	public static void processRequestedState(){
 		currentState = requestedState;
 		clearRequestState();
-		
-		// Since we are moving to a new state, the SubState should be set to null
-		
-		logger.log(Level.FINER, "\n[GameState Log | processRequestedState]{\n"
-				+ "\tState Request Processed\n}\n");
 	}
 	
 	/*****************************************
@@ -213,15 +191,6 @@ public class GameState {
 	public static void requestSubState(int subState, String callingMethod){
 		subStateHasBeenRequested = true;
 		requestedSubState = subState;
-		
-		// Logs where the request originated from
-		logger.log(Level.FINE, "\n[GameState Log | requestSubState]{\n"
-				+ "\tcurrentSubState: " + currentSubState + "\n"
-				+ "\trequestedSubState: " + requestedSubState + "\n"
-				+ "\t------------------"
-				+ "\tRequested from:\n" 
-				+ "\tClass: " + callingMethod.split(" ")[0]
-				+ "\t | Method: " + callingMethod.split(" ")[1] + "\n}\n");
 	}
 	
 	/**
@@ -230,9 +199,6 @@ public class GameState {
 	public static void clearRequestSubState(){
 		subStateHasBeenRequested = false;
 		requestedSubState = SUBSTATE_NULL;
-		
-		logger.log(Level.FINER, "\n[GameState Log | clearRequestSubState]{\n"
-				+ "\tSubState Request Cleared\n}\n");
 	}
 	
 	/**
@@ -241,9 +207,6 @@ public class GameState {
 	public static void processRequestedSubState(){
 		currentSubState = requestedSubState;
 		clearRequestSubState();
-		
-		logger.log(Level.FINER, "\n[GameState Log | processRequestedSubState]{\n"
-				+ "\tSubState Request Processed\n}\n");
 	}
 	
 	/*****************************************
