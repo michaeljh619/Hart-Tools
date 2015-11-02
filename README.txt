@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 **********************************************************************
 Hart Tools
 -----------------------------------------
@@ -23,6 +24,10 @@ If you have any questions on how anything works, feel free to email me.
 - Updated heart beat logo to signature logo
 - Added backend package with: Rotation, Touch, Debuggable interface, Messages.
 - Added mode package for cleaner transitions between game modes
+=======
+5/2/15:
+- Added transparent dark joystick and buttons
+>>>>>>> 5cbdf5b5c931cac451c705be9e4369543d4d0e1d
 
 4/14/15:
 - Added "Assets" tools file to Assets package
