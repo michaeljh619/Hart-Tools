@@ -27,7 +27,7 @@ public class EffectsLoader {
 	private static final int FADE_TOTAL_FRAMES = 10;
 	private static final int FADE_WIDTH = 100;
 	private static final int FADE_HEIGHT = 100;
-	private static final int FADE_STANDARD_SPEED = 0.06f;
+	private static final float FADE_STANDARD_SPEED = 0.06f;
 	
 	/*
 	 * Static Variables

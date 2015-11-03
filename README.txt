@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 **********************************************************************
 Hart Tools
 -----------------------------------------
@@ -15,6 +14,14 @@ both are completely optional:
 If you have any questions on how anything works, feel free to email me.
 **********************************************************************
 
+=======
+Commits
+=======
+11/03/15:
+- Fixed a few errors with not calling Settings, instead SpaceGame was being called (from Space Game project).
+- Fixed an error with Assets createRegionsFromTextures method, the array SHOULD be initialized to begin with.
+- Assets createRegionsFromTextures no longer initializes the Texture Array.
+
 11/01/15:
 - Moved majority of code to legacy
 - Timer from tools no longer uses tasks
@@ -27,7 +34,6 @@ If you have any questions on how anything works, feel free to email me.
 =======
 5/2/15:
 - Added transparent dark joystick and buttons
->>>>>>> 5cbdf5b5c931cac451c705be9e4369543d4d0e1d
 
 4/14/15:
 - Added "Assets" tools file to Assets package

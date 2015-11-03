@@ -125,7 +125,7 @@ public class Rotation {
 		
 		System.out.println("Add Degrees " + degree1 + " and " + degree2 + " = " + addDegrees(degree1, degree2));
 		System.out.println("Rotation distance between " + degree1 + " and " 
-				+ degree2 + " = " + getDistanceBetweenRotations(degree1, degree2));
+				+ degree2 + " = " + getSmallestDistance(degree1, degree2));
 		System.out.println("Is " + degree2 + " located clockwise to " + degree1 + "? " + isRotationClockwise(degree1, degree2));
 	}
 }

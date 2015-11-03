@@ -2,13 +2,12 @@ package com.mrhart.world;
 
 import com.mrhart.mode.Mode;
 import com.mrhart.mode.Mode_Logo;
-import com.mrhart.mode.Mode_Test_Ship;
 import com.mrhart.state.GameState;
 
 /**
- * GameWorld handles all updates to game objects, the timing of the world, transitions of backgrounds etc.
- * No rendering should be done here and most of the events' progression should rely on GameStates and
- * timers.
+ * GameWorld handles all updates to game objects. To maintain an OOP design, GameWorld should be
+ * responsible for transitioning between Modes and merely calling their updates. Asset Loading
+ * should be done in each mode.
  * 
  * @author Michael James Hart, mrhartgames@yahoo.com
  * @version v2.00
@@ -28,13 +27,14 @@ public class GameWorld {
 	// Modes of the game
 	protected Mode currentMode;
 	private Mode_Logo mode_logo;
+	private int nextState = 0;
 	// Volume Modifier
 	public static float volume = 1.0f;
 	
 	
 	/**
-	 * The Constructor should load the logo assets and initialize a timer for
-	 * rendering, sounds, and game flow.
+	 * The constructor should initialize the game state and jump to any state the dev
+	 * wishes to jump to for easy testing.
 	 */
 	public GameWorld() {
 		// Start the GameState
@@ -46,9 +46,31 @@ public class GameWorld {
     	}
 	}
 
+	/**
+	 * Updates the current mode and when finished, disposes the currentMode and
+	 * transitions to the next mode returned by the update method of currentMode.
+	 * 
+	 * @param delta Seconds between each cpu cycle.
+	 */
 	public void update(float delta) {
 		// Update current mode
-		currentMode.update(delta);
+		nextState = currentMode.update(delta);
+		// Dispose the currentMode's assets if currentMode is finished
+		if(nextState != GameState.STATE_NULL){
+			currentMode.dispose();
+		}
+		// Return if currentMode's update returns null, we are not transitioning
+		// to another mode.
+		else{
+			return;
+		}
+		
+		// Decide what to do with the next state
+		if(nextState == GameState.STATE_MENU){
+			// Transition to this mode, for example:
+			// mode_menu = new Mode_Logo()
+			// currentMode = mode_menu;
+		}
 	}
 }
 

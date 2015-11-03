@@ -54,7 +54,7 @@ public class Assets {
 	 * 
 	 * This function will insert the numbers accordingly in the file names.
 	 * 
-	 * @param textures An uninitialized Texture array, will be initialized and loaded after this function
+	 * @param textures An initialized Texture array, if not initialized, you will crash!
 	 * @param directory The directory starting in the assets folder, e.g. "graphics/sprites/monsters/"
 	 * @param firstPartOfName "monster" from example above
 	 * @param lastPartOfName "flier.png" from example above
@@ -67,7 +67,6 @@ public class Assets {
 	public static TextureRegion[] createRegionsFromTextures(Texture[] textures,
 			String directory, String firstPartOfName, String lastPartOfName,
 			int width, int height, int numOfObjects, boolean startFromZero) {
-		textures = new Texture[numOfObjects];
 		TextureRegion[] regions = new TextureRegion[numOfObjects];
 
 		if (startFromZero) {

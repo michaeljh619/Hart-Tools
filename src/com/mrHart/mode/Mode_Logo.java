@@ -1,13 +1,12 @@
 package com.mrhart.mode;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mrhart.assets.AssetLoader;
 import com.mrhart.assets.EffectsLoader;
-import com.mrhart.spacegame.SpaceGame;
-import com.mrhart.spacegame.world.GameWorld;
+import com.mrhart.settings.Settings;
 import com.mrhart.state.GameState;
 import com.mrhart.tools.Timer;
+import com.mrhart.world.GameWorld;
 
 /**
  * This Mode is in charge of rendering and updating the Mr. Hart logo scene.
@@ -112,9 +111,9 @@ public class Mode_Logo extends Mode {
 		// Render the logo to the screen
 		if(!isFadeFinished){
 			batcher.draw(AssetLoader.logo_sign.getKeyFrames()[AssetLoader.logo_sign.getKeyFrames().length - 1], 
-					0, 0, SpaceGame.SCREEN_WIDTH, SpaceGame.SCREEN_HEIGHT);
+					0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
 			batcher.draw(EffectsLoader.fadeIn.getKeyFrame(getFadeRuntime(runtime)), 0, 0,
-					SpaceGame.SCREEN_WIDTH, SpaceGame.SCREEN_HEIGHT);
+					Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
 		}
 		else if(!isSignFinished){
 			batcher.draw(AssetLoader.logo_sign.getKeyFrame(getSignRuntime(runtime)),
@@ -130,8 +129,13 @@ public class Mode_Logo extends Mode {
 		else{
 			batcher.draw(AssetLoader.logo_signature, 0, 0);
 			batcher.draw(EffectsLoader.fadeOut.getKeyFrame(getFadeRuntime(runtime)), 0, 0,
-					SpaceGame.SCREEN_WIDTH, SpaceGame.SCREEN_HEIGHT);
+					Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
 		}
+	}
+	
+	@Override
+	public void dispose(){
+		AssetLoader.disposeLogo();
 	}
 	
 	private float getFadeRuntime(float runtime){

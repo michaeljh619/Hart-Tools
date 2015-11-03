@@ -3,6 +3,7 @@ package com.mrhart;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.mrhart.settings.Settings;
 import com.mrhart.world.GameRenderer;
 import com.mrhart.world.GameWorld;
 
@@ -32,11 +33,11 @@ public class GameScreen implements Screen {
     public GameScreen() {
     	
     	camera = new OrthographicCamera();
-    	camera.setToOrtho(true, SpaceGame.SCREEN_WIDTH,
-    			SpaceGame.SCREEN_HEIGHT);
+    	camera.setToOrtho(true, Settings.SCREEN_WIDTH,
+    			Settings.SCREEN_HEIGHT);
     	
-    	viewport = new StretchViewport(SpaceGame.SCREEN_WIDTH,
-    			SpaceGame.SCREEN_HEIGHT, camera);
+    	viewport = new StretchViewport(Settings.SCREEN_WIDTH,
+    			Settings.SCREEN_HEIGHT, camera);
     	
     	gameWorld = new GameWorld();
     	gameRenderer = new GameRenderer(gameWorld, camera);

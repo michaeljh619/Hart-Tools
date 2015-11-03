@@ -29,4 +29,9 @@ public abstract class Mode {
 	 * Render function to render objects to the screen
 	 */
 	public abstract void render(SpriteBatch batcher, float runtime);
+	
+	/*
+	 * Dispose to get rid of loaded assets
+	 */
+	public abstract void dispose();
 }
