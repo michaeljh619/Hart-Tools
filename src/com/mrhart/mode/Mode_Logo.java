@@ -49,12 +49,12 @@ public class Mode_Logo extends Mode {
 	private float runtime_underline;
 	
 	public Mode_Logo(){
+		// Set up top level constructor
+		super(GameState.LOGO);
 		// Load the logo assets
 		AssetLoader.loadLogo();
 		// Load the fade effect
 		EffectsLoader.loadFade();
-		// Setup the State ID
-		stateID = GameState.STATE_LOGO;
 		/*
 		 *  Setup timers
 		 */
@@ -110,17 +110,20 @@ public class Mode_Logo extends Mode {
 		
 		// Now check the underline timer
 		if(isReadyToFinish && fadeTimer.isDone()){
-			return GameState.STATE_MENU;
+			return GameState.MENU;
 		}
 		else{
-			return GameState.STATE_NULL;
+			return GameState.NULL;
 		}
 	}
 
 	@Override
 	public void render(SpriteBatch batcher, float runtime) {
 		// Render the logo to the screen after global reset is finished
-		if(!isFadeFinished){
+		if(Timer.isTimerFrozen(Settings.TIMER_ID_DEFAULT)){
+			// Do nothing, just want to wait till the global reset is finished
+		}
+		else if(!isFadeFinished){
 			batcher.draw(AssetLoader.logo_sign.getKeyFrames()[AssetLoader.logo_sign.getKeyFrames().length - 1], 
 					0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
 			batcher.draw(EffectsLoader.fadeIn.getKeyFrame(getFadeRuntime(runtime)), 0, 0,

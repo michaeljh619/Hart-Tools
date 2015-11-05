@@ -17,6 +17,13 @@ If you have any questions on how anything works, feel free to email me.
 =======
 Commits
 =======
+11/05/15:
+- Renamed "Assets" to "assets"
+- Turned GameState into a list of constant int states, removed all deprecated request functions, now a pure static class.
+- Made Button into an abstract class, isInRange is now an abstract function so that at the child level the user can define whether the touch is in range of a Circle or Rectangle.
+- Created Button_InGame for in game buttons
+- Changed "UI" assets directory to "input"
+
 11/04/15:
 - Added ID's to timers for freezable functionality.
 - Added freeze and unfreeze functionality for Timers, has been tested and works so far with no errors.

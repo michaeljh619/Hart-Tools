@@ -2,6 +2,7 @@ package com.mrhart.world;
 
 import com.mrhart.mode.Mode;
 import com.mrhart.mode.Mode_Logo;
+import com.mrhart.mode.Mode_Test_Input;
 import com.mrhart.state.GameState;
 
 /**
@@ -19,7 +20,7 @@ public class GameWorld {
 	 * Named Constants
 	 */
 	// Used to initialize the game in a certain mode
-	private static int JUMP_TO_STATE = GameState.STATE_LOGO;
+	private static int JUMP_TO_STATE = GameState.TEST;
 	
 	/*
 	 * Instance Vars
@@ -27,6 +28,7 @@ public class GameWorld {
 	// Modes of the game
 	protected Mode currentMode;
 	private Mode_Logo mode_logo;
+	private Mode_Test_Input mode_test_input;
 	private int nextState = 0;
 	// Volume Modifier
 	public static float volume = 1.0f;
@@ -37,12 +39,14 @@ public class GameWorld {
 	 * wishes to jump to for easy testing.
 	 */
 	public GameWorld() {
-		// Start the GameState
-    	GameState.start();
     	// This is the original jump state, this is how the game should always initialize
-    	if(JUMP_TO_STATE == GameState.STATE_LOGO){
+    	if(JUMP_TO_STATE == GameState.LOGO){
     		mode_logo = new Mode_Logo();
     		currentMode = mode_logo;
+    	}
+    	else if(JUMP_TO_STATE == GameState.TEST){
+    		mode_test_input = new Mode_Test_Input();
+    		currentMode = mode_test_input;
     	}
 	}
 
@@ -56,7 +60,7 @@ public class GameWorld {
 		// Update current mode
 		nextState = currentMode.update(delta);
 		// Dispose the currentMode's assets if currentMode is finished
-		if(nextState != GameState.STATE_NULL){
+		if(nextState != GameState.NULL){
 			currentMode.dispose();
 		}
 		// Return if currentMode's update returns null, we are not transitioning
@@ -66,7 +70,7 @@ public class GameWorld {
 		}
 		
 		// Decide what to do with the next state
-		if(nextState == GameState.STATE_MENU){
+		if(nextState == GameState.MENU){
 			// Transition to this mode, for example:
 			// mode_menu = new Mode_Logo()
 			// currentMode = mode_menu;

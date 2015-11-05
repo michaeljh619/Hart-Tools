@@ -3,9 +3,11 @@ package com.mrhart.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.mrhart.assets.InputLoader;
+import com.mrhart.backend.Debuggable;
 import com.mrhart.backend.Touch;
 import com.mrhart.backend.Messages;
 
@@ -19,7 +21,7 @@ import com.mrhart.backend.Messages;
  * @version v2.00
  * @since 11/01/2015
  */
-public class Joystick {
+public class Joystick implements Debuggable{
 	/*
 	 *  Named Constants
 	 */
@@ -195,5 +197,10 @@ public class Joystick {
 	
 	public float getAngle(){
 		return rotation;
+	}
+
+	@Override
+	public void debug(ShapeRenderer shapes) {
+		
 	}
 }

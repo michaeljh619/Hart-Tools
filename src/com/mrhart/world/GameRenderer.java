@@ -7,10 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.mrhart.assets.AssetLoader;
 import com.mrhart.backend.Debuggable;
-import com.mrhart.state.GameState;
-import com.mrhart.tools.Timer;
+import com.mrhart.settings.Settings;
 
 /**
  * GameRenderer is solely responsible for rendering to the screen. No updating
@@ -27,11 +25,6 @@ import com.mrhart.tools.Timer;
  */
 
 public class GameRenderer {
-	/*
-	 * Named Constants
-	 */
-	private final static boolean DEBUG_ON = true;
-	
 	// Instance Variables
 	private GameWorld gameWorld;
 	private SpriteBatch batcher;
@@ -74,7 +67,7 @@ public class GameRenderer {
 
 		batcher.end();
 		
-		if(gameWorld.currentMode instanceof Debuggable && DEBUG_ON){
+		if(gameWorld.currentMode instanceof Debuggable && Settings.DEBUG_ON){
 			shapes.setColor(Color.RED);
 			shapes.begin(ShapeType.Line);
 			((Debuggable) gameWorld.currentMode).debug(shapes);

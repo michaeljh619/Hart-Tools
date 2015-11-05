@@ -269,6 +269,18 @@ public class Timer {
 		}
 	}
 	
+	public static boolean isTimerFrozen(int ID){
+		// Some error checking first
+		if(ID >= freezeList.size() || ID < 0){
+			System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
+					+ "Parameter ID is out of the scope of freezeList!");
+			return false;
+		}
+		else{
+			return freezeList.get(ID);
+		}
+	}
+	
 	private static void addFreezeID(int ID){
 		freezeList.add(false);
 		freezeListTimes.add((long) 0);

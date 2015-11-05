@@ -17,7 +17,7 @@ public class InputLoader {
 	 * Named Constants
 	 */
 	// Directories
-	private static final String UI_DIR = "graphics/UI/";
+	private static final String INPUT_DIR = "graphics/input/";
 	// File Names
 	private static final String JOYSTICK_DIR = "joystick/";
 	private static final String BUTTON_DIR = "button/";
@@ -74,7 +74,7 @@ public class InputLoader {
 	 * Loads graphics for a dark style Joystick
 	 */
 	public static void loadJoystickDark(){
-		String directory = UI_DIR + JOYSTICK_DIR + DARK_DIR;
+		String directory = INPUT_DIR + JOYSTICK_DIR + DARK_DIR;
 
 		joystick_background_textureDark = new Texture(Gdx.files.internal(directory
 				+ BACKGROUND_FILE));
@@ -93,7 +93,7 @@ public class InputLoader {
 	 * Loads graphics for a light style Joystick
 	 */	
 	public static void loadJoystickLight(){
-		String directory = UI_DIR + JOYSTICK_DIR + LIGHT_DIR;
+		String directory = INPUT_DIR + JOYSTICK_DIR + LIGHT_DIR;
 
 		joystick_background_textureLight = new Texture(Gdx.files.internal(directory
 				+ BACKGROUND_FILE));
@@ -112,7 +112,7 @@ public class InputLoader {
 	 * Loads graphics for a transparent dark style Joystick
 	 */
 	public static void loadJoystickTransparentDark(){
-		String directory = UI_DIR + JOYSTICK_DIR + TRANSPARENT_DARK_DIR;
+		String directory = INPUT_DIR + JOYSTICK_DIR + TRANSPARENT_DARK_DIR;
 
 		joystick_background_textureTransparentDark = new Texture(Gdx.files.internal(directory
 				+ BACKGROUND_FILE));
@@ -131,7 +131,7 @@ public class InputLoader {
 	 * Loads graphics for a dark style 'A' button
 	 */
 	public static void loadButtonDark_A(){
-		String directory = UI_DIR + BUTTON_DIR + DARK_DIR;
+		String directory = INPUT_DIR + BUTTON_DIR + DARK_DIR;
 
 		button_textureDark_A = new Texture(Gdx.files.internal(directory
 				+ BUTTON_A_FILE));
@@ -146,7 +146,7 @@ public class InputLoader {
 	 */
 	
 	public static void loadButtonDark_B(){
-		String directory = UI_DIR + BUTTON_DIR + DARK_DIR;
+		String directory = INPUT_DIR + BUTTON_DIR + DARK_DIR;
 
 		button_textureDark_B = new Texture(Gdx.files.internal(directory
 				+ BUTTON_B_FILE));
@@ -161,7 +161,7 @@ public class InputLoader {
 	 */
 	
 	public static void loadButtonDarkTransparent_A(){
-		String directory = UI_DIR + BUTTON_DIR + DARK_DIR;
+		String directory = INPUT_DIR + BUTTON_DIR + TRANSPARENT_DARK_DIR;
 
 		button_textureDarkTransparent_A = new Texture(Gdx.files.internal(directory
 				+ BUTTON_A_FILE));
@@ -176,7 +176,7 @@ public class InputLoader {
 	 */
 	
 	public static void loadButtonDarkTransparent_B(){
-		String directory = UI_DIR + BUTTON_DIR + DARK_DIR;
+		String directory = INPUT_DIR + BUTTON_DIR + TRANSPARENT_DARK_DIR;
 
 		button_textureDarkTransparent_B = new Texture(Gdx.files.internal(directory
 				+ BUTTON_B_FILE));
@@ -191,7 +191,7 @@ public class InputLoader {
 	 */
 	
 	public static void loadButtonLight_A(){
-		String directory = UI_DIR + BUTTON_DIR + DARK_DIR;
+		String directory = INPUT_DIR + BUTTON_DIR + LIGHT_DIR;
 
 		button_textureLight_A = new Texture(Gdx.files.internal(directory
 				+ BUTTON_A_FILE));
@@ -206,7 +206,7 @@ public class InputLoader {
 	 */
 	
 	public static void loadButtonLight_B(){
-		String directory = UI_DIR + BUTTON_DIR + DARK_DIR;
+		String directory = INPUT_DIR + BUTTON_DIR + LIGHT_DIR;
 
 		button_textureLight_B = new Texture(Gdx.files.internal(directory
 				+ BUTTON_B_FILE));

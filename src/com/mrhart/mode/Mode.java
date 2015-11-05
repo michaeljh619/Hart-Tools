@@ -15,6 +15,10 @@ public abstract class Mode {
 	// StateID that is attached to a GameState
 	public int stateID;
 	
+	public Mode(int stateID){
+		this.stateID = stateID;
+	}
+	
 	/*
 	 * Update function to update objects
 	 * 

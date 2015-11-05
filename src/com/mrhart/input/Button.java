@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.mrhart.assets.InputLoader;
+import com.mrhart.backend.Debuggable;
 import com.mrhart.backend.Messages;
 import com.mrhart.backend.Touch;
+import com.mrhart.settings.Settings;
 
 /**
  * An onscreen UI button that can be used for input from the user.
@@ -18,37 +20,19 @@ import com.mrhart.backend.Touch;
  * @version v2.00
  * @since 11/01/2015
  */
-public class Button {
-	// Named Constants
-	private static final int TOUCH_INDEXES = 3;
-	
-	public static final int STYLE_DARK = 1;
-	public static final int STYLE_LIGHT = 2;
-	public static final int STYLE_DARK_TRANSPARENT = 3;
-	
-	public static final int BUTTON_A = 1;
-	public static final int BUTTON_B = 2;
-	public static final int BUTTON_L = 3;
-	public static final int BUTTON_R = 4;
-	public static final int BUTTON_X = 5;
-	public static final int BUTTON_Y = 6;
-	public static final int BUTTON_ACCEPT = 7;
-	public static final int BUTTON_CANCEL = 8;
-	
+public abstract class Button implements Debuggable{
 	// Instance Variables
-	public Vector2 origin;
-	private int radius;
+	protected Vector2 origin;
+	protected int radius;
 	
-	private boolean touched;
-	private boolean activatedOnce;
+	protected boolean touched;
+	protected boolean activatedOnce;
 	
-	private Circle circle;
-	
-	private TextureRegion textureRegion;
+	protected TextureRegion textureRegion;
 	
 	// Variables for methods
-	private Vector2 touchIndex;
-	private float tempX, tempY;
+	protected Vector2 touchIndex;
+	protected float tempX, tempY;
 	
 	/**
 	 * Creates a new button.
@@ -59,47 +43,12 @@ public class Button {
 	 * @param positionY The y position to put the button at
 	 * @param inRadius The radius of the button
 	 */
-	public Button(int styleOfButton, int buttonPicture, int positionX, int positionY, int inRadius){
+	public Button(Vector2 position, int inRadius){
 		touched = false;
 		
 		radius = inRadius;
 		
-		origin = new Vector2(positionX, positionY);
-		
-		circle = new Circle(origin.x, origin.y, radius);
-		
-		switch(styleOfButton){
-		case STYLE_DARK:
-			if(buttonPicture == BUTTON_A)
-				textureRegion = InputLoader.button_dark_A;
-			else if(buttonPicture == BUTTON_B)
-				textureRegion = InputLoader.button_dark_B;
-			else
-				System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
-						+ "buttonPicture parameter is not a valid input!");
-			break;
-		case STYLE_LIGHT:
-			if(buttonPicture == BUTTON_A)
-				textureRegion = InputLoader.button_light_A;
-			else if(buttonPicture == BUTTON_B)
-				textureRegion = InputLoader.button_light_B;
-			else
-				System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
-						+ "buttonPicture parameter is not a valid input!");
-			break;
-		case STYLE_DARK_TRANSPARENT:
-			if(buttonPicture == BUTTON_A)
-				textureRegion = InputLoader.button_darkTransparent_A;
-			else if(buttonPicture == BUTTON_B)
-				textureRegion = InputLoader.button_darkTransparent_B;
-			else
-				System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
-						+ "buttonPicture parameter is not a valid input!");
-			break;
-		default:
-				System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
-						+ "styleOfButton parameter is not a valid input!");
-		}
+		origin = position;
 	}
 	
 	
@@ -157,12 +106,7 @@ public class Button {
 	 * @param y
 	 * @return
 	 */
-	public boolean isInRange(float x, float y){
-		if(circle.contains(x, y))
-			return true;
-		else
-			return false;
-	}
+	public abstract boolean isInRange(float x, float y);
 	
 	/**
 	 * Gets a vector of the first touch to the joystick
@@ -170,7 +114,7 @@ public class Button {
 	 * @return Will return null if no touch is registered
 	 */
 	private Vector2 getTouchIndex(){
-		for(int index = 0; index < TOUCH_INDEXES; index++){
+		for(int index = 0; index < Settings.TOUCH_INDEXES; index++){
 			if (Gdx.input.isTouched(index)){
 				tempX = Touch.convertX(Gdx.input.getX(index));
 				tempY = Touch.convertY(Gdx.input.getY(index));
@@ -197,9 +141,7 @@ public class Button {
 	 * @param shapes
 	 *            A begun ShapeRenderer
 	 */
-	public void renderCircle(ShapeRenderer shapes) {
-		shapes.circle(circle.x, circle.y, circle.radius);
-	}
+	public abstract void debug(ShapeRenderer shapes);
 	/*****************************************
 	 * Debug Methods [END]
 	 *****************************************/
