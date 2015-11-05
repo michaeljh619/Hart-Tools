@@ -17,6 +17,17 @@ If you have any questions on how anything works, feel free to email me.
 =======
 Commits
 =======
+11/04/15:
+- Added ID's to timers for freezable functionality.
+- Added freeze and unfreeze functionality for Timers, has been tested and works so far with no errors.
+- Added Main method to Timer for testing 
+- Timer.initialize() must now be called at the beginning of your program to get the ArrayList of freeze ID's to initialize.
+- Removed deprecated Task class and code referencing it (was commented out to begin with, is now deleted).
+- Deleted all legacy code
+- Added Global Reset timer to Logo Mode so assets can load properly
+- Settings class now contains Timer IDs
+- Fixed Game Class to no longer be abstract, is now instantiated straight from DesktopLauncher, AndroidLauncher, ...
+
 11/03/15:
 - Fixed a few errors with not calling Settings, instead SpaceGame was being called (from Space Game project).
 - Fixed an error with Assets createRegionsFromTextures method, the array SHOULD be initialized to begin with.

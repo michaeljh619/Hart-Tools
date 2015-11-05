@@ -1,106 +1,94 @@
 package com.mrhart.tools;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.utils.TimeUtils;
+import com.mrhart.backend.Messages;
 
 /**
- * 	Timer class is set up to wait a certain amount of seconds. The "isDone()" function should be checked
- * in GameWorld until it returns true, that's when the timer is finished.
- * 
- * 	This class uses the System's time in NanoSeconds as opposed to "frame time", this allows for maximum
- * accuracy of waited time.
- * 
- * 	One last note, you will notice that there are two init methods. The one taking the long parameter seems
- * as though it would be the only one worth using (other than when we first create the timer and it would
- * be redundant to pass in the seconds two times). However, the default init can, in a way, be used
- * polymorphically. 
- * 
- * 	Take, for example, a situation where you will wait a different amount of seconds
- * depending on what happens in game. If you use the parameterized init, you will need a set of if statements
- * that all call that init statement with the parameter and they will all have to be called at exactly the
- * time when you want to wait.
- * 
- * 	However, if you use the default init, then it will only be called once when you want the timer to
- * actually start running. The setters for secondsToWait can all be called whenever you realize the timer
- * needs to be changed and some of the setters can overwrite the setters of others depending on the path
- * the game takes.
- * 
- * 	One example:
- * 		if(a)
- * 			set to 5
- * 		else
- * 			set to 10
- * 		...
- * 		init()
+ * Timers are used to wait a certain amount of seconds or milliseconds. Timers use system time
+ * for keeping track of time. Use init() to start counting and isDone() to check if the wait is over.
+ * IsDone has the side effect of resetting the timer as well, so once it returns true, the timer will
+ * stop counting.
  * 
  * Note: This class potentially has a huge fault for hackers to exploit. If the system time is used
  * for timing, a hacker can run a script that continuously changes the system time, resulting in a timer
  * that either never reaches its goal (by setting system time to the same time each CPU cycle) or a timer
  * that instantaneously reaches its goal (by setting system time to a further time each CPU cycle). Not
- * sure if I should be worried about this just yet.
+ * sure if I should be worried about this just yet. This would only apply when a user is running the game
+ * on his cpu, otherwise a multiplayer game could not be exploited this way if a server is running Timers.
  * 
  * 
  * @author Michael James Hart, mrhartgames@yahoo.com
- * @version v2.00
+ * @version v2.10
  * @since 11/01/2015
  * 
  */
 public class Timer {
-	// Named Constants
-	public final static int SECONDS = 1;
-	public final static int MILLISECONDS = 2;
+	/*
+	 *  Named Constants
+	 */
+	// Second amounts
+	private static final long NANO = 1000000000;
+	private static final long MICRO = 1000000;
 	
-	private final long NANO = 1000000000;
-	private final long MICRO = 1000000;
-	
-	private final int TASKS_SIZE = 20;
-
-	// Instance variables
+	/*
+	 *  Instance variables
+	 */
+	// Times
 	private long startTime;
 	private long endTime;
 	private long secondsToWait;
 	private long millisecondsToWait;
+	// Freeze List
+	private int ID;
+	private boolean wasFrozen = false;
 	
-//	public Task[] tasks;
-	
+	/*
+	 * Static Variables
+	 */
+	// Timer Freeze array list
+	private static ArrayList<Boolean> freezeList;
+	private static ArrayList<Long> freezeListTimes;
 	
 	/*****************************************
 	 * Main Methods
 	 *****************************************/
 	
 	/**
-	 * Default constructor
+	 * Default constructor; sets the ID of the timer to 0.
 	 */
 	public Timer() {
+		ID = 0;
 		secondsToWait = 0;
-
 		startTime = endTime = 0;
 	}
-
 	/**
-	 * Creates a new Timer that waits a certain amount of seconds.
+	 * Creates a timer with an ID that you specify. 
 	 * 
-	 * @param secondsToWait
-	 *            The amount of seconds to wait before the timer is finished
+	 * @param ID
 	 */
-	public Timer(long inSecondsToWait) {
-		secondsToWait = inSecondsToWait;
-
-		startTime = endTime = 0;
-	}
-
-	/**
-	 * Initializes the Timer to wait for the amount of time defined by the instance variable
-	 * "secondsToWait" starting now.
-	 * 
-	 * @param callingMethod The string should be the method that is calling for the request.
-	 * 						Format: "ClassName MethodName"
-	 */
-	public void initSeconds(String callingMethod) {
-		// Turn off any potential disasters with milliseconds being active as well
-		millisecondsToWait = 0;
-		
-		startTime = TimeUtils.nanoTime() / NANO;
-		endTime = (startTime + secondsToWait) * NANO;
+	public Timer(int ID){
+		this();
+		this.ID = ID;
+		/*
+		 * Checks to see if the specified ID is not a part of the ArrayList already.
+		 */
+		if(ID == freezeList.size()){
+			addFreezeID(ID);
+		}
+		// This means the dev put in an index that is too high, for example: ID's 0 and 1
+		// are being used and the user creates a timer with a state ID of 4.
+		else if(ID > freezeList.size()){
+			System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
+					+ "ID inserted is too high! Next ID should be: "
+					+ freezeList.size());
+		}
+		// This means the dev is just playing games
+		else if(ID < 0){
+			System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
+					+ "ID inserted must be greater than or equal to 0.");
+		}
 	}
 	
 	/**
@@ -108,10 +96,8 @@ public class Timer {
 	 * initialized with the new inSecondsToWait argument.
 	 * 
 	 * @param inSecondsToWait Sets the secondsToWait variable to this one
-	 * @param callingMethod The string should be the method that is calling for the request.
-	 * 						Format: "ClassName MethodName"
 	 */
-	public void initSeconds(long inSecondsToWait, String callingMethod) {
+	public void initSeconds(long inSecondsToWait){
 		// Turn off any potential disasters with milliseconds being active as well
 		millisecondsToWait = 0;
 				
@@ -122,27 +108,10 @@ public class Timer {
 	}
 	
 	/**
-	 * Initializes the Timer to wait for the amount of time defined by the instance variable
-	 * "secondsToWait" starting now.
-	 * 
-	 * @param callingMethod The string should be the method that is calling for the request.
-	 * 						Format: "ClassName MethodName"
-	 */
-	public void initMilliseconds(String callingMethod) {
-		// Turn off any potential disasters with milliseconds being active as well
-		secondsToWait = 0;
-		
-		startTime = TimeUtils.nanoTime() / MICRO;
-		endTime = (startTime + millisecondsToWait) * MICRO;
-	}
-	
-	/**
 	 * Initializes the Timer to wait for the set amount of seconds starting now. Timer is
-	 * initialized with the new inSecondsToWait argument.
+	 * initialized with the new inMillisecondsToWait argument.
 	 * 
-	 * @param inSecondsToWait Sets the secondsToWait variable to this one
-	 * @param callingMethod The string should be the method that is calling for the request.
-	 * 						Format: "ClassName MethodName"
+	 * @param inSecondsToWait Sets the millisecondsToWait variable to this one
 	 */
 	public void initMilliseconds(long inMillisecondsToWait) {
 		// Turn off any potential disasters with milliseconds being active as well
@@ -156,8 +125,7 @@ public class Timer {
 
 	/**
 	 * Checks if the timer is done waiting for the set amount of seconds. Once the timer
-	 * is finished, the timer will be reset to 0 and can be re-used by setting a new time
-	 * to secondsToWait and running init()
+	 * is finished, the timer will be reset to 0 and can be re-used by running an init method.
 	 * 
 	 * Important!!!!
 	 * 	This function call has side effects. If you just want to check if the timer is running or not
@@ -166,13 +134,28 @@ public class Timer {
 	 * @return Boolean telling whether the timer finished
 	 */
 	public boolean isDone() {
+		
+		// First checks if the timer is actually running, equivalent to calling
+		// isActive()
 		if (startTime > 0 && endTime > 0){
-			if (TimeUtils.nanoTime() >= endTime) {
-				// Null all the tasks, since no tasks will be executed once the timer is finished
-//				nullAllTasks();
-				
-				startTime = endTime = 0;
-				return true;
+			// Now check to see if this timer's ID is part of the freeze list
+			if(!freezeList.get(ID)){
+				// If the timer was frozen previously and is now unfrozen
+				if(wasFrozen){
+					wasFrozen = false;
+					startTime = TimeUtils.nanoTime();
+					endTime = startTime + endTime - freezeListTimes.get(ID);
+				}
+				// Checks if the timer is actually past the waited time
+				if (TimeUtils.nanoTime() >= endTime) {
+					// Essentially resets the timer, returns true since timer is done
+					startTime = endTime = 0;
+					return true;
+				}
+			}
+			// If the timer is frozen modify the wasFrozen flag
+			else{
+				wasFrozen = true;
 			}
 		}
 		
@@ -197,71 +180,11 @@ public class Timer {
 	 */
 	public void reset(){
 		startTime = endTime = 0;
-//		nullAllTasks();
 	}
 	
 	/*****************************************
 	 * Main Methods [END]
 	 *****************************************/
-
-	
-	
-	/*****************************************
-	 * Task Methods
-	 *****************************************/
-	
-	/**
-	 * Adds a new task to this timer, the task's schedule will be set to the start of the timer
-	 * plus the time delay that is given.
-	 * 
-	 * delayType specifies what the timeDelay will be in seconds or milliseconds. Use timer's public static
-	 * SECONDS or MILLISECONDS to specify what kind of delay you are using.
-	 * 
-	 * @param delayType Use Timer's constants SECONDS or MILLISECONDS
-	 * @param timeDelay The amount of time to wait after the timer has started
-	 * 
-	 * @return Returns the position in the array that the task was added
-	 */
-//	public int addTask(int delayType, long timeDelay){
-//		// This may be the very first Task being added, therefore
-//		// check if the array still hasn't been initialized
-//		if(tasks == null){
-//			tasks = new Task[TASKS_SIZE];
-//		}
-//		
-//		// Search for an empty task slot
-//		for(int x = 0; x < TASKS_SIZE; x++){
-//			if(tasks[x] == null){
-//				tasks[x] = new Task(delayType, timeDelay);
-//				return x;
-//			}
-//		}
-//		
-//		// If this code is reached, that means the size of the array has been exceeded and
-//		// no further tasks can be added to the timer.
-//		return -1;
-//	}
-	
-	/**
-	 * Releases all memory to all tasks held by this timer
-	 */
-//	public void nullAllTasks(){
-//		// Search for an empty task slot
-//		if(tasks != null){
-//			for(int x = 0; x < TASKS_SIZE; x++){
-//				if(tasks[x] != null){
-//					tasks[x] = null;
-//				}
-//			}
-//		}
-//	}
-	
-	/*****************************************
-	 * Task Methods [END]
-	 *****************************************/
-	
-	
-	
 	/*****************************************
 	 * Getters & Setters
 	 *****************************************/
@@ -282,70 +205,131 @@ public class Timer {
 		this.millisecondsToWait = millisecondsToWait;
 	}
 	
+	public int getID(){
+		return ID;
+	}
+	
 	/*****************************************
 	 * Getters & Setters [END]
 	 *****************************************/
 	
-	
-	
 	/*****************************************
-	 * Task Class
+	 * Static Functions
 	 *****************************************/
 	
 	/**
-	 * Tasks are used to schedule events on a timeline. So if you set up a timer for 20 seconds, but
-	 * you also want something to happen at 10 seconds, you can schedule a task to occur at 10 seconds
-	 * and once the task's isFinished method returns true, you can do whatever you need to do at the
-	 * 10 seconds.
-	 * 
-	 * @author Michael James Hart, michaeljh619@yahoo.com
-	 * @version v1.0
-	 * @since 12/28/2014
+	 * Initializes the freeze list for the ability to freeze timers.
 	 */
-	public class Task{
-		// Instance Variables
-		private long delay;
-		
-		private boolean taskFinished;
-		
-		/**
-		 * Creates a new Task with a type of delay in either seconds or milliseconds and
-		 * gives it the delay of time.
-		 * 
-		 * @param inDelayType Seconds or Milliseconds
-		 * @param inTimeDelay How much time to wait
-		 */
-		public Task(int inDelayType, long inTimeDelay){
-			delay = inTimeDelay;
-			
-			taskFinished = false;
-			
-			// Calculate how long the delay is
-			if(inDelayType == MILLISECONDS)
-				delay = (startTime + delay) * MICRO;
-			else if(inDelayType == SECONDS)
-				delay = (startTime + delay) * NANO;
+	public static void initialize(){
+		// Initialize the array list and add the default timer ID and set
+		// it to false, since we are not freezing these timers by default.
+		freezeList = new ArrayList<Boolean>();
+		freezeListTimes = new ArrayList<Long>();
+		addFreezeID(0);
+	}
+	
+	/**
+	 * Freezes all timers from counting that have the specified ID
+	 * 
+	 * @param ID The Timer's with this ID will be frozen.
+	 */
+	public static void freezeTimers(int ID){
+		// Some error checking first
+		if(ID >= freezeList.size() || ID < 0){
+			System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
+					+ "Parameter ID is out of the scope of freezeList!");
 		}
-		
-		/**
-		 * Checks to see if the task's delay has passed
-		 * 
-		 * @return True or false if the task's delay is up
-		 */
-		public boolean isFinished(){
-			if (startTime > 0 && endTime > 0){
-				if (TimeUtils.nanoTime() >= delay) {
-					taskFinished = true;
-				}
-			}
-			
-			return taskFinished;
+		// Freeze all timers of this ID if not already frozen
+		else if(!freezeList.get(ID)){
+			freezeListTimes.set(ID, TimeUtils.nanoTime());
+			freezeList.set(ID, true);
 		}
-		
-		
+		// User has called freeze timers while timers are already frozen
+		else{
+			System.err.println(Messages.WARNING + Messages.TYPE_BAD_FUNCTION_CALL
+					+ "freezeTimers(" + ID + ") has been called after timers with ID "
+					+ ID + "has already been called and not unfrozen!");
+		}
+	}
+	
+	/**
+	 * Unfreezes all timers from counting that have the specified ID
+	 * 
+	 * @param ID The Timer's with this ID will be unfrozen.
+	 */
+	public static void unfreezeTimers(int ID){
+		// Some error checking first
+		if(ID >= freezeList.size() || ID < 0){
+			System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
+					+ "Parameter ID is out of the scope of freezeList!");
+		}
+		// Unfreeze all timers of this ID
+		else{
+			freezeList.set(ID, false);
+		}
+	}
+	
+	private static void addFreezeID(int ID){
+		freezeList.add(false);
+		freezeListTimes.add((long) 0);
 	}
 	
 	/*****************************************
-	 * Task Class [END]
+	 * Static Functions [END]
 	 *****************************************/
+	
+	/*****************************************
+	 * Main Method
+	 *****************************************/
+	/**
+	 * Just a simple example to show how timers work and how freezing and unfreezing timers works.
+	 * Essentially we create two timers, one with a default ID 0 and one with ID 1. The 0 ID is frozen as
+	 * soon as initiated and the 1 ID runs. When the 1 ID timer isDone, then unfreeze the 0 ID timers.
+	 * 
+	 * @param args
+	 */
+	public static void main(String [] args){
+		// Set up some constants
+		final int TIMER_TIME = 5000;
+		final int TIMER_1_TIME = 1000;
+		final int TIMER_2_TIME = 2000;
+		// Set up some variables
+		long startingTime = TimeUtils.nanoTime();
+		long endingTime;
+		// Start up all the timers
+		Timer.initialize();
+		Timer timer = new Timer();
+		System.out.println("'timer' ID: " + timer.getID());
+		timer.initMilliseconds(TIMER_TIME);
+		Timer timer1 = new Timer(1);
+		System.out.println("'timer1' ID: " + timer1.getID());
+		timer1.initMilliseconds(TIMER_1_TIME);
+		Timer timer2 = new Timer();
+		System.out.println("'timer2' ID: " + timer2.getID());
+		
+		// Freeze timer
+		Timer.freezeTimers(0);
+		
+		// Break out of this loop when timer finishes, as it is currently frozen
+		while(!timer.isDone()){
+			if(timer1.isDone()){
+				System.out.println("'timer1' is done! Unfreezing 'timer'");
+				Timer.unfreezeTimers(0);
+			}
+		}
+		System.out.println("'timer' is done!");
+		// Now init the next timer
+		timer2.initMilliseconds(TIMER_2_TIME);
+		while(!timer2.isDone()){
+			
+		}
+		System.out.println("'timer2' is done!");
+		
+		endingTime = TimeUtils.nanoTime();
+		System.out.println("Expected time to finish: " 
+				+ (TIMER_TIME + TIMER_1_TIME + TIMER_2_TIME) 
+				+ "milliseconds");
+		System.out.println("Actual time to finish: " 
+				+ ((endingTime - startingTime)/MICRO) + "milliseconds");
+	}
 }

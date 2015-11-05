@@ -14,4 +14,5 @@ public class Messages {
 	// Type of Error
 	public static final String TYPE_BAD_VALUE = " [Bad Value]: ";
 	public static final String TYPE_NULL_POINTER = " [Null Pointer]: ";
+	public static final String TYPE_BAD_FUNCTION_CALL = " [Bad Function Call]: ";
 }

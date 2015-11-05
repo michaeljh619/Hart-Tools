@@ -4,7 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
-public abstract class Game implements ApplicationListener {
+public class Game implements ApplicationListener {
     private Screen screen;
 
     @Override
@@ -50,4 +50,7 @@ public abstract class Game implements ApplicationListener {
         return screen;
     }
     
+    public void create(){
+    	setScreen(new GameScreen());
+    }
 }

@@ -1,7 +1,5 @@
 package com.mrhart.settings;
 
-import com.mrhart.input.Joystick;
-
 /**
  * A class containing many static constants that are essential to the game.
  *
@@ -15,4 +13,7 @@ public class Settings {
 	public static final int SCREEN_HEIGHT = 500;
 	// Joystick
 	public static final int JOYSTICK_DIRECTIONS = 360;
+	// Timers
+	public static final int TIMER_ID_DEFAULT = 0;
+	public static final int TIMER_ID_SYSTEM = 1;
 }

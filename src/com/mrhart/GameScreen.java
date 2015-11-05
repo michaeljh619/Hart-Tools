@@ -3,6 +3,7 @@ package com.mrhart;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.mrhart.backend.Initializer;
 import com.mrhart.settings.Settings;
 import com.mrhart.world.GameRenderer;
 import com.mrhart.world.GameWorld;
@@ -19,26 +20,33 @@ import com.mrhart.world.GameWorld;
  */
 
 public class GameScreen implements Screen {
+	// Game
 	private GameWorld gameWorld;
 	private GameRenderer gameRenderer;
-	
+	// Camera and Resize
 	private OrthographicCamera camera;
 	private StretchViewport viewport;
-	
+	// Runtime
 	private float runTime = 0;
     
-	/*
-	 * Camera needs to be passed down to gameRenderer for use in SpriteBatch
+	/**
+	 * Creates a new GameScreen which will be the main hub for all things
+	 * dealing with the game.
 	 */
     public GameScreen() {
+    	// Initialize all the things that need initializing
+    	Initializer.initialize();
     	
+    	// Set up camera
     	camera = new OrthographicCamera();
     	camera.setToOrtho(true, Settings.SCREEN_WIDTH,
     			Settings.SCREEN_HEIGHT);
     	
+    	// Set up viewport for proper screen resizing
     	viewport = new StretchViewport(Settings.SCREEN_WIDTH,
     			Settings.SCREEN_HEIGHT, camera);
     	
+    	// Set up GameWorld and GameRenderer
     	gameWorld = new GameWorld();
     	gameRenderer = new GameRenderer(gameWorld, camera);
     }
@@ -51,8 +59,12 @@ public class GameScreen implements Screen {
      * @param delta
      */
     public void render(float delta) {
+    	// Update runtime to know how long the game has been running for, used
+    	// for Animation objects
     	runTime += delta;
+    	// Update game objects
 		gameWorld.update(delta);
+		// Render game objects
 		gameRenderer.render(runTime);
     }
 

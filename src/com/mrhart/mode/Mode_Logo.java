@@ -23,6 +23,7 @@ public class Mode_Logo extends Mode {
 	private static final int UNDERLINE_TIME = 1500;
 	private static final int SIGN_TIME = 2000;
 	private static final int HEART_TIME = 1000;
+	private static final int GLOBAL_RESET_TIME = 3000;
 	
 	/*
 	 * Instance Vars
@@ -32,6 +33,7 @@ public class Mode_Logo extends Mode {
 	private Timer signTimer;
 	private Timer underlineTimer;
 	private Timer heartTimer;
+	private Timer globalResetTimer;
 	// States
 	private boolean isFadeFinished = false;
 	private boolean isSignFinished = false;
@@ -63,10 +65,19 @@ public class Mode_Logo extends Mode {
 		// Fade Timers
 		fadeTimer = new Timer();
 		fadeTimer.initMilliseconds(FADE_TIME);
+		// Global Reset
+		globalResetTimer = new Timer(Settings.TIMER_ID_SYSTEM);
+		globalResetTimer.initMilliseconds(GLOBAL_RESET_TIME);
+		Timer.freezeTimers(Settings.TIMER_ID_DEFAULT);
 	}
 
 	@Override
 	public int update(float delta) {
+		// Wait for the global reset of loading assets to complete
+		if(globalResetTimer.isDone()){
+			Timer.unfreezeTimers(Settings.TIMER_ID_DEFAULT);
+		}
+		
 		// First start checking the fade timer before doing the sign timers
 		if(!isFadeFinished && fadeTimer.isDone()){
 			signTimer.initMilliseconds(SIGN_TIME);
@@ -108,7 +119,7 @@ public class Mode_Logo extends Mode {
 
 	@Override
 	public void render(SpriteBatch batcher, float runtime) {
-		// Render the logo to the screen
+		// Render the logo to the screen after global reset is finished
 		if(!isFadeFinished){
 			batcher.draw(AssetLoader.logo_sign.getKeyFrames()[AssetLoader.logo_sign.getKeyFrames().length - 1], 
 					0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
