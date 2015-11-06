@@ -38,8 +38,8 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 			System.err.println("Button is touched");
 		}
 		if(joystick.isTouched()){
-			System.err.println("Joystick Normalized X: " + commands.scale.x);
-			System.err.println("Joystick Normalized Y: " + commands.scale.y);
+			System.err.println("Joystick Normalized X: " + commands.normalized.x);
+			System.err.println("Joystick Normalized Y: " + commands.normalized.y);
 		}
 		
 		return GameState.NULL;

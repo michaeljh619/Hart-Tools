@@ -155,8 +155,8 @@ public class Joystick implements Debuggable{
 			bastardVector.set(tempX, tempY);
 			
 			rotation = bastardVector.angle();
-			commands.scale.set(bastardVector);
-			commands.scale.nor();
+			commands.normalized.set(bastardVector);
+			commands.normalized.nor();
 			
 			/*
 			 *  Update position of joystick vector
@@ -182,7 +182,7 @@ public class Joystick implements Debuggable{
 	
 	private void reset(){
 		joystickOffset.setZero();
-		commands.scale.setZero();
+		commands.normalized.setZero();
 		rotation = 0;
 	}
 	

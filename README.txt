@@ -17,6 +17,10 @@ If you have any questions on how anything works, feel free to email me.
 =======
 Commits
 =======
+11/06/15:
+- Renamed JoystickCommands 'scale' instance variable to 'normalized' for more readability
+- Added updateVectors(float delta) to Sprite for standard vector updates.
+
 11/05/15:
 - Renamed "Assets" to "assets"
 - Turned GameState into a list of constant int states, removed all deprecated request functions, now a pure static class.
