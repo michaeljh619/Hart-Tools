@@ -17,6 +17,10 @@ If you have any questions on how anything works, feel free to email me.
 =======
 Commits
 =======
+11/08/15:
+- Created Background class for renderable backgrounds
+- Created ScrollableBackground class for backgrounds that can scroll (Not yet finished)
+
 11/06/15:
 - Renamed JoystickCommands 'scale' instance variable to 'normalized' for more readability
 - Added updateVectors(float delta) to Sprite for standard vector updates.
