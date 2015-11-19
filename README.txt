@@ -17,6 +17,11 @@ If you have any questions on how anything works, feel free to email me.
 =======
 Commits
 =======
+11/19/15:
+- Created "scripts" folder and created standardize.py for use with montage to merge multiple png files into a single strip png file
+- Created .gitignore
+- Added thumbs.db to .gitignore, to get rid of the horrendous file that pops up everytime viewing icons in the directory
+
 11/08/15:
 - Created Background class for renderable backgrounds
 - Created ScrollableBackground class for backgrounds that can scroll (Not yet finished)
