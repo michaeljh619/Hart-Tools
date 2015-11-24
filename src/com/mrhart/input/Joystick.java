@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
-import com.mrhart.assets.InputLoader;
 import com.mrhart.backend.Debuggable;
 import com.mrhart.backend.Touch;
 import com.mrhart.backend.Messages;
@@ -28,10 +27,6 @@ public class Joystick implements Debuggable{
 	// States
 	private static final int STATE_IDLE = 0;
 	private static final int STATE_TOUCHED = 1;
-	// Styles
-	public static final int STYLE_DARK = 1;
-	public static final int STYLE_LIGHT = 2;
-	public static final int STYLE_TRANSPARENT_DARK = 3;
 	// Backend
 	private static final int TOTAL_TOUCHES_CHECKED = 3;
 	/*
@@ -53,7 +48,7 @@ public class Joystick implements Debuggable{
 	private float rotation = 0;
 	public JoystickCommands commands = new JoystickCommands(0, 0);
 	
-	public Joystick(Vector2 position, int totalRadius, int joystickRadius, int style){
+	public Joystick(Vector2 position, int totalRadius, int joystickRadius){
 		// Initialize State
 		currentState = STATE_IDLE;
 		
@@ -80,26 +75,6 @@ public class Joystick implements Debuggable{
 		// Initialize Touch Detection
 		circle_startTouch = new Circle(position.x, position.y, totalRadius);
 		currentTouchIndex = -1;
-		
-		// Get the stylized graphics
-		switch(style){
-		case STYLE_DARK:
-			region_joystick = InputLoader.joystick_stick_textureRegionDark;
-			region_background = InputLoader.joystick_background_textureRegionDark;
-			break;
-		case STYLE_LIGHT:
-			region_joystick = InputLoader.joystick_stick_textureRegionLight;
-			region_background = InputLoader.joystick_background_textureRegionLight;
-			break;
-		case STYLE_TRANSPARENT_DARK:
-			region_joystick = InputLoader.joystick_stick_textureRegionTransparentDark;
-			region_background = InputLoader.joystick_background_textureRegionTransparentDark;
-			break;
-		default:
-			System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE 
-					+ "'style' parameter does not comply, graphics are not loaded!");
-			break;
-		}
 	}
 	
 	public void update(){
@@ -179,6 +154,13 @@ public class Joystick implements Debuggable{
 				position.y + joystickOffset.y - joystickRadius, joystickRadius*2,
 				joystickRadius*2);
 	}
+	 public void setTextureRegions(TextureRegion backgroundRegion,
+			 TextureRegion stickRegion){
+		// Set up TextureRegions
+		region_joystick = stickRegion;
+		region_background = backgroundRegion;
+		 
+	 }
 	
 	private void reset(){
 		joystickOffset.setZero();

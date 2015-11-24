@@ -1,9 +1,10 @@
 package com.mrhart.mode;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.mrhart.assets.InputLoader;
+import com.mrhart.assets.loaders.Loader_Input;
 import com.mrhart.backend.Debuggable;
 import com.mrhart.input.Button_InGame;
 import com.mrhart.input.Joystick;
@@ -14,18 +15,25 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 	/*
 	 * Instance Vars
 	 */
+	// Inputs
 	private Joystick joystick;
 	private Button_InGame button;
 	private JoystickCommands commands;
+	// Graphics
+	private TextureRegion jsStick, jsBackground, buttonRegion;
 	
 	public Mode_Test_Input(){
 		super(GameState.TEST);
 		
-		InputLoader.loadButtonLight_A();
-		InputLoader.loadJoystickLight();
-		joystick = new Joystick(new Vector2(200, 300), 100, 50, Joystick.STYLE_LIGHT);
-		button = new Button_InGame(new Vector2(600, 300), 100, Button_InGame.STYLE_LIGHT, Button_InGame.BUTTON_A);
+		// Load into AssetManager
+		Loader_Input.loadButtonLight_A(assets);
+		Loader_Input.loadJoystickLight(assets);
 		
+		// Create inputs
+		joystick = new Joystick(new Vector2(200, 300), 100, 50);
+		button = new Button_InGame(new Vector2(600, 300), 100);
+		
+		// Commands from joystick
 		commands = joystick.commands;
 	}
 	
@@ -62,6 +70,12 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 
 	@Override
 	public void finalize() {
-		
+		// Finalize Joystick Regions
+		jsStick = Loader_Input.getJoystickLightStick(assets);
+		jsBackground = Loader_Input.getJoystickLightBackground(assets);
+		joystick.setTextureRegions(jsBackground, jsStick);
+		// Finalize Button Region
+		buttonRegion = Loader_Input.getButtonLight_A(assets);
+		button.setTextureRegion(buttonRegion);
 	}
 }

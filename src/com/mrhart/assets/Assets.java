@@ -1,6 +1,5 @@
 package com.mrhart.assets;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,6 +14,31 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * @version v2.10
  */
 public class Assets {
+	
+	public static TextureRegion[] slice_LTR(Texture loadedTexture,
+			int numHorizontal, int numVertical){
+		TextureRegion[] returnRegions 
+			= new TextureRegion[numHorizontal*numVertical];
+		
+		int positionX, positionY;
+		int regionWidth = loadedTexture.getWidth()/numHorizontal;
+		int regionHeight = loadedTexture.getHeight()/numVertical;
+		for(int y = 0; y < numVertical; y++){
+			for(int x = 0; x < numHorizontal; x++){
+				// Get positions
+				positionX = x*regionWidth;
+				positionY = y*regionHeight;
+				// Create the region
+				returnRegions[y*numVertical + x] 
+						= new TextureRegion(loadedTexture, 
+								positionX, positionY, 
+								regionWidth, regionHeight);
+				returnRegions[y*numVertical + x].flip(false, true);
+			}
+		}
+		
+		return returnRegions;
+	}
 
 	/**
 	 * Creates and returns a TextureRegion array that parses a row of texture regions
@@ -43,67 +67,13 @@ public class Assets {
 		// Return
 		return regions;
 	}
-
-	/**
-	 * Creates a TextureRegion array from an array of textures in the same
-	 * directory. The names of the Texture files should only differ by a number
-	 * and start at either 1 or 0:
-	 * 
-	 * monster1flier.png, monster2flier.png, monster3flier.png
-	 *		OR
-	 * monster0flier.png, monster1flier.png, monster2flier.png
-	 * 
-	 * This function will insert the numbers accordingly in the file names.
-	 * 
-	 * @param textures An initialized Texture array, if not initialized, you will crash!
-	 * @param directory The directory starting in the assets folder, e.g. "graphics/sprites/monsters/"
-	 * @param firstPartOfName "monster" from example above
-	 * @param lastPartOfName "flier.png" from example above
-	 * @param width Width of the graphics file
-	 * @param height Height of the graphics files
-	 * @param numOfObjects The number of files you will be loading
-	 * @param startFromZero Whether or not the file name should start from zero.
-	 * @return A TextureRegion array with the loaded textures ready to be used for an Animation
-	 * @deprecated Dev should not be manually managing textures! This method was designed
-	 *             for use with static Textures, which leads to huge memory leaks. Use 
-	 *             loadTextureArray
-	 */
-	public static TextureRegion[] createRegionsFromTextures(Texture[] textures,
-			String directory, String firstPartOfName, String lastPartOfName,
-			int width, int height, int numOfObjects, boolean startFromZero) {
-		TextureRegion[] regions = new TextureRegion[numOfObjects];
-
-		if (startFromZero) {
-			for (int x = 0; x < regions.length; x++) {
-				// Textures
-				textures[x] = new Texture(Gdx.files.internal(directory
-						+ firstPartOfName + x + lastPartOfName));
-				textures[x].setFilter(TextureFilter.Nearest,
-						TextureFilter.Nearest);
-
-				regions[x] = new TextureRegion(textures[x], 0, 0, width, height);
-				regions[x].flip(false, true);
-			}
-		}
-		else{
-			for (int x = 0; x < regions.length; x++) {
-				// Textures
-				textures[x] = new Texture(Gdx.files.internal(directory
-						+ firstPartOfName + (x + 1) + lastPartOfName));
-				textures[x].setFilter(TextureFilter.Nearest,
-						TextureFilter.Nearest);
-
-				regions[x] = new TextureRegion(textures[x], 0, 0, width, height);
-				regions[x].flip(false, true);
-			}
-		}
-
-		return regions;
-	}
 	
-	public static void loadTexture(AssetManager manager, String fileName,
+	public static void loadTexture(AssetManager assets, String fileName,
 			TextureParameter params){
-		manager.load(fileName, Texture.class, params);
+		assets.load(fileName, Texture.class, params);
+	}
+	public static void loadTexture(AssetManager assets, String fileName){
+		assets.load(fileName, Texture.class, Assets.getStandardParams());
 	}
 	
 	/**
@@ -112,10 +82,10 @@ public class Assets {
 	 * These textures will be added to the AssetManager's load queue
 	 * and be given mag and min filters through this method.
 	 * 
-	 * Post-Condition: AssetManager manager will now have all the Textures
+	 * Post-Condition: AssetManager assets will now have all the Textures
 	 * 				   that you specified in its load queue.
 	 * 
-	 * @param manager The AssetManager to load the textures into.
+	 * @param assets The AssetManager to load the textures into.
 	 * @param firstPartOfName First part of the file name including the directory
 	 * @param lastPartOfName Last part of the file name, usually just the extension
 	 * @param numOfObjects How many textures will be loaded
@@ -123,7 +93,7 @@ public class Assets {
 	 * 
 	 * @since v2.10
 	 */
-	public static void loadTextures(AssetManager manager,
+	public static void loadTextures(AssetManager assets,
 			String firstPartOfName, String lastPartOfName, int numOfObjects,
 			boolean startFromZero){
 		// Set up filters params
@@ -142,8 +112,8 @@ public class Assets {
 				currentIndex = x + 1;
 			}
 			
-			// Load into the manager
-			manager.load(firstPartOfName + currentIndex + lastPartOfName, 
+			// Load into the assets
+			assets.load(firstPartOfName + currentIndex + lastPartOfName, 
 					Texture.class, param);
 		}
 	}
@@ -153,19 +123,19 @@ public class Assets {
 	 * Gets the region encompassing entire Texture file and flips the Texture
 	 * accordingly (Y-axis).
 	 * 
-	 * Pre-Condition: AssetManager manager must have the fileName Texture 
+	 * Pre-Condition: AssetManager assets must have the fileName Texture 
 	 * 				  already loaded into RAM.
 	 * 
-	 * @param manager An AssetManager that has loaded the given Texture file name.
+	 * @param assets An AssetManager that has loaded the given Texture file name.
 	 * @param fileName The Texture file to get the TextureRegion from
 	 * @return
 	 */
-	public static TextureRegion createRegion(AssetManager manager,
+	public static TextureRegion createRegion(AssetManager assets,
 			String fileName){
 		TextureRegion returnRegion;
-		returnRegion = new TextureRegion(manager.get(fileName, Texture.class),
-				0, 0, manager.get(fileName, Texture.class).getWidth(), 
-				manager.get(fileName, Texture.class).getHeight());
+		returnRegion = new TextureRegion(assets.get(fileName, Texture.class),
+				0, 0, assets.get(fileName, Texture.class).getWidth(), 
+				assets.get(fileName, Texture.class).getHeight());
 		returnRegion.flip(false, true);
 		return returnRegion;
 	}
@@ -177,7 +147,7 @@ public class Assets {
 	 *                loadMultipleTextures and the Textures must already be
 	 *                finished loading.
 	 * 
-	 * @param manager The AssetManager to get the textures from.
+	 * @param assets The AssetManager to get the textures from.
 	 * @param firstPartOfName First part of the file name including the directory
 	 * @param lastPartOfName Last part of the file name, usually just the extension
 	 * @param numOfObjects How many textures will be loaded
@@ -186,7 +156,7 @@ public class Assets {
 	 * @since v2.10
 	 */
 	public static TextureRegion[] createRegions(
-			AssetManager manager, String firstPartOfName, String lastPartOfName, 
+			AssetManager assets, String firstPartOfName, String lastPartOfName, 
 			int numOfObjects, boolean startFromZero){
 		// Create an array of TextureRegions for return
 		TextureRegion[] regions = new TextureRegion[numOfObjects];
@@ -205,7 +175,7 @@ public class Assets {
 			}
 			
 			// Get the loaded Texture
-			loadedTexture = manager.get(firstPartOfName + currentIndex + lastPartOfName,
+			loadedTexture = assets.get(firstPartOfName + currentIndex + lastPartOfName,
 					Texture.class);
 			regions[x] = new TextureRegion(loadedTexture, 0, 0,
 					loadedTexture.getWidth(), loadedTexture.getHeight());
@@ -213,5 +183,18 @@ public class Assets {
 		}
 		
 		return regions;
+	}
+	
+	/**
+	 * Gets a standard TextureParameter for use in loading textures to an
+	 * AssetManager.
+	 * 
+	 * @return Returns a new standard TextureParameter
+	 */
+	private static TextureParameter getStandardParams(){
+		TextureParameter params = new TextureParameter();
+		params.magFilter = TextureFilter.Nearest;
+		params.minFilter = TextureFilter.Nearest;
+		return params;
 	}
 }

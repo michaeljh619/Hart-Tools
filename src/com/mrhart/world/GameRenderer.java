@@ -25,7 +25,17 @@ import com.mrhart.settings.Settings;
  */
 
 public class GameRenderer {
-	// Instance Variables
+	/*
+	 * Named Constants
+	 */
+	private static final int LOAD_ICON_X = 700;
+	private static final int LOAD_ICON_Y = 400;
+	private static final int LOAD_ICON_WIDTH = 50;
+	private static final int LOAD_ICON_HEIGHT = 50;
+	
+	/*
+	 *  Instance Variables
+	 */
 	private GameWorld gameWorld;
 	private SpriteBatch batcher;
 	private ShapeRenderer shapes;
@@ -68,7 +78,7 @@ public class GameRenderer {
 		}
 		// Render the loading screen instead
 		else{
-			renderLoadingScreen();
+			renderLoadingScreen(batcher, runtime);
 		}
 			
 
@@ -87,7 +97,8 @@ public class GameRenderer {
 	 * Main Methods [END]
 	 *****************************************/
 	
-	private void renderLoadingScreen(){
-		
+	private void renderLoadingScreen(SpriteBatch batcher, float runtime){
+		batcher.draw(gameWorld.loadingIcon.getKeyFrame(runtime), 
+				LOAD_ICON_X, LOAD_ICON_Y, LOAD_ICON_WIDTH, LOAD_ICON_HEIGHT);
 	}
 }

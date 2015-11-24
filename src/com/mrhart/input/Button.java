@@ -78,6 +78,10 @@ public abstract class Button implements Debuggable{
 				radius * 2, radius * 2);
 	}
 	
+	public void setTextureRegion(TextureRegion region){
+		textureRegion = region;
+	}
+	
 	/*****************************************
 	 * Main Methods [END]
 	 *****************************************/

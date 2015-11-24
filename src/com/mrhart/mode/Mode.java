@@ -1,9 +1,6 @@
 package com.mrhart.mode;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
@@ -96,5 +93,27 @@ public abstract class Mode {
 	 */
 	public boolean updateAssetManager(){
 		return assets.update();
+	}
+
+	/**
+	 * Calls the AssetManager's update method for a set
+	 * amount of milliseconds.
+	 * 
+	 * @param milliseconds Milliseconds to load for.
+	 * @return Boolean returned from AssetManager's update.
+	 */
+	public boolean updateAssetManager(int milliseconds){
+		return assets.update(milliseconds);
+	}
+	
+	/**
+	 * Returns the current progress of the AssetManager's loading
+	 * as a float:
+	 *      - 0.0f = Nothing Loaded
+	 *      - 1.0f = Everything Loaded
+	 * @return
+	 */
+	public float getLoadProgress(){
+		return assets.getProgress();
 	}
 }

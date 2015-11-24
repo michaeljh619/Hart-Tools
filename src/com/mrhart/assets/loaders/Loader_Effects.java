@@ -1,12 +1,12 @@
-package com.mrhart.assets.files;
+package com.mrhart.assets.loaders;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mrhart.assets.Assets;
 
-public class Effects {
+public class Loader_Effects {
 	// Directories
-	public static final String GRAPHICS_DIR = Master.GRAPHICS_DIR + "effects/";
+	public static final String GRAPHICS_DIR = Loader_Master.GRAPHICS_DIR + "effects/";
 //	public static final String AUDIO_DIR = Master.AUDIO_DIR + "effects/";
 	// Sub-Directories
 	public static final String FADE_GRAPHICS_DIR = GRAPHICS_DIR + "fade/";
@@ -24,13 +24,13 @@ public class Effects {
 	 * @param assets
 	 */
 	public static void loadFade(AssetManager assets){
-		Assets.loadTextures(assets, Effects.FADE, 
-				".png", Effects.FADE_NUM_FILES, 
-				Effects.FADE_START_FROM_ZERO);
+		Assets.loadTextures(assets, Loader_Effects.FADE, 
+				".png", Loader_Effects.FADE_NUM_FILES, 
+				Loader_Effects.FADE_START_FROM_ZERO);
 	}
 	
 	public static TextureRegion[] getFadeRegions(AssetManager assets){
-		return Assets.createRegions(assets, Effects.FADE, 
-				".png", Effects.FADE_NUM_FILES, Effects.FADE_START_FROM_ZERO);
+		return Assets.createRegions(assets, Loader_Effects.FADE, 
+				".png", Loader_Effects.FADE_NUM_FILES, Loader_Effects.FADE_START_FROM_ZERO);
 	}
 }

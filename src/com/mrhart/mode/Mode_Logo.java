@@ -5,11 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mrhart.assets.AssetLoader;
-import com.mrhart.assets.Assets;
-import com.mrhart.assets.EffectsLoader;
-import com.mrhart.assets.files.Effects;
-import com.mrhart.assets.files.Logo;
+import com.mrhart.assets.loaders.Loader_Effects;
+import com.mrhart.assets.loaders.Loader_Logo;
 import com.mrhart.settings.Settings;
 import com.mrhart.settings.Settings_Timer;
 import com.mrhart.state.GameState;
@@ -78,9 +75,9 @@ public class Mode_Logo extends Mode {
 		 * Load assets
 		 */
 		// Load Logo Graphics
-		Logo.loadLogo(assets);
+		Loader_Logo.loadLogo(assets);
 		// Load Fade Graphics
-		Effects.loadFade(assets);
+		Loader_Effects.loadFade(assets);
 		
 		/*
 		 *  Setup timers
@@ -179,11 +176,11 @@ public class Mode_Logo extends Mode {
 		 *  TextureRegions
 		 */
 		// Logo
-		logo_signRegion = Logo.getSignRegions(assets);
-		logo_underlineRegion = Logo.getUnderlineRegions(assets);
-		logo_signature = Logo.getSignatureRegion(assets);
+		logo_signRegion = Loader_Logo.getSignRegions(assets);
+		logo_underlineRegion = Loader_Logo.getUnderlineRegions(assets);
+		logo_signature = Loader_Logo.getSignatureRegion(assets);
 		// Fade
-		fadeRegion = Effects.getFadeRegions(assets);
+		fadeRegion = Loader_Effects.getFadeRegions(assets);
 		
 		/*
 		 *  Animations
@@ -194,17 +191,17 @@ public class Mode_Logo extends Mode {
 		logo_sign.setPlayMode(PlayMode.REVERSED);
 		logo_underline.setPlayMode(PlayMode.REVERSED);
 		// Fade
-		fadeIn = new Animation(Effects.FADE_STANDARD_SPEED, fadeRegion);
-		fadeOut = new Animation(Effects.FADE_STANDARD_SPEED, fadeRegion);
+		fadeIn = new Animation(Loader_Effects.FADE_STANDARD_SPEED, fadeRegion);
+		fadeOut = new Animation(Loader_Effects.FADE_STANDARD_SPEED, fadeRegion);
 		fadeIn.setPlayMode(PlayMode.NORMAL);
 		fadeOut.setPlayMode(PlayMode.REVERSED);
 		
 		/*
 		 *  Sounds
 		 */
-		logo_signSound = Logo.getSignSound(assets);
-		logo_heartSound = Logo.getHeartSound(assets);
-		logo_underlineSound = Logo.getUnderlineSound(assets);
+		logo_signSound = Loader_Logo.getSignSound(assets);
+		logo_heartSound = Loader_Logo.getHeartSound(assets);
+		logo_underlineSound = Loader_Logo.getUnderlineSound(assets);
 	}
 	
 	private float getFadeRuntime(float runtime){

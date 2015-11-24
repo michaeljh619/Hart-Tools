@@ -18,6 +18,11 @@ If you have any questions on how anything works, feel free to email me.
 Commits
 =======
 11/24/15:
+- Debugged Loaders, now fully functional.
+- Added Loading Icon meta assets.
+- Created the mythical Slice method that I pursued for so long in Assets.
+
+11/24/15:
 - Deprecated static Textures, Sounds, and Fonts asset loaders. Modes now use AssetManagers which will be loaded through GameWorld.
 - Static loaders will be left in for legacy system games, however to prevent "black box" textures from occurring, new AssetManager modes should be utilized.
 - While AssetManager from currentMode is not done loading, GameRenderer will render a loading screen which the user can specify through the GameWorld's metaAssets

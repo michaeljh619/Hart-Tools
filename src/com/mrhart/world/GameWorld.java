@@ -1,11 +1,12 @@
 package com.mrhart.world;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.mrhart.assets.loaders.Loader_Meta;
 import com.mrhart.mode.Mode;
 import com.mrhart.mode.Mode_Logo;
 import com.mrhart.mode.Mode_Test_Input;
 import com.mrhart.state.GameState;
-import com.mrhart.tools.Timer;
 
 /**
  * GameWorld handles all updates to game objects. To maintain an OOP design, GameWorld should be
@@ -17,6 +18,11 @@ import com.mrhart.tools.Timer;
  * 
  */
 public class GameWorld {
+	/*
+	 * Settings
+	 */
+	private static final boolean DEBUG_ON = true;
+	
 	/*
 	 * Named Constants
 	 */
@@ -34,9 +40,9 @@ public class GameWorld {
 	private Mode_Logo mode_logo;
 	private Mode_Test_Input mode_test_input;
 	private int nextState = 0;
-	// A meta assets manager
+	// Loading Screen Assets
 	protected AssetManager metaAssets;
-	private Timer assetsTimer;
+	protected Animation loadingIcon;
 	// Volume Modifier
 	public static float volume = 1.0f;
 	
@@ -59,8 +65,8 @@ public class GameWorld {
     	}
     	
     	// Assets
-    	assetsTimer = new Timer();
     	metaAssets = new AssetManager();
+    	Loader_Meta.loadIcon(metaAssets);
 	}
 
 	/**
@@ -74,8 +80,11 @@ public class GameWorld {
 	public void update(float delta) {
 		// Always load meta assets as a block element first, it will be necessary
 		// to show whatever loading screen it is that you have
-		while(metaAssets.getProgress() <= 1.0f){
-			metaAssets.update();
+		if(metaAssets.getQueuedAssets() > 0){
+			if(DEBUG_ON)
+				System.err.println("Block-loading metaAssets");
+			metaAssets.finishLoading();
+			loadingIcon = Loader_Meta.getIcon(metaAssets);
 		}
 		
 		// If the current mode is already loaded, then go ahead
@@ -103,16 +112,19 @@ public class GameWorld {
 		// Else we are going to load little blocks of the assets until its finished
 		else{
 			// Load little block of assets
-			assetsTimer.initMilliseconds(LOAD_TIME);
-			while(!assetsTimer.isDone()){
-				currentMode.updateAssetManager();
-			}
+			currentMode.updateAssetManager(LOAD_TIME);
+			if(DEBUG_ON)
+				System.err.println("Current Mode's Load Progress: " + currentMode.getLoadProgress());
+			
 			// Check if current mode's assets are done loading to initialize
 			// all texture regions and animations
 			if(currentMode.isFinishedLoading()){
 				currentMode.finalize();
+				if(DEBUG_ON)
+					System.err.println("Finalizing Current Mode's Assets");
 			}
 		}
+
 	}
 }
 
