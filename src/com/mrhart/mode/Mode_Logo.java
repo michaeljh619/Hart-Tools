@@ -1,9 +1,17 @@
 package com.mrhart.mode;
 
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mrhart.assets.AssetLoader;
+import com.mrhart.assets.Assets;
 import com.mrhart.assets.EffectsLoader;
+import com.mrhart.assets.files.Effects;
+import com.mrhart.assets.files.Logo;
 import com.mrhart.settings.Settings;
+import com.mrhart.settings.Settings_Timer;
 import com.mrhart.state.GameState;
 import com.mrhart.tools.Timer;
 import com.mrhart.world.GameWorld;
@@ -19,15 +27,29 @@ public class Mode_Logo extends Mode {
 	/*
 	 * Named Constants
 	 */
+	// Times
 	private static final int FADE_TIME = 1000;
 	private static final int UNDERLINE_TIME = 1500;
 	private static final int SIGN_TIME = 2000;
 	private static final int HEART_TIME = 1000;
-	private static final int GLOBAL_RESET_TIME = 3000;
+	private static final int GLOBAL_RESET_TIME = 5;
+	// Volumes
+	private static final float logo_signSoundVolume = 1.0f;
+	private static final float logo_underlineSoundVolume = 1.0f;
+	private static final float logo_heartSoundVolume = 0.7f;
 	
 	/*
 	 * Instance Vars
 	 */
+	//Graphics
+	private TextureRegion[] logo_signRegion;
+	private TextureRegion[] logo_underlineRegion;
+	private TextureRegion[] fadeRegion;
+	private TextureRegion logo_signature;
+	private Animation logo_sign, logo_underline;
+	private Animation fadeIn, fadeOut;
+	// Audio
+	private Sound logo_signSound, logo_heartSound, logo_underlineSound;
 	// Timers
 	private Timer fadeTimer;
 	private Timer signTimer;
@@ -51,10 +73,15 @@ public class Mode_Logo extends Mode {
 	public Mode_Logo(){
 		// Set up top level constructor
 		super(GameState.LOGO);
-		// Load the logo assets
-		AssetLoader.loadLogo();
-		// Load the fade effect
-		EffectsLoader.loadFade();
+		
+		/*
+		 * Load assets
+		 */
+		// Load Logo Graphics
+		Logo.loadLogo(assets);
+		// Load Fade Graphics
+		Effects.loadFade(assets);
+		
 		/*
 		 *  Setup timers
 		 */
@@ -66,36 +93,36 @@ public class Mode_Logo extends Mode {
 		fadeTimer = new Timer();
 		fadeTimer.initMilliseconds(FADE_TIME);
 		// Global Reset
-		globalResetTimer = new Timer(Settings.TIMER_ID_SYSTEM);
+		globalResetTimer = new Timer(Settings_Timer.TIMER_ID_SYSTEM);
 		globalResetTimer.initMilliseconds(GLOBAL_RESET_TIME);
-		Timer.freezeTimers(Settings.TIMER_ID_DEFAULT);
+		Timer.freezeTimers(Settings_Timer.TIMER_ID_DEFAULT);
 	}
 
 	@Override
 	public int update(float delta) {
 		// Wait for the global reset of loading assets to complete
 		if(globalResetTimer.isDone()){
-			Timer.unfreezeTimers(Settings.TIMER_ID_DEFAULT);
+			Timer.unfreezeTimers(Settings_Timer.TIMER_ID_DEFAULT);
 		}
 		
 		// First start checking the fade timer before doing the sign timers
 		if(!isFadeFinished && fadeTimer.isDone()){
 			signTimer.initMilliseconds(SIGN_TIME);
 			isFadeFinished = true;
-			AssetLoader.logo_signSound.play(AssetLoader.logo_signSoundVolume * GameWorld.volume);
+			logo_signSound.play(logo_signSoundVolume * GameWorld.volume);
 		}
 		
 		// Now check the sign timer
 		if(signTimer.isDone()){
 			underlineTimer.initMilliseconds(UNDERLINE_TIME);
-			AssetLoader.logo_underlineSound.play(AssetLoader.logo_underlineSoundVolume * GameWorld.volume);
+			logo_underlineSound.play(logo_underlineSoundVolume * GameWorld.volume);
 			isSignFinished = true;
 		}
 		
 		// Now check the underline timer
 		if(underlineTimer.isDone()){
 			heartTimer.initMilliseconds(HEART_TIME);
-			AssetLoader.logo_heartSound.play(AssetLoader.logo_heartSoundVolume * GameWorld.volume);
+			logo_heartSound.play(logo_heartSoundVolume * GameWorld.volume);
 			isUnderlineFinished = true;
 		}
 		
@@ -120,36 +147,64 @@ public class Mode_Logo extends Mode {
 	@Override
 	public void render(SpriteBatch batcher, float runtime) {
 		// Render the logo to the screen after global reset is finished
-		if(Timer.isTimerFrozen(Settings.TIMER_ID_DEFAULT)){
+		if(Timer.isTimerFrozen(Settings_Timer.TIMER_ID_DEFAULT)){
 			// Do nothing, just want to wait till the global reset is finished
 		}
 		else if(!isFadeFinished){
-			batcher.draw(AssetLoader.logo_sign.getKeyFrames()[AssetLoader.logo_sign.getKeyFrames().length - 1], 
+			batcher.draw(logo_sign.getKeyFrames()[logo_sign.getKeyFrames().length - 1], 
 					0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
-			batcher.draw(EffectsLoader.fadeIn.getKeyFrame(getFadeRuntime(runtime)), 0, 0,
+			batcher.draw(fadeIn.getKeyFrame(getFadeRuntime(runtime)), 0, 0,
 					Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
 		}
 		else if(!isSignFinished){
-			batcher.draw(AssetLoader.logo_sign.getKeyFrame(getSignRuntime(runtime)),
+			batcher.draw(logo_sign.getKeyFrame(getSignRuntime(runtime)),
 					0, 0);
 		}
 		else if(!isUnderlineFinished){
-			batcher.draw(AssetLoader.logo_underline.getKeyFrame(getUnderlineRuntime(runtime)),
+			batcher.draw(logo_underline.getKeyFrame(getUnderlineRuntime(runtime)),
 					0, 0);
 		}
 		else if(!isHeartFinished){
-			batcher.draw(AssetLoader.logo_signature, 0, 0);
+			batcher.draw(logo_signature, 0, 0);
 		}
 		else{
-			batcher.draw(AssetLoader.logo_signature, 0, 0);
-			batcher.draw(EffectsLoader.fadeOut.getKeyFrame(getFadeRuntime(runtime)), 0, 0,
+			batcher.draw(logo_signature, 0, 0);
+			batcher.draw(fadeOut.getKeyFrame(getFadeRuntime(runtime)), 0, 0,
 					Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
 		}
 	}
 	
-	@Override
-	public void dispose(){
-		AssetLoader.disposeLogo();
+	public void finalize(){
+		/*
+		 *  TextureRegions
+		 */
+		// Logo
+		logo_signRegion = Logo.getSignRegions(assets);
+		logo_underlineRegion = Logo.getUnderlineRegions(assets);
+		logo_signature = Logo.getSignatureRegion(assets);
+		// Fade
+		fadeRegion = Effects.getFadeRegions(assets);
+		
+		/*
+		 *  Animations
+		 */
+		// Logo
+		logo_sign = new Animation(0.02f, logo_signRegion);
+		logo_underline = new Animation(0.03f, logo_underlineRegion);
+		logo_sign.setPlayMode(PlayMode.REVERSED);
+		logo_underline.setPlayMode(PlayMode.REVERSED);
+		// Fade
+		fadeIn = new Animation(Effects.FADE_STANDARD_SPEED, fadeRegion);
+		fadeOut = new Animation(Effects.FADE_STANDARD_SPEED, fadeRegion);
+		fadeIn.setPlayMode(PlayMode.NORMAL);
+		fadeOut.setPlayMode(PlayMode.REVERSED);
+		
+		/*
+		 *  Sounds
+		 */
+		logo_signSound = Logo.getSignSound(assets);
+		logo_heartSound = Logo.getHeartSound(assets);
+		logo_underlineSound = Logo.getUnderlineSound(assets);
 	}
 	
 	private float getFadeRuntime(float runtime){

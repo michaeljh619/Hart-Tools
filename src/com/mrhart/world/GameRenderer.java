@@ -19,7 +19,7 @@ import com.mrhart.settings.Settings;
  * package as GameRenderer.
  * 
  * @author Michael James Hart, mrhartgames@yahoo.com
- * @version v2.0
+ * @version v2.20
  * @since 11/01/2015
  * 
  */
@@ -63,11 +63,19 @@ public class GameRenderer {
 		batcher.enableBlending();
 		
 		// Renders current mode
-		gameWorld.currentMode.render(batcher, runtime);
+		if(gameWorld.currentMode.isFinishedLoading()){
+			gameWorld.currentMode.render(batcher, runtime);
+		}
+		// Render the loading screen instead
+		else{
+			renderLoadingScreen();
+		}
+			
 
 		batcher.end();
 		
-		if(gameWorld.currentMode instanceof Debuggable && Settings.DEBUG_ON){
+		if(gameWorld.currentMode instanceof Debuggable && Settings.DEBUG_ON
+				&& gameWorld.currentMode.isFinishedLoading()){
 			shapes.setColor(Color.RED);
 			shapes.begin(ShapeType.Line);
 			((Debuggable) gameWorld.currentMode).debug(shapes);
@@ -79,20 +87,7 @@ public class GameRenderer {
 	 * Main Methods [END]
 	 *****************************************/
 	
-	
-	
-	/*****************************************
-	 * Logo Methods
-	 *****************************************/
-	
-	/**
-	 * Renders the Mr. Hart logo
-	 */
-	private void renderLogo() {
+	private void renderLoadingScreen(){
+		
 	}
-	
-	/*****************************************
-	 * Logo Methods [END]
-	 *****************************************/
-	
 }

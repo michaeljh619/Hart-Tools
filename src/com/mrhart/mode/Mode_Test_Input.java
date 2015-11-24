@@ -59,4 +59,9 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 	public void debug(ShapeRenderer shapes){
 		button.debug(shapes);
 	}
+
+	@Override
+	public void finalize() {
+		
+	}
 }

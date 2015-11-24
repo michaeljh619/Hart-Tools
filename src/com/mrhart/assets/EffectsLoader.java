@@ -11,6 +11,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * @author Michael James Hart, mrhartgames@yahoo.com
  * @version v2.00
  * @since 11/01/2015
+ * @deprecated Loading assets should be done through non-static variables,
+ *             otherwise issues occur with memory management. Use Mode's
+ *             new AssetManager for loading, GameWorld will handle the load.
  */
 public class EffectsLoader {
 	/*

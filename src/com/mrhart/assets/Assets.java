@@ -1,6 +1,8 @@
 package com.mrhart.assets;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,8 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * at the moment, more functionality can be added in the future for easier loads.
  *
  * @author Michael James Hart, mrhartgames@yahoo.com
- * @version v2.00
- * @since 11/01/2015
+ * @version v2.10
  */
 public class Assets {
 
@@ -63,6 +64,9 @@ public class Assets {
 	 * @param numOfObjects The number of files you will be loading
 	 * @param startFromZero Whether or not the file name should start from zero.
 	 * @return A TextureRegion array with the loaded textures ready to be used for an Animation
+	 * @deprecated Dev should not be manually managing textures! This method was designed
+	 *             for use with static Textures, which leads to huge memory leaks. Use 
+	 *             loadTextureArray
 	 */
 	public static TextureRegion[] createRegionsFromTextures(Texture[] textures,
 			String directory, String firstPartOfName, String lastPartOfName,
@@ -94,6 +98,120 @@ public class Assets {
 			}
 		}
 
+		return regions;
+	}
+	
+	public static void loadTexture(AssetManager manager, String fileName,
+			TextureParameter params){
+		manager.load(fileName, Texture.class, params);
+	}
+	
+	/**
+	 * Loads multiple textures that follow the naming convention:
+	 *      firstPartOfName + number + lastPartOfName
+	 * These textures will be added to the AssetManager's load queue
+	 * and be given mag and min filters through this method.
+	 * 
+	 * Post-Condition: AssetManager manager will now have all the Textures
+	 * 				   that you specified in its load queue.
+	 * 
+	 * @param manager The AssetManager to load the textures into.
+	 * @param firstPartOfName First part of the file name including the directory
+	 * @param lastPartOfName Last part of the file name, usually just the extension
+	 * @param numOfObjects How many textures will be loaded
+	 * @param startFromZero Whether the naming convention "number" starts from 0 or not
+	 * 
+	 * @since v2.10
+	 */
+	public static void loadTextures(AssetManager manager,
+			String firstPartOfName, String lastPartOfName, int numOfObjects,
+			boolean startFromZero){
+		// Set up filters params
+		TextureParameter param = new TextureParameter();
+		param.magFilter = TextureFilter.Nearest;
+		param.minFilter = TextureFilter.Nearest;
+		
+		// Run through loop to add texture to load queue of AssetManager
+		int currentIndex;
+		for(int x = 0; x < numOfObjects; x++){
+			// Get the correct index
+			if(startFromZero){
+				currentIndex = x;
+			}
+			else{
+				currentIndex = x + 1;
+			}
+			
+			// Load into the manager
+			manager.load(firstPartOfName + currentIndex + lastPartOfName, 
+					Texture.class, param);
+		}
+	}
+	
+	/**
+	 * Creates and returns a TextureRegion that is created from a Texture.
+	 * Gets the region encompassing entire Texture file and flips the Texture
+	 * accordingly (Y-axis).
+	 * 
+	 * Pre-Condition: AssetManager manager must have the fileName Texture 
+	 * 				  already loaded into RAM.
+	 * 
+	 * @param manager An AssetManager that has loaded the given Texture file name.
+	 * @param fileName The Texture file to get the TextureRegion from
+	 * @return
+	 */
+	public static TextureRegion createRegion(AssetManager manager,
+			String fileName){
+		TextureRegion returnRegion;
+		returnRegion = new TextureRegion(manager.get(fileName, Texture.class),
+				0, 0, manager.get(fileName, Texture.class).getWidth(), 
+				manager.get(fileName, Texture.class).getHeight());
+		returnRegion.flip(false, true);
+		return returnRegion;
+	}
+	
+	/**
+	 * Gets an array of Regions from loaded Textures in an AssetManager.
+	 * 
+	 * Pre-Condition: Textures should have been initialized with the method
+	 *                loadMultipleTextures and the Textures must already be
+	 *                finished loading.
+	 * 
+	 * @param manager The AssetManager to get the textures from.
+	 * @param firstPartOfName First part of the file name including the directory
+	 * @param lastPartOfName Last part of the file name, usually just the extension
+	 * @param numOfObjects How many textures will be loaded
+	 * @param startFromZero Whether the naming convention "number" starts from 0 or not
+	 * 
+	 * @since v2.10
+	 */
+	public static TextureRegion[] createRegions(
+			AssetManager manager, String firstPartOfName, String lastPartOfName, 
+			int numOfObjects, boolean startFromZero){
+		// Create an array of TextureRegions for return
+		TextureRegion[] regions = new TextureRegion[numOfObjects];
+		
+		// Run through loop to create each TextureRegion based
+		// on all the loaded textures
+		int currentIndex;
+		Texture loadedTexture;
+		for(int x = 0; x < numOfObjects; x++){
+			// Get the correct index
+			if(startFromZero){
+				currentIndex = x;
+			}
+			else{
+				currentIndex = x + 1;
+			}
+			
+			// Get the loaded Texture
+			loadedTexture = manager.get(firstPartOfName + currentIndex + lastPartOfName,
+					Texture.class);
+			regions[x] = new TextureRegion(loadedTexture, 0, 0,
+					loadedTexture.getWidth(), loadedTexture.getHeight());
+			regions[x].flip(false, true);
+		}
+		
 		return regions;
 	}
 }
