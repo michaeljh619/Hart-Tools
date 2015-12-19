@@ -6,9 +6,8 @@ package com.mrhart.backend;
  * 		- Rotations range from 0.0f to <360.0f  (360.0f == 0.0f)
  *		- Rotations start at zero from south pole (Y-axis pointing down) and rotate clockwise
  *
- * @author Michael James Hart, mrhartgames@yahoo.com
+ * @author Michael Hart, MrHartGames@yahoo.com
  * @version v2.00
- * @since 11/01/2015
  */
 public class Rotation {
 	
@@ -16,6 +15,8 @@ public class Rotation {
 	 * Gets the smallest distance between 2 degrees, degree distances can "wrap," meaning
 	 * a 355.0f degree and a 5.0f degree will have a smallest distance of 10.0f.
 	 *
+	 * @version v1.00
+	 * @since v2.00
 	 * @param rotate1 The first degree
 	 * @param rotate2 The second degree
 	 * @return The smallest amount between the two degrees
@@ -40,6 +41,8 @@ public class Rotation {
 	 * Gets the largest distance between 2 degrees, degree distances can "wrap," meaning
 	 * a 100.0f degree and a 105.0f degree will have a largest distance of 355.0f.
 	 *
+	 * @version v1.00
+	 * @since v2.00
 	 * @param rotate1 The first degree
 	 * @param rotate2 The second degree
 	 * @return The largest amount between the two degrees
@@ -64,6 +67,8 @@ public class Rotation {
 	 * Adds two degrees together and returns the sum. If the degrees added surpasses 360.0f,
 	 * then the degree will "wrap" and start from zero and count up again from there.
 	 *
+	 * @version v1.00
+	 * @since v2.00
 	 * @param degree1 First degree to add
 	 * @param degree2 Second degree to add
 	 * return Total sum of degrees
@@ -86,6 +91,8 @@ public class Rotation {
 	 * Checks to see if the desired degree is located clockwise to the calling degree.
 	 * Moving clockwise increases in degrees.
 	 * 
+	 * @version v1.00
+	 * @since v2.00
 	 * @param callingDegree The reference degree
 	 * @param desiredDegree The degree we will rotate towards
 	 */
@@ -109,6 +116,8 @@ public class Rotation {
 	 * Checks to see if the desired degree is located counter clockwise to the calling degree.
 	 * Moving counter clockwise decreases in degrees.
 	 * 
+	 * @version v1.00
+	 * @since v2.00
 	 * @param callingDegree The reference degree
 	 * @param desiredDegree The degree we will rotate towards
 	 */

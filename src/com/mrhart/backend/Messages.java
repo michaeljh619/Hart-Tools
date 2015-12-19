@@ -3,9 +3,8 @@ package com.mrhart.backend;
 /**
  * A class containing static strings that can be used to print error messages.
  *
- * @author Michael James Hart, mrhartgames@yahoo.com
+ * @author Michael James Hart, MrHartGames@yahoo.com
  * @version v2.00
- * @since 11/01/2015
  */
 public class Messages {
 	// Error Level

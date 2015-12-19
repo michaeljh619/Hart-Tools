@@ -15,13 +15,16 @@ public class GameState {
 	 *****************************************/
 	
 	// Provided States
-	public final static int NULL = 0;		// The Null State
-	public final static int LOGO = 1;		// Mr. Hart Logo State
-	public final static int MENU = 2;		// For the Main menu
-	public final static int GAME = 3;		// Used for when the game is playing
-	public final static int TEST = 4;		// Used for when testing
+	public final static int NULL = 0;					// The Null State
+	public final static int LOGO = 1;					// Mr. Hart Logo State
+	public final static int MENU = 2;					// For the Main menu
+	public final static int GAME = 3;					// Used for when the game is playing
 	
-	// User Created States
+	// Test States
+	public final static int TEST_INPUT = 100;		// Used for when testing input
+	public final static int TEST_SPRITES = 101; // Used for when testings Sprites
+	
+	// User Created States, could start at 200 maybe?
 	/* YOUR STATES GOES HERE */
 	
 	/*****************************************

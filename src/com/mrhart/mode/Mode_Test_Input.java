@@ -3,12 +3,15 @@ package com.mrhart.mode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.mrhart.assets.loaders.Loader_Input;
 import com.mrhart.backend.Debuggable;
-import com.mrhart.input.Button_InGame;
+import com.mrhart.input.Button;
 import com.mrhart.input.Joystick;
 import com.mrhart.input.JoystickCommands;
+import com.mrhart.renderable.RenderableTextureRegion;
+import com.mrhart.shapes.Hart_Circle;
 import com.mrhart.state.GameState;
 
 public class Mode_Test_Input extends Mode implements Debuggable{
@@ -17,13 +20,13 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 	 */
 	// Inputs
 	private Joystick joystick;
-	private Button_InGame button;
+	private Button button;
 	private JoystickCommands commands;
 	// Graphics
 	private TextureRegion jsStick, jsBackground, buttonRegion;
 	
 	public Mode_Test_Input(){
-		super(GameState.TEST);
+		super(GameState.TEST_INPUT);
 		
 		// Load into AssetManager
 		Loader_Input.loadButtonLight_A(assets);
@@ -31,7 +34,8 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 		
 		// Create inputs
 		joystick = new Joystick(new Vector2(200, 300), 100, 50);
-		button = new Button_InGame(new Vector2(600, 300), 100);
+		button = new Button(new Vector2(600, 300), 200, 200,
+				new Hart_Circle(new Circle(600, 300, 50)));
 		
 		// Commands from joystick
 		commands = joystick.commands;
@@ -56,7 +60,7 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 	@Override
 	public void render(SpriteBatch batcher, float runtime) {
 		joystick.render(batcher);
-		button.render(batcher);
+		button.render(batcher, runtime);
 	}
 
 	@Override
@@ -76,6 +80,6 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 		joystick.setTextureRegions(jsBackground, jsStick);
 		// Finalize Button Region
 		buttonRegion = Loader_Input.getButtonLight_A(assets);
-		button.setTextureRegion(buttonRegion);
+		button.setRenderObject(new RenderableTextureRegion(buttonRegion));
 	}
 }

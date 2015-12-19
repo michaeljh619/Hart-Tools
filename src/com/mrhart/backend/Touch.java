@@ -10,8 +10,8 @@ import com.mrhart.settings.Settings;
  * 		 make sure you update it in the settings! Otherwise this will throw off
  * 		 the calculations made in this class.
  * 
- * @author Michael James Hart, mrhartgames@yahoo.com
- * @version v2.0
+ * @author Michael Hart, MrHartGames@yahoo.com
+ * @version v2.00
  * @since 11/01/2015
  *
  */
@@ -24,6 +24,8 @@ public class Touch {
 	 * Converts the raw screen x into a float that has been multiplied by the
 	 * screen ratio.
 	 * 
+	 * @version v1.00
+	 * @since v2.00
 	 * @param inX
 	 * @return x
 	 */
@@ -36,6 +38,8 @@ public class Touch {
 	 * Converts the raw screen y into a float that has been multiplied by the
 	 * screen ratio.
 	 * 
+	 * @version v1.00
+	 * @since v2.00
 	 * @param inY
 	 * @return y
 	 */

@@ -6,6 +6,7 @@ import com.mrhart.assets.loaders.Loader_Meta;
 import com.mrhart.mode.Mode;
 import com.mrhart.mode.Mode_Logo;
 import com.mrhart.mode.Mode_Test_Input;
+import com.mrhart.mode.Mode_Test_Sprites;
 import com.mrhart.state.GameState;
 
 /**
@@ -28,7 +29,7 @@ public class GameWorld {
 	 */
 	// Files
 	// Used to initialize the game in a certain mode
-	private static int JUMP_TO_STATE = GameState.LOGO;
+	private static int JUMP_TO_STATE = GameState.TEST_SPRITES;
 	// Load Time
 	private static final int LOAD_TIME = 1;
 	
@@ -39,6 +40,7 @@ public class GameWorld {
 	protected Mode currentMode;
 	private Mode_Logo mode_logo;
 	private Mode_Test_Input mode_test_input;
+	private Mode_Test_Sprites mode_test_sprite;
 	private int nextState = 0;
 	// Loading Screen Assets
 	protected AssetManager metaAssets;
@@ -59,9 +61,13 @@ public class GameWorld {
     		mode_logo = new Mode_Logo();
     		currentMode = mode_logo;
     	}
-    	else if(JUMP_TO_STATE == GameState.TEST){
+    	else if(JUMP_TO_STATE == GameState.TEST_INPUT){
     		mode_test_input = new Mode_Test_Input();
     		currentMode = mode_test_input;
+    	}
+    	else if(JUMP_TO_STATE == GameState.TEST_SPRITES){
+    		mode_test_sprite = new Mode_Test_Sprites();
+    		currentMode = mode_test_sprite;
     	}
     	
     	// Assets

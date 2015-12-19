@@ -7,10 +7,24 @@ package com.mrhart.collisions;
  * handler to check this one circle before checking multiple collision areas inside, that way
  * collision checks can be kept to a minimum.
  *
- * @author Michael James Hart, mrhartgames@yahoo.com
+ * @author Michael Hart, MrHartGames@yahoo.com
  * @version v2.00
  * @since 11/01/2015
  */
-public interface OptimalCollidable {
+public interface OptimalCollidable extends Collidable{
+	/**
+	 * Returns the optimal collision area. This single circle should wrap
+	 * around all the other collision areas that this object has.
+	 * 
+	 * @version v1.00
+	 * @since v2.00
+	 * @return
+	 */
 	public CollisionArea_SingleCirc getOptimalCollisionArea();
+	
+	/**
+	 * Updates the positioning of the optimal collision area, should be called
+	 * after the position update of the Sprite.
+	 */
+	public void updateOptimalCollisionArea();
 }

@@ -17,6 +17,16 @@ If you have any questions on how anything works, feel free to email me.
 =======
 Commits
 =======
+12/19/15:
+- Created CollisionAreas and CollisionHandler classes.
+- Created Collidable and Resettable interfaces.
+- Collisions are now easily implemented, some basic testing needs to be done. Dormant bugs may still be amuck.
+- Created SpriteHandler and SpritePairs for use with collision handlers.
+- Added new Test Suite for testing Sprites and their collisions.
+- Created renderable package for RenderableObjects. Now we can create TextureRegions and Animations polymorphically.
+- Created shapes package for Shape2D. Now we can create circles and rectangles polymorphically.
+- Modified some JavaDocs to contain my developer email.
+
 11/24/15:
 - Debugged Loaders, now fully functional.
 - Added Loading Icon meta assets.

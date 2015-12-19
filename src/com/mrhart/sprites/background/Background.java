@@ -23,11 +23,6 @@ public class Background extends Sprite {
 	}
 
 	@Override
-	public void update(float delta) {
-		updateVectors(delta);
-	}
-
-	@Override
 	public void render(SpriteBatch batcher, float runtime) {
 		batcher.draw(region, position.x, position.y, width, height);
 	}

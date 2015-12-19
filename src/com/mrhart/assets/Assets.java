@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * Assets provides some backend support for all your asset loaders. While rudimentary
  * at the moment, more functionality can be added in the future for easier loads.
  *
- * @author Michael James Hart, mrhartgames@yahoo.com
+ * @author Michael James Hart, MrHartGames@yahoo.com
  * @version v2.10
  */
 public class Assets {
@@ -44,6 +44,8 @@ public class Assets {
 	 * Creates and returns a TextureRegion array that parses a row of texture regions
 	 * from a loaded Texture file.
 	 *
+	 * @version v1.00
+	 * @since v1.00
 	 * @param loadedTexture A texture that has been loaded already
 	 * @param numOfRegions The number of frames in the row
 	 * @param startingPositionX Where x starts, usually at zero; will be updated by "width"
@@ -68,10 +70,29 @@ public class Assets {
 		return regions;
 	}
 	
+	/**
+	 * Loads a texture into the AssetManager argument. Uses the Texture-
+	 * Parameter arguments in creating the Texture.
+	 * 
+	 * @version v1.00
+	 * @since v2.10
+	 * @param assets
+	 * @param fileName
+	 * @param params
+	 */
 	public static void loadTexture(AssetManager assets, String fileName,
 			TextureParameter params){
 		assets.load(fileName, Texture.class, params);
 	}
+	/**
+	 * Loads a texture into the AssetManager argument. Uses a standard set
+	 * of TextureParameters.
+	 * 
+	 * @version v1.00
+	 * @since v2.10
+	 * @param assets
+	 * @param fileName
+	 */
 	public static void loadTexture(AssetManager assets, String fileName){
 		assets.load(fileName, Texture.class, Assets.getStandardParams());
 	}
@@ -85,13 +106,13 @@ public class Assets {
 	 * Post-Condition: AssetManager assets will now have all the Textures
 	 * 				   that you specified in its load queue.
 	 * 
+	 * @version v1.00
+	 * @since v2.10
 	 * @param assets The AssetManager to load the textures into.
 	 * @param firstPartOfName First part of the file name including the directory
 	 * @param lastPartOfName Last part of the file name, usually just the extension
 	 * @param numOfObjects How many textures will be loaded
 	 * @param startFromZero Whether the naming convention "number" starts from 0 or not
-	 * 
-	 * @since v2.10
 	 */
 	public static void loadTextures(AssetManager assets,
 			String firstPartOfName, String lastPartOfName, int numOfObjects,
@@ -126,6 +147,8 @@ public class Assets {
 	 * Pre-Condition: AssetManager assets must have the fileName Texture 
 	 * 				  already loaded into RAM.
 	 * 
+	 * @version v1.00
+	 * @since v2.10
 	 * @param assets An AssetManager that has loaded the given Texture file name.
 	 * @param fileName The Texture file to get the TextureRegion from
 	 * @return
@@ -147,13 +170,13 @@ public class Assets {
 	 *                loadMultipleTextures and the Textures must already be
 	 *                finished loading.
 	 * 
+	 * @version v1.00
+	 * @since v2.10
 	 * @param assets The AssetManager to get the textures from.
 	 * @param firstPartOfName First part of the file name including the directory
 	 * @param lastPartOfName Last part of the file name, usually just the extension
 	 * @param numOfObjects How many textures will be loaded
 	 * @param startFromZero Whether the naming convention "number" starts from 0 or not
-	 * 
-	 * @since v2.10
 	 */
 	public static TextureRegion[] createRegions(
 			AssetManager assets, String firstPartOfName, String lastPartOfName, 
@@ -189,6 +212,8 @@ public class Assets {
 	 * Gets a standard TextureParameter for use in loading textures to an
 	 * AssetManager.
 	 * 
+	 * @version v1.00
+	 * @since v2.10
 	 * @return Returns a new standard TextureParameter
 	 */
 	private static TextureParameter getStandardParams(){

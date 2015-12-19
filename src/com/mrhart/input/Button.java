@@ -2,56 +2,69 @@ package com.mrhart.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.mrhart.backend.Debuggable;
 import com.mrhart.backend.Touch;
+import com.mrhart.renderable.RenderableObject;
 import com.mrhart.settings.Settings_Input;
+import com.mrhart.shapes.Hart_Shape2D;
 
 /**
  * An onscreen UI button that can be used for input from the user.
  *
- * @author Michael James Hart, mrhartgames@yahoo.com
- * @version v2.00
- * @since 11/01/2015
+ * @author Michael Hart, MrHartGames@yahoo.com
+ * @version v3.00
  */
-public abstract class Button implements Debuggable{
-	// Instance Variables
+public class Button implements Debuggable{
+	/*
+	 * Instance Variables
+	 */
+	// Dimensions
 	protected Vector2 origin;
-	protected int radius;
-	
+	protected int width, height;
+	// Touch
+	protected Hart_Shape2D shape;
+	// Flags
 	protected boolean touched;
 	protected boolean activatedOnce;
-	
-	protected TextureRegion textureRegion;
-	
+	// Graphics
+	protected RenderableObject renderObject;
+	protected RenderableObject onPressRenderObject;
 	// Variables for methods
 	protected Vector2 touchIndex;
 	protected float tempX, tempY;
 	
-	/**
-	 * Creates a new button.
-	 * 
-	 * @param styleOfButton Basically the color of the button, use Gamepad.STYLE_
-	 * @param buttonGraphic Picture on the button, use Button.BUTTON_
-	 * @param positionX The x position to put the button at
-	 * @param positionY The y position to put the button at
-	 * @param inRadius The radius of the button
-	 */
-	public Button(Vector2 position, int inRadius){
+	public Button(Vector2 position, int width, int height, Hart_Shape2D shape){
+		this(position, width, height, shape, null);
+	}
+	public Button(Vector2 position, int width, int height,
+			Hart_Shape2D shape, RenderableObject renderObject){
+		this(position, width, height, shape, renderObject, null);
+	}
+	public Button(Vector2 position, int width, int height,
+			Hart_Shape2D shape, RenderableObject renderObject,
+			RenderableObject onPressRenderObject){
+		// Set up flags
 		touched = false;
-		
-		radius = inRadius;
-		
+		// Set up dimensions
+		this.width = width;
+		this.height = height;
 		origin = position;
+		// Touch
+		this.shape = shape;
+		// RenderObjects
+		this.renderObject = renderObject;
+		this.onPressRenderObject = onPressRenderObject;
 	}
 	
 	
 	/*****************************************
 	 * Main Methods
 	 *****************************************/
-	
+	/**
+	 * Updates the button, checking for touches
+	 */
 	public void update(){
 		if(touched){
 			activatedOnce = true;
@@ -69,17 +82,17 @@ public abstract class Button implements Debuggable{
 	}
 	
 	/**
-	 * Renders the joystick to the screen
+	 * Renders the button to the screen, performs a null check so we never
+	 * crash.
 	 * 
 	 * @param batcher
 	 */
-	public void render(SpriteBatch batcher) {
-		batcher.draw(textureRegion, origin.x - radius, origin.y - radius,
-				radius * 2, radius * 2);
-	}
-	
-	public void setTextureRegion(TextureRegion region){
-		textureRegion = region;
+	public void render(SpriteBatch batcher, float runtime) {
+		if(renderObject != null){
+			batcher.draw(renderObject.getTextureRegion(runtime), 
+					origin.x - width/2, origin.y - height/2,
+					width, height);
+		}
 	}
 	
 	/*****************************************
@@ -106,8 +119,22 @@ public abstract class Button implements Debuggable{
 	 * @param y
 	 * @return
 	 */
-	public abstract boolean isInRange(float x, float y);
+	public boolean isInRange(float x, float y){
+		return shape.contains(x, y);
+	}
 	
+	public RenderableObject getRenderObject() {
+		return renderObject;
+	}
+	public void setRenderObject(RenderableObject renderObject) {
+		this.renderObject = renderObject;
+	}
+	public RenderableObject getOnPressRenderObject() {
+		return onPressRenderObject;
+	}
+	public void setOnPressRenderObject(RenderableObject onPressRenderObject) {
+		this.onPressRenderObject = onPressRenderObject;
+	}
 	/**
 	 * Gets a vector of the first touch to the joystick
 	 * 
@@ -141,7 +168,9 @@ public abstract class Button implements Debuggable{
 	 * @param shapes
 	 *            A begun ShapeRenderer
 	 */
-	public abstract void debug(ShapeRenderer shapes);
+	public void debug(ShapeRenderer shapes){
+		
+	}
 	/*****************************************
 	 * Debug Methods [END]
 	 *****************************************/

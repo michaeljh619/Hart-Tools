@@ -13,10 +13,8 @@ import com.mrhart.world.GameWorld;
  * Calls the update function from GameWorld and the render function from GameRenderer.
  * Keeps track of runtime and controls resizing, pausing, exiting, etc.
  * 
- * @author Michael James Hart, mrhartgames@yahoo.com
+ * @author Michael James Hart, MrHartGames@yahoo.com
  * @version v2.00
- * @since 11/01/2015
- *
  */
 
 public class GameScreen implements Screen {
@@ -32,6 +30,9 @@ public class GameScreen implements Screen {
 	/**
 	 * Creates a new GameScreen which will be the main hub for all things
 	 * dealing with the game.
+	 * 
+	 * @version v1.00
+	 * @since v1.00
 	 */
     public GameScreen() {
     	// Initialize all the things that need initializing
@@ -56,6 +57,8 @@ public class GameScreen implements Screen {
      * up. We must scale everything with a factor of delta to ensure gameplay
      * is smooth!
      * 
+     * @version v1.00
+     * @since v1.00
      * @param delta
      */
     public void render(float delta) {
@@ -72,6 +75,8 @@ public class GameScreen implements Screen {
      * When resizing, viewport must also be resized to keep the screen
      * consistent with gameplay screen.
      * 
+     * @version v1.00
+     * @since v1.00
      * @param width int
      * @param height int
      */

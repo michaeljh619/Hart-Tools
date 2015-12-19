@@ -10,5 +10,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  * @since 11/01/2015
  */
 public interface Debuggable {
+	/**
+	 * Renders wire boxes and circles above collision and touch areas on
+	 * objects in game.
+	 * 
+	 * @param shapes An "begun" ShapeRenderer
+	 */
 	public void debug(ShapeRenderer shapes);
 }

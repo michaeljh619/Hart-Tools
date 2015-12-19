@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Intersector;
 /**
  * A CollisionArea that has an Array of Circles.
  *
- * @author Michael James Hart, mrhartgames@yahoo.com
+ * @author Michael Hart, MrHartGames@yahoo.com
  * @version v2.00
  * @since 11/01/2015
  */

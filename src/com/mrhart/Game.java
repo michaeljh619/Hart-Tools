@@ -4,6 +4,14 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
+/**
+ * Base Class for creating a game. Each function does exactly what it sounds
+ * like. There should not be much code modified at this level
+ * 
+ * @version v1.0
+ * @author Michael Hart, MrHartGames@yahoo.com
+ *
+ */
 public class Game implements ApplicationListener {
     private Screen screen;
 
