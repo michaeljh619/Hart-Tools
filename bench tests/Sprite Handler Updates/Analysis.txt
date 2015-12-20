@@ -1,0 +1,3 @@
+After much testing, I came to realize that Multi-Threaded updates would simply not surpass non-threaded updates. The reason being that each CPU needs to access RAM rather than using the caches to get the Sprite Dangles. Being that we are using arrays of arraylists, the data is stored contiguously in memory; this makes it so that a single cpu will load the entire block of sprites and update much faster. The multiple cpu's will need to run out to RAM a lot more and be much slower; the asynchronous updates being faster does not make up for going out to RAM.
+
+Result: Updates should not be multi-threaded.

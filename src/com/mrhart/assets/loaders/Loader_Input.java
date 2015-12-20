@@ -20,10 +20,10 @@ public class Loader_Input {
 	private static final String TRANSPARENT_DARK_DIR = "dark_Transparent/";
 	private static final String BUTTON_A_FILE = "a.png";
 	private static final String BUTTON_B_FILE = "b.png";
-//	private static final String BUTTON_L_FILE = "l.png";
-//	private static final String BUTTON_R_FILE = "r.png";
-//	private static final String BUTTON_X_FILE = "x.png";
-//	private static final String BUTTON_Y_FILE = "y.png";
+	private static final String BUTTON_L_FILE = "l.png";
+	private static final String BUTTON_R_FILE = "r.png";
+	private static final String BUTTON_X_FILE = "x.png";
+	private static final String BUTTON_Y_FILE = "y.png";
 //	private static final String BUTTON_ACCEPT_FILE = "accept.png";
 //	private static final String BUTTON_CANCEL_FILE = "cancel.png";
 	
@@ -180,7 +180,6 @@ public class Loader_Input {
 	/**
 	 * Loads graphics for a dark style 'B' button
 	 */
-	
 	public static void loadButtonDark_B(AssetManager assets){
 		String directory = INPUT_DIR + BUTTON_DIR + DARK_DIR;
 		Assets.loadTexture(assets, directory + BUTTON_B_FILE);
@@ -188,6 +187,54 @@ public class Loader_Input {
 	public static TextureRegion getButtonDark_B(AssetManager assets){
 		String directory = INPUT_DIR + BUTTON_DIR + DARK_DIR;
 		return Assets.createRegion(assets, directory + BUTTON_B_FILE);
+	}
+		
+	/**
+	 * Loads graphics for a dark style 'X' button
+	 */
+	public static void loadButtonDark_X(AssetManager assets){
+		String directory = INPUT_DIR + BUTTON_DIR + DARK_DIR;
+		Assets.loadTexture(assets, directory + BUTTON_X_FILE);
+	}
+	public static TextureRegion getButtonDark_X(AssetManager assets){
+		String directory = INPUT_DIR + BUTTON_DIR + DARK_DIR;
+		return Assets.createRegion(assets, directory + BUTTON_X_FILE);
+	}
+		
+	/**
+	 * Loads graphics for a dark style 'Y' button
+	 */
+	public static void loadButtonDark_Y(AssetManager assets){
+		String directory = INPUT_DIR + BUTTON_DIR + DARK_DIR;
+		Assets.loadTexture(assets, directory + BUTTON_Y_FILE);
+	}
+	public static TextureRegion getButtonDark_Y(AssetManager assets){
+		String directory = INPUT_DIR + BUTTON_DIR + DARK_DIR;
+		return Assets.createRegion(assets, directory + BUTTON_Y_FILE);
+	}
+		
+	/**
+	 * Loads graphics for a dark style 'R' button
+	 */
+	public static void loadButtonDark_R(AssetManager assets){
+		String directory = INPUT_DIR + BUTTON_DIR + DARK_DIR;
+		Assets.loadTexture(assets, directory + BUTTON_R_FILE);
+	}
+	public static TextureRegion getButtonDark_R(AssetManager assets){
+		String directory = INPUT_DIR + BUTTON_DIR + DARK_DIR;
+		return Assets.createRegion(assets, directory + BUTTON_R_FILE);
+	}
+		
+	/**
+	 * Loads graphics for a dark style 'L' button
+	 */
+	public static void loadButtonDark_L(AssetManager assets){
+		String directory = INPUT_DIR + BUTTON_DIR + DARK_DIR;
+		Assets.loadTexture(assets, directory + BUTTON_L_FILE);
+	}
+	public static TextureRegion getButtonDark_L(AssetManager assets){
+		String directory = INPUT_DIR + BUTTON_DIR + DARK_DIR;
+		return Assets.createRegion(assets, directory + BUTTON_L_FILE);
 	}
 		
 	/**

@@ -16,21 +16,37 @@ import com.mrhart.renderable.RenderableTextureRegion;
 import com.mrhart.sprites.Sprite;
 import com.mrhart.sprites.SpriteHandler;
 import com.mrhart.state.GameState;
+import com.mrhart.tools.Timer;
 
 public class Mode_Test_Sprites extends Mode{
 	/*
 	 * Named Constants
 	 */
+	// Dangles
 	private static final int DANGLE_CIRCLE_A = 0;
 	private static final int DANGLE_CIRCLE_B = 1;
-	private static final int DANGLE_BOXES = 2;
+	private static final int DANGLE_CIRCLE_X = 2;
+	private static final int DANGLE_CIRCLE_Y = 3;
+	private static final int DANGLE_CIRCLE_L = 4;
+	private static final int DANGLE_CIRCLE_R = 5;
+	private static final int DANGLE_BOXES = 6;
+	// Bench Test
+	private static final int MAX_TESTS = 100;
+	private static final int NUM_OBJECTS = 5;
 	
 	/*
 	 * Instance Vars
 	 */
 	// Sprites
 	private SpriteHandler sprites;
-	private boolean[] bools = {true, true, true};
+	// Timer
+	private Timer benchTime = new Timer();
+	private Timer graceTime = new Timer();
+	// benchTime test
+	private long[] testedTimes = new long[MAX_TESTS];
+	private int benchTestCounter = 0;
+	private boolean isBenchTestDone = false;
+	private boolean isReadyToBenchTest = false;
 
 	public Mode_Test_Sprites() {
 		super(GameState.TEST_SPRITES);
@@ -38,18 +54,66 @@ public class Mode_Test_Sprites extends Mode{
 		// Load Assets
 		Loader_Input.loadButtonDark_A(assets);
 		Loader_Input.loadButtonDark_B(assets);
+		Loader_Input.loadButtonDark_X(assets);
+		Loader_Input.loadButtonDark_Y(assets);
+		Loader_Input.loadButtonDark_R(assets);
+		Loader_Input.loadButtonDark_L(assets);
 		
 		// Sprite Handler
-		sprites = new SpriteHandler(bools);
+		sprites = new SpriteHandler(7);
+		// Set up adjacency list for collisions
+		sprites.addAllCollisions();
+		sprites.removeCollision(DANGLE_CIRCLE_A, DANGLE_CIRCLE_A);
+		sprites.removeCollision(DANGLE_CIRCLE_B, DANGLE_CIRCLE_B);
+		sprites.removeCollision(DANGLE_CIRCLE_X, DANGLE_CIRCLE_X);
+		sprites.removeCollision(DANGLE_CIRCLE_Y, DANGLE_CIRCLE_Y);
+		sprites.removeCollision(DANGLE_CIRCLE_L, DANGLE_CIRCLE_L);
+		sprites.removeCollision(DANGLE_CIRCLE_R, DANGLE_CIRCLE_R);
+		
+		// Timers
+		graceTime.initMilliseconds(1000);
 	}
 
 	@Override
 	public int update(float delta) {
+		// Allow grace time to finish before testing
+		if(graceTime.isDone())
+			isReadyToBenchTest = true;
+		
+		// Initialize Bench Time
+		if(isReadyToBenchTest)
+			benchTime.init();
+
 		// Update all sprites
 		sprites.update(delta);
+
+		// Add to tested times
+		if(isReadyToBenchTest){
+			// Add to array and update counter
+			testedTimes[benchTestCounter] = benchTime.getElapsedNanoseconds();
+			benchTestCounter++;
+			// Update flags
+			if(benchTestCounter == MAX_TESTS){
+				isReadyToBenchTest = false;
+				isBenchTestDone = true;
+			}
+		}
+		
+		// Get average time
+		if(isBenchTestDone){
+			// Calculate average time
+			long averageTime = 0;
+			for(int x = 0; x < MAX_TESTS; x++){
+				averageTime += testedTimes[x]/MAX_TESTS;
+			}
+			// Output
+			System.err.println("Average Nanoseconds over " 
+					+ MAX_TESTS + " tests: " + averageTime);
+			isBenchTestDone = false;
+		}
 		
 		// Check collisions
-		CollisionHandler.checkCollisions(sprites, CollisionHandler.NEIGHBORS);
+		CollisionHandler.checkCollisions(sprites);
 		
 		// Stuck in here forever! Muahahah
 		return GameState.NULL;
@@ -64,25 +128,35 @@ public class Mode_Test_Sprites extends Mode{
 	@Override
 	public void finalize() {
 		// Add Circle A's
-		sprites.add(DANGLE_CIRCLE_A, 
-				new Sprite_Circle(50, 50, 50, Loader_Input.getButtonDark_A(assets)));
-		sprites.add(DANGLE_CIRCLE_A, 
-				new Sprite_Circle(100, 50, 50, Loader_Input.getButtonDark_A(assets)));
-		sprites.add(DANGLE_CIRCLE_A, 
-				new Sprite_Circle(50, 100, 50, Loader_Input.getButtonDark_A(assets)));
-		sprites.add(DANGLE_CIRCLE_A, 
-				new Sprite_Circle(100, 100, 50, Loader_Input.getButtonDark_A(assets)));
-		
+		for(int x = 0; x < NUM_OBJECTS; x++){
+			sprites.add(DANGLE_CIRCLE_A, 
+				new Sprite_Circle(100, 100, 25, Loader_Input.getButtonDark_A(assets)));
+		}
 		// Add Circle B's
-		sprites.add(DANGLE_CIRCLE_B, 
-				new Sprite_Circle(750, 450, 50, Loader_Input.getButtonDark_B(assets)));
-		sprites.add(DANGLE_CIRCLE_B, 
-				new Sprite_Circle(700, 450, 50, Loader_Input.getButtonDark_B(assets)));
-		sprites.add(DANGLE_CIRCLE_B, 
-				new Sprite_Circle(750, 400, 50, Loader_Input.getButtonDark_B(assets)));
-		sprites.add(DANGLE_CIRCLE_B, 
-				new Sprite_Circle(700, 400, 50, Loader_Input.getButtonDark_B(assets)));
-		
+		for(int x = 0; x < NUM_OBJECTS; x++){
+			sprites.add(DANGLE_CIRCLE_B, 
+				new Sprite_Circle(700, 400, 25, Loader_Input.getButtonDark_B(assets)));
+		}
+		// Add Circle X's
+		for(int x = 0; x < NUM_OBJECTS; x++){
+			sprites.add(DANGLE_CIRCLE_X, 
+				new Sprite_Circle(700, 100, 25, Loader_Input.getButtonDark_X(assets)));
+		}
+		// Add Circle Y's
+		for(int x = 0; x < NUM_OBJECTS; x++){
+			sprites.add(DANGLE_CIRCLE_Y, 
+				new Sprite_Circle(100, 400, 25, Loader_Input.getButtonDark_Y(assets)));
+		}
+		// Add Circle L's
+		for(int x = 0; x < NUM_OBJECTS; x++){
+			sprites.add(DANGLE_CIRCLE_L, 
+				new Sprite_Circle(100, 250, 25, Loader_Input.getButtonDark_L(assets)));
+		}
+		// Add Circle R's
+		for(int x = 0; x < NUM_OBJECTS; x++){
+			sprites.add(DANGLE_CIRCLE_R, 
+				new Sprite_Circle(700, 250, 25, Loader_Input.getButtonDark_R(assets)));
+		}
 		// Add Out of Screen Rects
 		sprites.add(DANGLE_BOXES, new Sprite_Box(-100, 0, 100, 500));
 		sprites.add(DANGLE_BOXES, new Sprite_Box(0, -100, 800, 100));
@@ -97,6 +171,7 @@ public class Mode_Test_Sprites extends Mode{
 	 */
 	private class Sprite_Circle extends Sprite implements Resettable{
 		private static final int SPEED = 100;
+		private static final boolean DEBUG_ON = false;
 		
 		private CollisionArea_SingleCirc circ;
 		private Vector2 lastPosition;
@@ -129,15 +204,18 @@ public class Mode_Test_Sprites extends Mode{
 		@Override
 		public void collide(Collidable other, boolean collidedOnce) {
 			if(other instanceof Sprite_Circle){
-				System.out.println("Sprite_Circle: I collided with another Circle!");
+				if(DEBUG_ON)
+					System.out.println("Sprite_Circle: I collided with another Circle!");
 				CollisionHandler.collide_Hard_Bounce(this, (Resettable) other);
 			}
 			else if(other instanceof Sprite_Box){
-				System.out.println("Sprite_Circle: I collided with a Sprite_Box!");
+				if(DEBUG_ON)
+					System.out.println("Sprite_Circle: I collided with a Sprite_Box!");
 				CollisionHandler.collide_Hard_Bounce(this, (Resettable) other); 
 			}
 			else{
-				System.out.println("Err... Something went wrong.");
+				if(DEBUG_ON)
+					System.out.println("Err... Something went wrong.");
 			}
 		}
 
@@ -183,6 +261,8 @@ public class Mode_Test_Sprites extends Mode{
 	
 	
 	private class Sprite_Box extends Sprite implements Resettable{
+		private static final boolean DEBUG_ON = false;
+		
 		// Collisions
 		private CollisionArea_SingleRect rect;
 
@@ -199,7 +279,8 @@ public class Mode_Test_Sprites extends Mode{
 
 		@Override
 		public void collide(Collidable other, boolean collidedOnce) {
-			System.err.println("Sprite_Box: I pushed someone away!");
+			if(DEBUG_ON)
+				System.err.println("Sprite_Box: I pushed someone away!");
 		}
 
 		@Override

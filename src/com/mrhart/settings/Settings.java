@@ -12,4 +12,6 @@ public class Settings {
 	// Screen Dimensions
 	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 500;
+	// System
+	public static final int THREADS = Runtime.getRuntime().availableProcessors();
 }

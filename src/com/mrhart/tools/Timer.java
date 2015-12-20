@@ -91,6 +91,10 @@ public class Timer {
 		}
 	}
 	
+	public void init(){
+		startTime = TimeUtils.nanoTime();
+	}
+	
 	/**
 	 * Initializes the Timer to wait for the set amount of seconds starting now. Timer is
 	 * initialized with the new inSecondsToWait argument.
@@ -122,7 +126,17 @@ public class Timer {
 		startTime = TimeUtils.nanoTime() / MICRO;
 		endTime = (startTime + millisecondsToWait) * MICRO;
 	}
+	
+	public long getElapsedMilliseconds(){
+		long currentTime = TimeUtils.nanoTime();
+		return (currentTime - startTime)/MICRO;
+	}
 
+	public long getElapsedNanoseconds(){
+		long currentTime = TimeUtils.nanoTime();
+		return currentTime - startTime;
+	}
+	
 	/**
 	 * Checks if the timer is done waiting for the set amount of seconds. Once the timer
 	 * is finished, the timer will be reset to 0 and can be re-used by running an init method.

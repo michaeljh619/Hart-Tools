@@ -1,0 +1,35 @@
+*************************************************
+- These are bench tests for testing SpriteHandler's non-
+threaded update versus its threaded update. 
+- Some very simple objects were tested whose updates and 
+collisions were not very complex.  Remember that if all these 
+objects had higher update times, that we would need to take that
+into account as well. 
+- All timed amounts are in nanoseconds.
+*************************************************
+=====================
+===== 7 dangle tests =====
+=====================
+-------------------------------------
+	Test #1
+-------------------------------------
+64 objects (6x[10])[4]/ 6 cores
+-------------------------------------
+Normal update: 	~20k
+Threaded update:	~100k
+
+----------------------------------------
+	Test #2
+----------------------------------------
+604 objects (6x[100])[4]/ 6 cores
+----------------------------------------
+Normal update: 	~40k-50k
+Threaded update:	~90k
+
+----------------------------------------
+	Test #3
+----------------------------------------
+3004 objects (6x[500])[4]/ 6 cores
+----------------------------------------
+Normal update: 	~200k
+Threaded update:	~

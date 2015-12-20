@@ -17,6 +17,12 @@ If you have any questions on how anything works, feel free to email me.
 =======
 Commits
 =======
+12/20/15:
+- Modified SpriteHandler to allow for multi-threaded updates. Bench testing results show that multi-threading is slower than normal updates. Commented out multi-threaded code.
+- Modified SpriteHandler and SpritePair to use adjacency lists as structure for collisions. No longer using collision modes.
+- Modified Sprite test suite to bench test how long updates take on average per cpu cycle, also made adding sprites much easier through a loop.
+- Added getElapsedTime() to Timer class to allow for a stop-watch style functionality.
+
 12/19/15:
 - Created CollisionAreas and CollisionHandler classes.
 - Created Collidable and Resettable interfaces.

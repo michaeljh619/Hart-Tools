@@ -26,39 +26,23 @@ public class CollisionHandler {
 	
 	/**
 	 * Checks collisions for the Array of dangles of Sprites.
-	 * 
-	 * Mode:
-	 * 	- ALL = Check every sprite with every other sprite in every
-	 * 					dangle that is in the SpritePair array (including
-	 * 					the same dangle)
-	 *  - NEIGHBORS = Check every sprite with every other sprite in every
-	 *  			  			dangle except the one this sprite is in.
-	 * 
+	 *
 	 * @version v1.00
 	 * @since v1.00
 	 * @param sprites SpriteHandler to be checked for collisions
-	 * @param mode Mode for checking collisions
 	 */
-	public static void checkCollisions(SpriteHandler sprites, int mode) {
-		checkCollisions(sprites.sprites, mode);
+	public static void checkCollisions(SpriteHandler sprites) {
+		checkCollisions(sprites.sprites);
 	}
 
 	/**
 	 * Checks collisions for the Array of dangles of Sprites.
 	 * 
-	 * Mode:
-	 * 	- ALL = Check every sprite with every other sprite in every
-	 * 					dangle that is in the SpritePair array (including
-	 * 					the same dangle)
-	 *  - NEIGHBORS = Check every sprite with every other sprite in every
-	 *  			  			dangle except the one this sprite is in.
-	 * 
 	 * @version v1.00
 	 * @since v1.00
 	 * @param sprites Sprite dangle array
-	 * @param mode Mode for checking collisions
 	 */
-	public static void checkCollisions(SpritePair[] sprites, int mode) {
+	public static void checkCollisions(SpritePair[] sprites) {
 		// Checks each dangle and each Sprite inside the dangle against
 		// every other dangle that comes after this dangle in the array.
 		// Notice we don't check the last dangle, because that dangle (at the
@@ -74,7 +58,7 @@ public class CollisionHandler {
 			for (Iterator<Sprite> iterator = sprites[x].iterator(); iterator
 					.hasNext();) {
 				current = iterator.next();
-				checkSingleSprite(sprites, current, x, mode, false);
+				checkSingleSprite(sprites, current, x, false);
 			}
 		}
 	}
@@ -90,7 +74,7 @@ public class CollisionHandler {
 	 * @param mode
 	 */
 	private static void checkSingleSprite(SpritePair[] sprites, Sprite current,
-			int index, int mode, boolean calledFromCollide) {
+			int index, boolean calledFromCollide) {
 		// Next Sprite
 		Sprite next;
 		// Current Sprite
@@ -98,27 +82,23 @@ public class CollisionHandler {
 		boolean isCollidable = false;
 		// Mode
 		int newIndex;
-		boolean ALL_ready = false;
+		boolean ALL_ready = true;
 		
 		// If called from a collide function, recheck the old sprites too
-		// since the sprite could have been pushed into another old sprite
-		if(calledFromCollide)
-			ALL_ready = true;
-		
-		// ALL Mode starts at its own dangle
-		if(mode == ALL)
+		// since the sprite could have been pushed into another old sprite.
+		if(calledFromCollide){
+			newIndex = 0;
+		}
+		// Start at own dangle so we don't check old dangles
+		else{
 			newIndex = index;
-		// NEIGHBORS Mode starts at the next dangle.
-		else
-			newIndex = index + 1;
-		
+		}
+			
 		// Check what the current Sprite actually is
 		if(current instanceof OptimalCollidable){
 			isOptimal = true;
-			if(((OptimalCollidable) current).canCollide())
-				isCollidable = true;
 		}
-		else if(current instanceof Collidable){
+		if(current instanceof Collidable){
 			if(((Collidable) current).canCollide())
 				isCollidable = true;
 		}
@@ -126,15 +106,24 @@ public class CollisionHandler {
 		// Loop for checking against all Sprites in all Dangles that
 		// come after this dangle. This way we don't check old dangles that
 		// already checked this dangle.
-		if (isCollidable){ 
+		if (isCollidable && sprites[index].isCollidable()){ 
 			for (int x = newIndex; x < sprites.length; x++) {
+				// Check continue
+				if(!sprites[x].canCollideWith(index)){
+					continue;
+				}
+				
+				if(!calledFromCollide && x == index){
+					ALL_ready = false;
+				}
+				
 				// Checks against all Sprites in this Dangle
 				for (Iterator<Sprite> iterator = sprites[x].iterator(); iterator
 						.hasNext();) {
 					// Get next Sprite
 					next = iterator.next();
-					// In ALL mode, skip checking this sprite against itself
-					if(mode == ALL && current == next){
+					// Skip checking this sprite against itself
+					if(current == next){
 						ALL_ready = true;
 						continue;
 					}
@@ -143,7 +132,7 @@ public class CollisionHandler {
 					// and start collision checking. Otherwise, we will be double
 					// colliding since sprite1 and sprite2 (for example) would both
 					// collision check each other and collide with each other.
-					if(mode == ALL && !ALL_ready){
+					if(!ALL_ready){
 						continue;
 					}
 
