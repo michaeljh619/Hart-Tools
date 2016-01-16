@@ -9,7 +9,7 @@ public class SpriteHandler {
 	/*
 	 * Instance Vars
 	 */
-	public SpritePair[] sprites;
+	public SpriteNode[] sprites;
 //	private Thread[] threads;
 //	private final boolean useThreadedUpdate = false;
 	
@@ -21,20 +21,20 @@ public class SpriteHandler {
 	 * 
 	 * @param dangles
 	 */
-	public SpriteHandler(int numDangles){
+	public SpriteHandler(int numNodes){
 		// Error Check
-		if(numDangles < 1){
+		if(numNodes < 1){
 			System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
-					+ "dangles length cannot be less than 1.");
+					+ "nodes length cannot be less than 1.");
 		}
 		
 		
-		// Initialize the array of dangles
-		sprites = new SpritePair[numDangles];
+		// Initialize the array of nodes
+		sprites = new SpriteNode[numNodes];
 		
 		// Initialize Sprite Dangles
-		for(int x = 0; x < numDangles; x++){
-			sprites[x] = new SpritePair(numDangles);
+		for(int x = 0; x < numNodes; x++){
+			sprites[x] = new SpriteNode(numNodes);
 		}
 		
 		// Threads
@@ -45,19 +45,28 @@ public class SpriteHandler {
 	
 	
 	/**
-	 * Updates all sprites in all the dangles, removes any removable sprites.
+	 * Updates all sprites in all the nodes, removes any removable sprites.
 	 * 
 	 * @since v1.0
-	 * @version v1.0
-	 * @param update
+	 * @version v1.01
+	 * @param delta
 	 */
 	public void update(float delta){
-		// This loop checks each individual dangle
-		for(int x = 0; x < sprites.length;){
+		// This loop checks each individual nodes
+		for(int x = 0; x < sprites.length; x++){
 			// Normal Update
 //			if(!useThreadedUpdate){
-				sprites[x].update(delta);
-				x++;
+				if(sprites[x] instanceof Sprite_Moderator){
+					// Update Sprite and get Action
+					SpriteHandler_Action action;
+					action = ((Sprite_Moderator) sprites[x]).update(delta, null);
+					// Perform action if not null
+					if(action != null)
+						action.performAction(this);
+				}
+				else{
+					sprites[x].update(delta);
+				}
 //			}
 //			// Threaded Update
 //			else{
@@ -89,21 +98,21 @@ public class SpriteHandler {
 	 * 						Data Structure Delegators
 	 *************************************************************************/
 	/**
-	 * Adds a new sprite to the specified dangle.
+	 * Adds a new sprite to the specified nodes.
 	 * 
 	 * @since v1.0
 	 * @version v1.0
-	 * @param dangleIndex
+	 * @param nodesIndex
 	 * @param newSprite
 	 */
-	public void add(int dangleIndex, Sprite newSprite){
+	public void add(int nodeIndex, Sprite newSprite){
 		// Error Checking
-		if(dangleIndex < 0 || dangleIndex >= sprites.length){
+		if(nodeIndex < 0 || nodeIndex >= sprites.length){
 			System.err.println(Messages.ERROR + Messages.TYPE_BAD_VALUE
 					+ "Bad index value given in SpriteHandler.add()");
 		}
 		
-		sprites[dangleIndex].add(newSprite);
+		sprites[nodeIndex].add(newSprite);
 	}
 	/*************************************************************************
 	 * 						Data Structure Delegators

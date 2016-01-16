@@ -18,7 +18,27 @@ If you have any questions on how anything works, feel free to email me.
 Commits
 =======
 01/16/16:
-- This is a halfway finished commit! This commit should not be pulled; refer to the next commit for the completed one.
+- Documentation: Added README's to main package and World package.
+- Loaders: Added a new loader for Backgrounds.
+- Backend: Created CameraDimensions, object that holds a camera's dimensions (e.g. position, width, etc.)
+- Backend: Created HartMath for some Math functions that are not provided by Java.
+- Enumerations: Created an Enumerations package and created Directions class in it for DPad style directions.
+- Input: Created Directionable Interface to allow a class to return some direction in either 4 or 8 DPad style directions (from Directions class).
+- Input: Joystick now implements Directionable.
+- Input: Created InputArrows, a new style of input for keyboard input with arrows, implements Directionable.
+- Mode: Created a new test mode for testing Background's.
+- Mode: Created a new test mode for testing Selection's
+- UI: Created UI package for menu UI style elements.
+- UI: Created Selection class for selection style UI. Imagine the street fighter character selection screen; that's a selection.
+- Sprites: Added setRenderPosition function to Sprite class.
+- Backgrounds: Made Background shift over to RenderableObjects
+- Backgrounds: Created Bounded and Unbounded Backgrounds.
+- Structures: Created a new Structures package for Data Structures
+- Structures: Created a new DFA (Deterministic Finite Automa) class as well as DFA_State for the states that DFA uses.
+- World: GameWorld now takes in Camera from GameScreen.
+- Collisions: Added CollisionUpdateable Interface.
+- Sprites: Added SpriteHandler actions, SpriteNodes. Created Collidable, Resettable, and Moderator sprites.
+- State: Added Abstract states that update after update and collisionUpdate function calls. Created StateUpdateable Interface as well.
 
 12/20/15:
 - Modified SpriteHandler to allow for multi-threaded updates. Bench testing results show that multi-threading is slower than normal updates. Commented out multi-threaded code.

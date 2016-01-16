@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import com.mrhart.sprites.Sprite;
 import com.mrhart.sprites.SpriteHandler;
-import com.mrhart.sprites.SpritePair;
+import com.mrhart.sprites.SpriteNode;
 
 /**
  * A class providing static functions for collisions. Methods are provided
@@ -42,7 +42,7 @@ public class CollisionHandler {
 	 * @since v1.00
 	 * @param sprites Sprite dangle array
 	 */
-	public static void checkCollisions(SpritePair[] sprites) {
+	public static void checkCollisions(SpriteNode[] sprites) {
 		// Checks each dangle and each Sprite inside the dangle against
 		// every other dangle that comes after this dangle in the array.
 		// Notice we don't check the last dangle, because that dangle (at the
@@ -73,7 +73,7 @@ public class CollisionHandler {
 	 * @param index
 	 * @param mode
 	 */
-	private static void checkSingleSprite(SpritePair[] sprites, Sprite current,
+	private static void checkSingleSprite(SpriteNode[] sprites, Sprite current,
 			int index, boolean calledFromCollide) {
 		// Next Sprite
 		Sprite next;

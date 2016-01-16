@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.mrhart.assets.loaders.Loader_Meta;
+import com.mrhart.collisions.CollisionUpdateable;
 import com.mrhart.mode.Mode;
 import com.mrhart.mode.Mode_Logo;
 import com.mrhart.mode.Mode_Test_Backgrounds;
@@ -11,6 +12,7 @@ import com.mrhart.mode.Mode_Test_Input;
 import com.mrhart.mode.Mode_Test_Selection;
 import com.mrhart.mode.Mode_Test_Sprites;
 import com.mrhart.state.GameState;
+import com.mrhart.state.StateUpdateable;
 
 /**
  * GameWorld handles all updates to game objects. To maintain an OOP design, GameWorld should be
@@ -39,15 +41,16 @@ public class GameWorld {
 	/*
 	 * Instance Vars
 	 */
-	// Modes of the game
+	// Current Mode
 	protected Mode currentMode;
+	private int nextState = 0;
+	// TODO: DEV - Modes of the game
 	private Mode_Logo mode_logo;
 	// Test Modes
 	private Mode_Test_Input mode_test_input;
 	private Mode_Test_Sprites mode_test_sprite;
 	private Mode_Test_Backgrounds mode_test_background;
 	private Mode_Test_Selection mode_test_selection;
-	private int nextState = 0;
 	// Loading Screen Assets
 	protected AssetManager metaAssets;
 	protected Animation loadingIcon;
@@ -64,7 +67,11 @@ public class GameWorld {
 	 * @since v2.20
 	 */
 	public GameWorld(OrthographicCamera camera) {
-    	// This is the original jump state, this is how the game should always initialize
+    	// Camera
+    	this.camera = camera;
+
+    	// TODO: DEV - Add Modes here and set JUMP_TO_STATE to that modes state to
+    	//             jump to it.
     	if(JUMP_TO_STATE == GameState.LOGO){
     		mode_logo = new Mode_Logo();
     		currentMode = mode_logo;
@@ -89,9 +96,6 @@ public class GameWorld {
     	// Assets
     	metaAssets = new AssetManager();
     	Loader_Meta.loadIcon(metaAssets);
-    	
-    	// Camera
-    	this.camera = camera;
 	}
 
 	/**
@@ -117,6 +121,12 @@ public class GameWorld {
 		if(currentMode.isFinishedLoading()){
 			// Update current mode
 			nextState = currentMode.update(delta);
+			// Update collisions if collision updateable
+			if(currentMode instanceof CollisionUpdateable)
+				((CollisionUpdateable) currentMode).updateCollisions();
+			// Update states if state updateable
+			if(currentMode instanceof StateUpdateable)
+				((StateUpdateable) currentMode).updateStates();
 			// Dispose the currentMode's assets if currentMode is finished
 			if(nextState != GameState.NULL){
 				currentMode.dispose();
@@ -127,7 +137,7 @@ public class GameWorld {
 				return;
 			}
 			
-			// Decide what to do with the next state
+			// TODO: DEV - Decide what to do with the next state
 			if(nextState == GameState.MENU){
 				// Transition to this mode, for example:
 				// mode_menu = new Mode_Logo()

@@ -29,6 +29,11 @@ the current Mode's AssetManager in little blocks each CPU cycle. While this is
 occurring, GameRenderer will render the loading screen using GameWorld's meta-
 assets (essentially loading screen assets), using GameRenderer's 
 renderLoadingScreen function.
+	Also, if the current Mode that is being updated is StateUpdateable or
+CollisionUpdateable, those will be updated as well. The order goes:
+	1- Regular Updates
+	2- Collision Handling Updates
+	3- State Updates
 
 - GameRenderer -
 	GameRenderer calls the current Mode's (current Mode in GameWorld's) render
@@ -55,3 +60,18 @@ rendering these shapes as collision boxes.
 How the Dev should use this package:
 
 - GameWorld -
+ 1.) To Add Modes:
+	As mentioned before, GameWorld uses Modes to control its game flow. First,
+a new Mode must be created in the Mode Package and it should extend Mode. If
+this mode will be using sprites and handling collisions, it should implement
+CollisionUpdateable. If this mode will be updating states of objects after the
+normal updates and collision handling occur, it should implement StateUpdateable.
+Both of these will be called per stated before.
+	Next, in GameState, add a new state for your new Mode. Follow the GameState
+instructions on how to add new States; essentially your new state should
+correspond only to this new Game Mode.
+	Now, in GameWorld, under "TODO: DEV - Modes of the game" add your new Mode.
+In GameWorld's update method, under "TODO: DEV - Decide what to do with the next
+state", create an if statement checking if the nextState is the new State that
+you added, and inside that if block construct your Mode and make the currentMode
+equal to the new Mode you created. Voila! Your Mode should now be working.
