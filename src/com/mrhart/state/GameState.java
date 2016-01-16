@@ -22,7 +22,9 @@ public class GameState {
 	
 	// Test States
 	public final static int TEST_INPUT = 100;		// Used for when testing input
-	public final static int TEST_SPRITES = 101; // Used for when testings Sprites
+	public final static int TEST_SPRITES = 101; 	// Used for when testings Sprites
+	public final static int TEST_BACKGROUNDS = 103; // Used for when testing backgrounds.
+	public final static int TEST_SELECTION = 104; // Used for when testing Selections.
 	
 	// User Created States, could start at 200 maybe?
 	/* YOUR STATES GOES HERE */

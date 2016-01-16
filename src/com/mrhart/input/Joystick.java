@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mrhart.backend.Debuggable;
 import com.mrhart.backend.Touch;
 import com.mrhart.backend.Messages;
+import com.mrhart.enumerations.Directions;
 
 /**
  * An onscreen UI joystick that can be used for input from the user. This class
@@ -20,7 +21,7 @@ import com.mrhart.backend.Messages;
  * @version v2.00
  * @since 11/01/2015
  */
-public class Joystick implements Debuggable{
+public class Joystick implements Debuggable, Directionable{
 	/*
 	 *  Named Constants
 	 */
@@ -184,5 +185,43 @@ public class Joystick implements Debuggable{
 	@Override
 	public void debug(ShapeRenderer shapes) {
 		
+	}
+
+	@Override
+	public int getDirections4() {
+		if(!isTouched())
+			return Directions.NULL;
+		
+		if(commands.getAngle() >= 315.0f || commands.getAngle() < 45.0f)
+			return Directions.RIGHT;
+		else if(commands.getAngle() < 135.0f)
+			return Directions.DOWN;
+		else if(commands.getAngle() < 225.0f)
+			return Directions.LEFT;
+		else
+			return Directions.UP;
+	}
+
+	@Override
+	public int getDirections8() {
+		if(!isTouched())
+			return Directions.NULL;
+
+		if(commands.getAngle() >= 337.5f || commands.getAngle() < 22.5f)
+			return Directions.RIGHT;
+		else if(commands.getAngle() < 67.5f)
+			return Directions.DOWN_RIGHT;
+		else if(commands.getAngle() < 112.5f)
+			return Directions.DOWN;
+		else if(commands.getAngle() < 157.5f)
+			return Directions.DOWN_LEFT;
+		else if(commands.getAngle() < 202.5f)
+			return Directions.LEFT;
+		else if(commands.getAngle() < 247.5f)
+			return Directions.UP_LEFT;
+		else if(commands.getAngle() < 292.5f)
+			return Directions.UP;
+		else
+			return Directions.UP_RIGHT;
 	}
 }

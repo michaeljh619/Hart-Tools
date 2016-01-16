@@ -16,7 +16,6 @@ import com.mrhart.world.GameWorld;
  * @author Michael James Hart, MrHartGames@yahoo.com
  * @version v2.00
  */
-
 public class GameScreen implements Screen {
 	// Game
 	private GameWorld gameWorld;
@@ -48,7 +47,7 @@ public class GameScreen implements Screen {
     			Settings.SCREEN_HEIGHT, camera);
     	
     	// Set up GameWorld and GameRenderer
-    	gameWorld = new GameWorld();
+    	gameWorld = new GameWorld(camera);
     	gameRenderer = new GameRenderer(gameWorld, camera);
     }
 

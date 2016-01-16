@@ -7,33 +7,47 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
- * Assets provides some backend support for all your asset loaders. While rudimentary
- * at the moment, more functionality can be added in the future for easier loads.
+ * Assets provides some backend support for all your asset loaders. Having
+ * officially moved over to AssetManager, most functions will now take an
+ * AssetManager as a parameter.
  *
  * @author Michael James Hart, MrHartGames@yahoo.com
  * @version v2.10
  */
 public class Assets {
 	
+	/**
+	 * Slices a Texture into an array of TextureRegions. Given the
+	 * numHorizontal and numVertical, this function will slice the Texture into
+	 * numH * numV pieces in row major order. Each piece will have dimensions
+	 * width = textureWidth/numH | height = textureHeight/numV.
+	 * 
+	 * @version v1.00
+	 * @since v2.10
+	 * @param loadedTexture The loaded texture
+	 * @param numColumns Number of columns
+	 * @param numRows Number of Rows
+	 * @return
+	 */
 	public static TextureRegion[] slice_LTR(Texture loadedTexture,
-			int numHorizontal, int numVertical){
+			int numColumns, int numRows){
 		TextureRegion[] returnRegions 
-			= new TextureRegion[numHorizontal*numVertical];
+			= new TextureRegion[numColumns*numRows];
 		
 		int positionX, positionY;
-		int regionWidth = loadedTexture.getWidth()/numHorizontal;
-		int regionHeight = loadedTexture.getHeight()/numVertical;
-		for(int y = 0; y < numVertical; y++){
-			for(int x = 0; x < numHorizontal; x++){
+		int regionWidth = loadedTexture.getWidth()/numColumns;
+		int regionHeight = loadedTexture.getHeight()/numRows;
+		for(int y = 0; y < numRows; y++){
+			for(int x = 0; x < numColumns; x++){
 				// Get positions
 				positionX = x*regionWidth;
 				positionY = y*regionHeight;
 				// Create the region
-				returnRegions[y*numVertical + x] 
+				returnRegions[y*numRows + x] 
 						= new TextureRegion(loadedTexture, 
 								positionX, positionY, 
 								regionWidth, regionHeight);
-				returnRegions[y*numVertical + x].flip(false, true);
+				returnRegions[y*numRows + x].flip(false, true);
 			}
 		}
 		
@@ -41,8 +55,8 @@ public class Assets {
 	}
 
 	/**
-	 * Creates and returns a TextureRegion array that parses a row of texture regions
-	 * from a loaded Texture file.
+	 * Creates and returns a TextureRegion array that is composed of a row of 
+	 * texture regions from a loaded Texture file.
 	 *
 	 * @version v1.00
 	 * @since v1.00

@@ -1,11 +1,14 @@
 package com.mrhart.world;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.mrhart.assets.loaders.Loader_Meta;
 import com.mrhart.mode.Mode;
 import com.mrhart.mode.Mode_Logo;
+import com.mrhart.mode.Mode_Test_Backgrounds;
 import com.mrhart.mode.Mode_Test_Input;
+import com.mrhart.mode.Mode_Test_Selection;
 import com.mrhart.mode.Mode_Test_Sprites;
 import com.mrhart.state.GameState;
 
@@ -29,7 +32,7 @@ public class GameWorld {
 	 */
 	// Files
 	// Used to initialize the game in a certain mode
-	private static int JUMP_TO_STATE = GameState.TEST_SPRITES;
+	private static int JUMP_TO_STATE = GameState.TEST_SELECTION;
 	// Load Time
 	private static final int LOAD_TIME = 1;
 	
@@ -39,14 +42,19 @@ public class GameWorld {
 	// Modes of the game
 	protected Mode currentMode;
 	private Mode_Logo mode_logo;
+	// Test Modes
 	private Mode_Test_Input mode_test_input;
 	private Mode_Test_Sprites mode_test_sprite;
+	private Mode_Test_Backgrounds mode_test_background;
+	private Mode_Test_Selection mode_test_selection;
 	private int nextState = 0;
 	// Loading Screen Assets
 	protected AssetManager metaAssets;
 	protected Animation loadingIcon;
 	// Volume Modifier
 	public static float volume = 1.0f;
+	// Camera
+	private OrthographicCamera camera;
 	
 	
 	/**
@@ -55,7 +63,7 @@ public class GameWorld {
 	 * 
 	 * @since v2.20
 	 */
-	public GameWorld() {
+	public GameWorld(OrthographicCamera camera) {
     	// This is the original jump state, this is how the game should always initialize
     	if(JUMP_TO_STATE == GameState.LOGO){
     		mode_logo = new Mode_Logo();
@@ -69,10 +77,21 @@ public class GameWorld {
     		mode_test_sprite = new Mode_Test_Sprites();
     		currentMode = mode_test_sprite;
     	}
+    	else if(JUMP_TO_STATE == GameState.TEST_BACKGROUNDS){
+    		mode_test_background = new Mode_Test_Backgrounds(camera);
+    		currentMode = mode_test_background;
+    	}
+    	else if(JUMP_TO_STATE == GameState.TEST_SELECTION){
+    		mode_test_selection = new Mode_Test_Selection();
+    		currentMode = mode_test_selection;
+    	}
     	
     	// Assets
     	metaAssets = new AssetManager();
     	Loader_Meta.loadIcon(metaAssets);
+    	
+    	// Camera
+    	this.camera = camera;
 	}
 
 	/**

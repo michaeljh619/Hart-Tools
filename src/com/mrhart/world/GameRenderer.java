@@ -39,6 +39,7 @@ public class GameRenderer {
 	private GameWorld gameWorld;
 	private SpriteBatch batcher;
 	private ShapeRenderer shapes;
+	private OrthographicCamera camera;
 	
 	/*****************************************
 	 * Main Methods
@@ -52,6 +53,8 @@ public class GameRenderer {
 
 		shapes = new ShapeRenderer();
 		shapes.setProjectionMatrix(inCamera.combined);
+		
+		camera = inCamera;
 	}
 
 	/**
@@ -66,6 +69,7 @@ public class GameRenderer {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		batcher.setProjectionMatrix(camera.combined);
 		// Begin SpriteBatch
 		batcher.begin();
 

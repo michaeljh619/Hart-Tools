@@ -34,7 +34,7 @@ public class Sprite {
 	/**
 	 * Creates a new Sprite at a position with a width and height
 	 * 
-	 * @version v2.50
+	 * @version v2.51
 	 * @since v2.00
 	 * @param positionX
 	 * @param positionY
@@ -123,5 +123,15 @@ public class Sprite {
 	}
 	public void setVelocity(float x, float y){
 		velocity.set(x, y);
+	}
+	/**
+	 * Underneath, the position instance var is modified.
+	 * 
+	 * @since v2.51
+	 * @param x
+	 * @param y
+	 */
+	public void setRenderPosition(float x, float y){
+		position.set(x + width/2, y + height/2);
 	}
 }

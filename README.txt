@@ -17,6 +17,9 @@ If you have any questions on how anything works, feel free to email me.
 =======
 Commits
 =======
+01/16/16:
+- This is a halfway finished commit! This commit should not be pulled; refer to the next commit for the completed one.
+
 12/20/15:
 - Modified SpriteHandler to allow for multi-threaded updates. Bench testing results show that multi-threading is slower than normal updates. Commented out multi-threaded code.
 - Modified SpriteHandler and SpritePair to use adjacency lists as structure for collisions. No longer using collision modes.

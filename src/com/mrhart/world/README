@@ -1,0 +1,57 @@
+Package: com.mrhart.world
+Name: World Package
+
+-------------------------------------------------------------------------------
+
+Description:
+	This is the "world" package of Hart Tools. This package contains the 
+GameWorld and the GameRenderer. The GameWorld is responsible for updating all
+objects and the GameRenderer is responsible for rendering those objects to the
+screen.
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	Inside GameScreen, GameWorld's update method is called first with delta passed in
+as an argument and GameRenderer's render method is called second with runtime passed
+in as an argument.
+
+- GameWorld -
+	GameWorld uses objects of type Mode for for its updates. At any given time,
+GameWorld has a mode that is its current Mode. This current Mode is the one
+that will be updated and rendered. Each Mode has an AssetManager that may or
+may not have assets that need to be loaded. If there are any assets that need
+to be loaded, GameWorld will load these assets first before trying to update
+the current Mode.
+	If the loading of these assets occur for current Mode, then the current
+Mode's update function will not be called and GameWorld will load the assets in
+the current Mode's AssetManager in little blocks each CPU cycle. While this is
+occurring, GameRenderer will render the loading screen using GameWorld's meta-
+assets (essentially loading screen assets), using GameRenderer's 
+renderLoadingScreen function.
+
+- GameRenderer -
+	GameRenderer calls the current Mode's (current Mode in GameWorld's) render
+function to render everything to the screen. These render functions take an
+initialized SpriteBatch object and the current running time in the game (for
+Animations). As stated before, if the current Mode's assets are not loaded yet,
+then GameRenderer will render a loading screen, which can be customized by the
+dev.
+	Before the SpriteBatch is initialized (and thus before any render calls are made), 
+GameRenderer clears the background and allows for blending to occur. Clearing the 
+background essentially means that the background is set to black, although this 
+should NOT be used as a black background! In other words, if you want your game to
+have a black background, you should actually create a black background to
+render there.
+	After render is done calling, GameRenderer checks if the current Mode has
+implemented the interface Debuggable. Debuggable Interface allows you to render
+shapes to the screen for debugging. If the mode is Debuggable, then its "debug"
+method will be called and passed an initialized ShapeRenderer for rendering
+shapes wherever the developer sees fit. Usually these come in the form of
+rendering these shapes as collision boxes.
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:
+
+- GameWorld -

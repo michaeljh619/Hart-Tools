@@ -52,6 +52,7 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 		if(joystick.isTouched()){
 			System.err.println("Joystick Normalized X: " + commands.normalized.x);
 			System.err.println("Joystick Normalized Y: " + commands.normalized.y);
+			System.err.println("Joystick Angle: " + commands.getAngle());
 		}
 		
 		return GameState.NULL;

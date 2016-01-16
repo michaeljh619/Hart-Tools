@@ -19,4 +19,8 @@ public class JoystickCommands {
 	public void update(float x, float y){
 		normalized.set(x, y);
 	}
+	
+	public float getAngle(){
+		return normalized.angle();
+	}
 }

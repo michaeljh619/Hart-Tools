@@ -9,7 +9,7 @@ import com.badlogic.gdx.Screen;
  * like. There should not be much code modified at this level
  * 
  * @version v1.0
- * @author Michael Hart, MrHartGames@yahoo.com
+ * @author Michael James Hart, MrHartGames@yahoo.com
  *
  */
 public class Game implements ApplicationListener {
