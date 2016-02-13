@@ -1,0 +1,41 @@
+*************************************************
+- Read the README for more details on naive versus optimized implementation.
+- 1000 CPU cycles are tested and the average amount of time spent between all those CPU cycles is returned.
+- Note that we are ONLY testing the amount of time collision handling takes and not including Sprite updates and rendering, which only add constant time anyway to both.
+- All timed amounts are in microseconds.
+*************************************************
+=====================
+=====     6 objects     =====
+=====================
+Naive:	28
+Opt:	24
+=====================
+=====    48 objects    =====
+=====================
+Naive:	136
+Opt:	103
+=====================
+=====   150 objects   =====
+=====================
+Naive:	1,033
+Opt:	351
+=====================
+=====   450 objects   =====
+=====================
+Naive:	3,115
+Opt:	2,268
+=====================
+=====   900 objects   =====
+=====================
+Naive:	12,061
+Opt:	4,080
+=====================
+=====  1800 objects  =====
+=====================
+Naive:	52,810
+Opt:	16,450
+=====================
+=====  3600 objects  =====
+=====================
+Naive:	198,739
+Opt:	82,551

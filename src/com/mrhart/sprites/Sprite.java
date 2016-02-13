@@ -17,10 +17,12 @@ import com.mrhart.renderable.RenderableObject;
  * @author Michael James Hart, MrHartGames@yahoo.com
  * @version v2.50
  */
-public class Sprite {
+public class Sprite implements Comparable<Sprite> {
 	/*
 	 * Instance Vars
 	 */
+	// ID
+	public int ID;
 	// Vectors
 	public Vector2 position, velocity, acceleration;
 	private Vector2 bastardVector;
@@ -45,8 +47,59 @@ public class Sprite {
 		this(positionX, positionY, inWidth, inHeight, null);
 	}
 	
+	/**
+	 * By calling this constructor, you acknowledge that you know what you are
+	 * doing. Calling this constructor creates a sprite whose original position
+	 * will be top left assigned. In other words, if you call this constructor
+	 * with a positionX and positionY of (0, 0), you will get a sprite whose
+	 * origin position is at (width/2, height/2). topLefted is a dummy variable
+	 * and serves no purpose other than making this constructor unique, it can
+	 * be set to true or false and will not affect what will happen.
+	 * 
+	 * @param positionX
+	 * @param positionY
+	 * @param inWidth
+	 * @param inHeight
+	 * @param topLefted
+	 */
+	public Sprite(int positionX, int positionY, int inWidth, int inHeight, boolean topLefted){
+		this(positionX + inWidth/2, positionY + inHeight/2, inWidth, inHeight, null);
+	}
+	
+	/**
+	 * By calling this constructor, you acknowledge that you know what you are
+	 * doing. Calling this constructor creates a sprite whose original position
+	 * will be top left assigned. In other words, if you call this constructor
+	 * with a positionX and positionY of (0, 0), you will get a sprite whose
+	 * origin position is at (width/2, height/2). topLefted is a dummy variable
+	 * and serves no purpose other than making this constructor unique, it can
+	 * be set to true or false and will not affect what will happen.
+	 * 
+	 * @param positionX
+	 * @param positionY
+	 * @param inWidth
+	 * @param inHeight
+	 * @param topLefted
+	 */
+	public Sprite(int positionX, int positionY, int inWidth, int inHeight,
+			RenderableObject renderObject, boolean topLefted){
+		this(positionX + inWidth/2, positionY + inHeight/2, inWidth, inHeight, renderObject);
+	}
+
+	public Sprite(int positionX, int positionY, int inWidth, int inHeight,
+			RenderableObject renderObject, int ID, boolean topLefted){
+		this(positionX + inWidth/2, positionY + inHeight/2, inWidth, inHeight, renderObject, ID);
+	}
+
 	public Sprite(int positionX, int positionY, int width, int height,
 			RenderableObject renderObject){
+		this(positionX, positionY, width, height, renderObject, 0);
+	}
+	
+	public Sprite(int positionX, int positionY, int width, int height,
+			RenderableObject renderObject, int ID){
+		// Set up ID
+		this.ID = ID;
 		// Set up vectors
 		position = new Vector2(positionX, positionY);
 		velocity = new Vector2();
@@ -101,11 +154,11 @@ public class Sprite {
 		}
 	}
 	
-	protected int getRenderPositionX(){
-		return (int) (position.x - width/2);
+	protected float getRenderPositionX(){
+		return position.x - width/2;
 	}
-	protected int getRenderPositionY(){
-		return (int) (position.y - height/2);
+	protected float getRenderPositionY(){
+		return position.y - height/2;
 	}
 	
 	
@@ -133,5 +186,27 @@ public class Sprite {
 	 */
 	public void setRenderPosition(float x, float y){
 		position.set(x + width/2, y + height/2);
+	}
+
+	/**
+	 * This function can be changed to check the y render position if you
+	 * find that it is in fact more optimal to check y positions. For example,
+	 * a game where you are always traveling up, and there are more sprites
+	 * near the x directions of each sprite than in the y directions.
+	 */
+	@Override
+	public int compareTo(Sprite other) {
+		/*
+		 *  Precedence order of compare
+		 */
+		float rPosThis = getRenderPositionX();
+		float rPosOther = other.getRenderPositionX();
+		// Position first
+		if(rPosThis > rPosOther)
+			return 1;
+		else if(rPosThis < rPosOther)
+			return -1;
+		else
+			return 0;
 	}
 }

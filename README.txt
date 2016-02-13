@@ -17,7 +17,15 @@ If you have any questions on how anything works, feel free to email me.
 =======
 Commits
 =======
+02/12/16:
+- Renamed File: [Package - sprites] SpriteHandler --> SpriteHandler_Dangles. Will eventually be removed, keeping for just 1 more commit.
+- New File: [Package - sprites] SpriteHandler. The old SpriteHandler is now deprecated, it shall be known as SpriteHandler_Dangles.
+- New File: [Package - structures] AvlTree. Just what it sounds like, still haven't tested it nor have used it in any way; may be useful at some point.
+- New File: [Package - structures] SortedArrayList. An ArrayList that holds comparable objects. Does not automatically sort when objects in the list change, however insertions are sorted and a sort() method is available for use.
+- New Bench Test: Tested the new CollisionHandler. doubles and even triples the speed of collision handling compared to the old Dangle CollisionHandler. Can now have a best case of n collision checks.
+
 01/16/16:
+- Happy new year!
 - Documentation: Added README's to main package and World package.
 - Loaders: Added a new loader for Backgrounds.
 - Backend: Created CameraDimensions, object that holds a camera's dimensions (e.g. position, width, etc.)
