@@ -15,7 +15,7 @@ import com.mrhart.renderable.RenderableObject;
  * 		 that instance variable so you don't waste RAM.
  *
  * @author Michael James Hart, MrHartGames@yahoo.com
- * @version v2.50
+ * @version v2.60
  */
 public class Sprite implements Comparable<Sprite> {
 	/*
@@ -32,6 +32,10 @@ public class Sprite implements Comparable<Sprite> {
 	public boolean isRemovable;
 	// Graphics
 	public RenderableObject renderObject;
+	// Comparable Methods
+	private boolean comparableX = false;
+	private boolean comparableY = false;
+	private boolean comparableID = true;
 	
 	/**
 	 * Creates a new Sprite at a position with a width and height
@@ -161,6 +165,19 @@ public class Sprite implements Comparable<Sprite> {
 		return position.y - height/2;
 	}
 	
+	protected float getLeftMostPositionX(){
+		return position.x - width/2;
+	}
+	protected float getTopMostPositionY(){
+		return position.y - height/2;
+	}
+	protected float getRightMostPositionX(){
+		return position.x + width/2;
+	}
+	protected float getBotMostPositionY(){
+		return position.y + height/2;
+	}
+	
 	
 	/********************************
 	 *     Getters and Setters
@@ -188,19 +205,34 @@ public class Sprite implements Comparable<Sprite> {
 		position.set(x + width/2, y + height/2);
 	}
 
+	
+	
+	/*************************************************************************
+	 * 							Comparable Methods
+	 *************************************************************************/
 	/**
-	 * This function can be changed to check the y render position if you
-	 * find that it is in fact more optimal to check y positions. For example,
-	 * a game where you are always traveling up, and there are more sprites
-	 * near the x directions of each sprite than in the y directions.
+	 * After calling this function, the next call to compareTo will use the
+	 * compareTo_X method.
 	 */
-	@Override
-	public int compareTo(Sprite other) {
+	protected void use_Comparable_X(){
+		comparableX = true;
+		comparableY = false;
+		comparableID = false;
+	}
+	/**
+	 * Compares based on the left most endpoint of the Sprite. If this is a
+	 * Collidable Sprite, then its CollisionArea's left most endpoint will
+	 * be used.
+	 * 
+	 * @param other
+	 * @return
+	 */
+	private int compareTo_X(Sprite other){
 		/*
 		 *  Precedence order of compare
 		 */
-		float rPosThis = getRenderPositionX();
-		float rPosOther = other.getRenderPositionX();
+		float rPosThis = getLeftMostPositionX();
+		float rPosOther = other.getLeftMostPositionX();
 		// Position first
 		if(rPosThis > rPosOther)
 			return 1;
@@ -209,4 +241,86 @@ public class Sprite implements Comparable<Sprite> {
 		else
 			return 0;
 	}
+
+	/**
+	 * After calling this function, the next call to compareTo will use the
+	 * compareTo_X method.
+	 */
+	protected void use_Comparable_Y(){
+		comparableX = false;
+		comparableY = true;
+		comparableID = false;
+	}
+	/**
+	 * Compares based on the left most endpoint of the Sprite. If this is a
+	 * Collidable Sprite, then its CollisionArea's left most endpoint will
+	 * be used.
+	 * 
+	 * @param other
+	 * @return
+	 */
+	private int compareTo_Y(Sprite other){
+		/*
+		 *  Precedence order of compare
+		 */
+		float rPosThis = getTopMostPositionY();
+		float rPosOther = other.getTopMostPositionY();
+		// Position first
+		if(rPosThis > rPosOther)
+			return 1;
+		else if(rPosThis < rPosOther)
+			return -1;
+		else
+			return 0;
+	}
+	
+	/**
+	 * After calling this function, the next call to compareTo will use the
+	 * compareTo_X method.
+	 */
+	protected void use_Comparable_ID(){
+		comparableX = false;
+		comparableY = false;
+		comparableID = true;
+	}
+	/**
+	 * Compares based on the left most endpoint of the Sprite. If this is a
+	 * Collidable Sprite, then its CollisionArea's left most endpoint will
+	 * be used.
+	 * 
+	 * @param other
+	 * @since v2.50
+	 * @version v1.10
+	 * @return
+	 */
+	private int compareTo_ID(Sprite other){
+		/*
+		 *  Precedence order of compare
+		 */
+		float rPosThis = ID;
+		float rPosOther = other.ID;
+		// Position first
+		if(rPosThis > rPosOther)
+			return 1;
+		else if(rPosThis < rPosOther)
+			return -1;
+		else
+			return 0;
+	}
+	
+	/**
+	 * This function will change what it's comparing based on what the last
+	 * "use_Comparable_" function was called.
+	 */
+	@Override
+	public int compareTo(Sprite other) {
+		if(comparableX)
+			return compareTo_X(other);
+		else if(comparableY)
+			return compareTo_Y(other);
+		else
+			return compareTo_ID(other);
+	}
+	
+	
 }

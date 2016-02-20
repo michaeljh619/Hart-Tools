@@ -1,0 +1,74 @@
+*************************************************
+- Read the README for more details on X axis versus Y axis comparators.
+- 1000 CPU cycles are tested and the average amount of time spent between all those CPU cycles is returned.
+- Note that we are ONLY testing the amount of time collision handling takes and not including Sprite updates and rendering, which only add constant time anyway to both.
+- All timed amounts are in microseconds.
+- Orig = The original comparator where we only used the X-Axis.
+- Opt = The new comparator where we can switch between X vs. Y sorting.
+- Dimensions: 800x500 = 800 width, 500 height
+*************************************************
+=====================
+=====     800x500     =====
+=====================
+- 6 objects -
+Orig:	28
+Opt:	35
+- 48 objects -
+Orig:	101
+Opt:	112
+- 180 objects -
+Orig:	461
+Opt:	507
+- 600 objects -
+Orig:	2,933
+Opt:	3,107
+- 1800 objects -
+Orig:	16,283
+Opt:	15,975
+- 3600 objects -
+Orig:	83,096
+Opt:	84,454
+
+=====================
+=====     500x500     =====
+=====================
+- 6 objects -
+Orig:	30
+Opt:	36
+- 48 objects -
+Orig:	120
+Opt:	136
+- 180 objects -
+Orig:	772
+Opt:	700
+- 600 objects -
+Orig:	3,531
+Opt:	3,739
+- 1800 objects -
+Orig:	27,118
+Opt:	26,758
+- 3600 objects -
+Orig:	142,831
+Opt:	144,605
+
+=====================
+=====     500x800     =====
+=====================
+- 6 objects -
+Orig:	31
+Opt:	35
+- 48 objects -
+Orig:	117
+Opt:	120
+- 180 objects -
+Orig:	632
+Opt:	638
+- 600 objects -
+Orig:	3,929
+Opt:	3,144
+- 1800 objects -
+Orig:	28,136
+Opt:	19,835
+- 3600 objects -
+Orig:	139,948
+Opt:	97, 078

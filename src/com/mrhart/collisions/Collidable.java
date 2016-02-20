@@ -60,16 +60,6 @@ public interface Collidable {
 	public void updateCollisionArea();
 	
 	/**
-	 * Gets the total horizontal span of a Collision area.
-	 * 
-	 * Used in collision handling, most collisions can be ignored for checking
-	 * by using this.
-	 * 
-	 * @return
-	 */
-	public abstract float get_CollisionArea_Width();
-	
-	/**
 	 * Gets the left most x point in a Collision area.
 	 * 
 	 * Used in collision handling, Sprites are sorted by their left X endpoints
@@ -78,4 +68,34 @@ public interface Collidable {
 	 * @return
 	 */
 	public abstract float get_CollisionArea_LeftEndpointX();
+
+	/**
+	 * Gets the bot most y point in a Collision area.
+	 * 
+	 * Used in collision handling, Sprites are sorted by their bot Y endpoints
+	 * to optimize collisions.
+	 * 
+	 * @return
+	 */
+	public abstract float get_CollisionArea_BotEndpointY();
+
+	/**
+	 * Gets the right most x point in a Collision area.
+	 * 
+	 * Used in collision handling, Sprites are sorted by their right X endpoints
+	 * to optimize collisions.
+	 * 
+	 * @return
+	 */
+	public abstract float get_CollisionArea_RightEndpointX();
+
+	/**
+	 * Gets the top most y point in a Collision area.
+	 * 
+	 * Used in collision handling, Sprites are sorted by their top Y endpoints
+	 * to optimize collisions.
+	 * 
+	 * @return
+	 */
+	public abstract float get_CollisionArea_TopEndpointY();
 }

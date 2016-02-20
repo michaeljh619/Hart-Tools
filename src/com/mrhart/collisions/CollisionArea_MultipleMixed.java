@@ -197,4 +197,64 @@ public class CollisionArea_MultipleMixed implements CollisionArea{
 			return false;
 		}
 	}
+
+	@Override
+	public float getLeftMostEndPoint() {
+		float min = collisionCircs[0].x - collisionCircs[0].radius;
+		float localMin;
+		for(int x = 1; x < collisionCircs.length; x++){
+			localMin = collisionCircs[x].x - collisionCircs[0].radius;
+			min = localMin < min ? localMin : min;
+		}
+		for(int x = 0; x < collisionRects.length; x++){
+			localMin = collisionRects[x].x;
+			min = localMin < min ? localMin : min;
+		}
+		return min;
+	}
+
+	@Override
+	public float getTopMostEndPoint() {
+		float min = collisionCircs[0].y - collisionCircs[0].radius;
+		float localMin;
+		for(int x = 1; x < collisionCircs.length; x++){
+			localMin = collisionCircs[x].y - collisionCircs[0].radius;
+			min = localMin < min ? localMin : min;
+		}
+		for(int x = 0; x < collisionRects.length; x++){
+			localMin = collisionRects[x].y;
+			min = localMin < min ? localMin : min;
+		}
+		return min;
+	}
+
+	@Override
+	public float getRightMostEndPoint() {
+		float max = collisionCircs[0].x + collisionCircs[0].radius;
+		float localMax;
+		for(int x = 1; x < collisionCircs.length; x++){
+			localMax = collisionCircs[x].x + collisionCircs[0].radius;
+			max = localMax > max ? localMax : max;
+		}
+		for(int x = 0; x < collisionRects.length; x++){
+			localMax = collisionRects[x].x + collisionRects[x].width;
+			max = localMax > max ? localMax : max;
+		}
+		return max;
+	}
+
+	@Override
+	public float getBotMostEndPoint() {
+		float max = collisionCircs[0].y + collisionCircs[0].radius;
+		float localMax;
+		for(int x = 1; x < collisionCircs.length; x++){
+			localMax = collisionCircs[x].y + collisionCircs[0].radius;
+			max = localMax > max ? localMax : max;
+		}
+		for(int x = 0; x < collisionRects.length; x++){
+			localMax = collisionRects[x].y + collisionRects[x].height;
+			max = localMax > max ? localMax : max;
+		}
+		return max;
+	}
 }

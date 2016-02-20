@@ -104,4 +104,28 @@ public class CollisionArea_SingleCirc implements CollisionArea {
 			return false;
 		}
 	}
+
+	@Override
+	public float getLeftMostEndPoint() {
+		// TODO Auto-generated method stub
+		return collisionArea.x - collisionArea.radius;
+	}
+
+	@Override
+	public float getTopMostEndPoint() {
+		// TODO Auto-generated method stub
+		return collisionArea.y - collisionArea.radius;
+	}
+
+	@Override
+	public float getRightMostEndPoint() {
+		// TODO Auto-generated method stub
+		return collisionArea.x + collisionArea.radius;
+	}
+
+	@Override
+	public float getBotMostEndPoint() {
+		// TODO Auto-generated method stub
+		return collisionArea.y + collisionArea.radius;
+	}
 }

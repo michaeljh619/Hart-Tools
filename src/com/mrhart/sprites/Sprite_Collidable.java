@@ -66,6 +66,40 @@ public abstract class Sprite_Collidable extends Sprite implements Collidable{
 	}
 
 	@Override
+	protected float getLeftMostPositionX(){
+		return get_CollisionArea_LeftEndpointX();
+	}
+	@Override
+	protected float getTopMostPositionY(){
+		return get_CollisionArea_TopEndpointY();
+	}
+	@Override
+	protected float getRightMostPositionX(){
+		return get_CollisionArea_RightEndpointX();
+	}
+	@Override
+	protected float getBotMostPositionY(){
+		return get_CollisionArea_BotEndpointY();
+	}
+	@Override
+	public float get_CollisionArea_LeftEndpointX(){
+		return collisionArea.getLeftMostEndPoint();
+	}
+	@Override
+	public float get_CollisionArea_RightEndpointX(){
+		return collisionArea.getRightMostEndPoint();
+	}
+	@Override
+	public float get_CollisionArea_TopEndpointY(){
+		return collisionArea.getTopMostEndPoint();
+	}
+	@Override
+	public float get_CollisionArea_BotEndpointY(){
+		return collisionArea.getBotMostEndPoint();
+	}
+	
+
+	@Override
 	public abstract void collide(Collidable other, boolean collidedOnce);
 
 	@Override

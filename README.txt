@@ -17,6 +17,12 @@ If you have any questions on how anything works, feel free to email me.
 =======
 Commits
 =======
+02/20/16:
+- Updated File: [Package - sprites] --> Sprite. Sprite now supports multiple comparators in its compareTo method. Before calling compareTo, a comparator should be called for which comparison you would like to use. At the moment, position X, position Y, and ID sorting is available.
+- Updated File [Package - collisions] --> CollisionArea. CollisionAreas must now implement methods for getting extreme left, right, top, and bottom endpoints. This is crucial to collision handling.
+- Optimized: [Package - sprites] --> SpriteHandler.  Collision handling can now sort using the X or Y axis. Will switch between the two based on which direction has the largest spread of sprite positions; this is determined by using variance (from statistics, could use standard deviation as well).
+- New Bench Test: Tested X vs Y sorting versus strict X sorting in collision handling in the SpriteHandler.
+
 02/12/16:
 - Renamed File: [Package - sprites] SpriteHandler --> SpriteHandler_Dangles. Will eventually be removed, keeping for just 1 more commit.
 - New File: [Package - sprites] SpriteHandler. The old SpriteHandler is now deprecated, it shall be known as SpriteHandler_Dangles.

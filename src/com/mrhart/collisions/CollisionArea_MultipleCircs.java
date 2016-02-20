@@ -149,4 +149,48 @@ public class CollisionArea_MultipleCircs implements CollisionArea {
 			return false;
 		}
 	}
+
+	@Override
+	public float getLeftMostEndPoint() {
+		float min = collisionArea[0].x - collisionArea[0].radius;
+		float localMin;
+		for(int x = 1; x < collisionArea.length; x++){
+			localMin = collisionArea[x].x - collisionArea[0].radius;
+			min = localMin < min ? localMin : min;
+		}
+		return min;
+	}
+
+	@Override
+	public float getTopMostEndPoint() {
+		float min = collisionArea[0].y - collisionArea[0].radius;
+		float localMin;
+		for(int x = 1; x < collisionArea.length; x++){
+			localMin = collisionArea[x].y - collisionArea[0].radius;
+			min = localMin < min ? localMin : min;
+		}
+		return min;
+	}
+
+	@Override
+	public float getRightMostEndPoint() {
+		float max = collisionArea[0].x + collisionArea[0].radius;
+		float localMax;
+		for(int x = 1; x < collisionArea.length; x++){
+			localMax = collisionArea[x].x + collisionArea[0].radius;
+			max = localMax > max ? localMax : max;
+		}
+		return max;
+	}
+
+	@Override
+	public float getBotMostEndPoint() {
+		float max = collisionArea[0].y + collisionArea[0].radius;
+		float localMax;
+		for(int x = 1; x < collisionArea.length; x++){
+			localMax = collisionArea[x].y + collisionArea[0].radius;
+			max = localMax > max ? localMax : max;
+		}
+		return max;
+	}
 }

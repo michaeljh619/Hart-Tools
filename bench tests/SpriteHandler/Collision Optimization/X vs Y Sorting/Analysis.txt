@@ -1,0 +1,12 @@
+02/20/2016
+	After performing tests on various amounts of Sprites and world sizes, I have come to the conclusion that the X and Y sorting is indeed more efficient than a standard X sorting. In certain cases, you would expect this to be true. For example, looking at a narrow bench test, like the 500x800 case, the X vs. Y sorting clearly outperforms the original x sorting. However, even if we had the perfect scenario for the original collision handling, we still don't outperform the X vs. Y sorting by very much. In some cases, the X vs. Y sorting actually outperformed the straight X sorting, mostly due to luck, as the overhead should not have allowed this (luck being a lot of switches, where there were a lot of sprites that were more narrow than broad). In a perfect square world, the more efficient method can go either way, but they are generally equal.
+
+Benefits of Strict X sorting:
+- Does not have the slight performance disadvantage of calculating position variances.
+- Does not have the slight performance disadvantage of heavy resorting with merge sort, since we only focus on X sorting and the array is mostly sorted at all times.
+
+Benefits of X vs. Y sorting:
+- Extreme performance benefit in situations where Strict X sorting is facing a narrow world, or Strict Y is facing a broad world. In high amounts of Sprites, can reach speeds that are 2x faster!
+- Removes responsibility of the developer to choose which Strict axis should be sorted on, allows for an all included SpriteHandler. This is the biggest benefit, as the developer may have sprites in multiple worlds which are narrow or broad, or even worlds that are shifting between the two.
+
+	In conclusion, the benefits of X vs. Y sorting heavily outweigh the benefits of a strict X or strict Y sorting collision handling. The overhead of calculating position variances and resorting is negligible, and therefore should not be taken into account when compared to the benefits of performance in extreme cases and ease of code creation for developers. X vs. Y sorting will now be implemented in Collision Handling.

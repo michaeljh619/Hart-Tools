@@ -73,4 +73,28 @@ public class CollisionArea_SingleRect implements CollisionArea {
 			return false;
 		}
 	}
+
+	@Override
+	public float getLeftMostEndPoint() {
+		// TODO Auto-generated method stub
+		return collisionArea.x;
+	}
+
+	@Override
+	public float getTopMostEndPoint() {
+		// TODO Auto-generated method stub
+		return collisionArea.y;
+	}
+
+	@Override
+	public float getRightMostEndPoint() {
+		// TODO Auto-generated method stub
+		return collisionArea.x + collisionArea.width;
+	}
+
+	@Override
+	public float getBotMostEndPoint() {
+		// TODO Auto-generated method stub
+		return collisionArea.y + collisionArea.height;
+	}
 }

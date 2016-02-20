@@ -97,4 +97,26 @@ public class CollisionArea_SingleMixed implements CollisionArea{
 			return false;
 		}
 	}
+
+
+	@Override
+	public float getLeftMostEndPoint() {
+		return collisionCirc.x < collisionRect.x ? collisionCirc.x : collisionRect.x;
+	}
+
+	@Override
+	public float getTopMostEndPoint() {
+		return collisionCirc.y < collisionRect.y ? collisionCirc.y : collisionRect.y;
+	}
+
+	@Override
+	public float getRightMostEndPoint() {
+		return collisionCirc.x > collisionRect.x ? collisionCirc.x : collisionRect.x;
+	}
+
+
+	@Override
+	public float getBotMostEndPoint() {
+		return collisionCirc.y > collisionRect.y ? collisionCirc.y : collisionRect.y;
+	}
 }

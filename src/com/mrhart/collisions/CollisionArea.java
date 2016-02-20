@@ -18,4 +18,9 @@ public interface CollisionArea {
 	 * @return
 	 */
 	public boolean checkCollisions(CollisionArea other);
+	
+	public float getLeftMostEndPoint();
+	public float getTopMostEndPoint();
+	public float getRightMostEndPoint();
+	public float getBotMostEndPoint();
 }

@@ -11,10 +11,8 @@ import com.mrhart.collisions.CollisionArea;
 import com.mrhart.collisions.CollisionArea_SingleCirc;
 import com.mrhart.collisions.CollisionArea_SingleRect;
 import com.mrhart.collisions.CollisionHandler;
-import com.mrhart.collisions.CollisionUpdateable;
 import com.mrhart.collisions.Resettable;
 import com.mrhart.renderable.RenderableTextureRegion;
-import com.mrhart.sprites.Sprite;
 import com.mrhart.sprites.SpriteHandler_Dangles;
 import com.mrhart.sprites.SpriteHandler;
 import com.mrhart.sprites.Sprite_Resettable;
@@ -37,7 +35,7 @@ public class Mode_Test_Sprites extends Mode {
 	private static final int DANGLE_CIRCLE_R = 5;
 	private static final int DANGLE_BOXES = 6;
 	// Bench Test
-	private static final int MAX_TESTS = 100;
+	private static final int MAX_TESTS = 1000;
 	private static final int NUM_OBJECTS = 300; // Times 6
 	// Sprites
 	private static final int WIDTH = 25;
@@ -203,19 +201,19 @@ public class Mode_Test_Sprites extends Mode {
 							Loader_Input.getButtonDark_A(assets), DANGLE_CIRCLE_A));
 			}
 			// Add Circle B's
-			for(int x = 0; x < NUM_OBJECTS; x++){
+			for(int x = 0; x < NUM_OBJECTS; x++){ // x was at 700
 				sprites2.add(
-					new Sprite_Circle(700, 400, WIDTH, 
+					new Sprite_Circle(400, 400, WIDTH, 
 							Loader_Input.getButtonDark_B(assets), DANGLE_CIRCLE_B));
 			}
 			// Add Circle X's
-			for(int x = 0; x < NUM_OBJECTS; x++){
+			for(int x = 0; x < NUM_OBJECTS; x++){ // x was at 700
 				sprites2.add(
-					new Sprite_Circle(700, 100, WIDTH, 
+					new Sprite_Circle(400, 100, WIDTH, 
 							Loader_Input.getButtonDark_X(assets), DANGLE_CIRCLE_X));
 			}
 			// Add Circle Y's
-			for(int x = 0; x < NUM_OBJECTS; x++){
+			for(int x = 0; x < NUM_OBJECTS; x++){ 
 				sprites2.add(
 					new Sprite_Circle(100, 400, WIDTH, 
 							Loader_Input.getButtonDark_Y(assets), DANGLE_CIRCLE_Y));
@@ -227,16 +225,16 @@ public class Mode_Test_Sprites extends Mode {
 							Loader_Input.getButtonDark_L(assets), DANGLE_CIRCLE_L));
 			}
 			// Add Circle R's
-			for(int x = 0; x < NUM_OBJECTS; x++){
+			for(int x = 0; x < NUM_OBJECTS; x++){ // x was at 700
 				sprites2.add(
-					new Sprite_Circle(700, 250, WIDTH, 
+					new Sprite_Circle(400, 250, WIDTH, 
 							Loader_Input.getButtonDark_R(assets), DANGLE_CIRCLE_R));
 			}
 			// Add Out of Screen Rects
-			sprites2.add(new Sprite_Box(-100, 0, 100, 500));
-			sprites2.add(new Sprite_Box(0, -100, 800, 100));
-			sprites2.add(new Sprite_Box(800, 0, 100, 500));
-			sprites2.add(new Sprite_Box(0, 500, 800, 100));
+			sprites2.add(new Sprite_Box(-100, 0, 100, 500)); // Left
+			sprites2.add(new Sprite_Box(0, -100, 800, 100)); // Top
+			sprites2.add(new Sprite_Box(800, 0, 100, 500));  // Right
+			sprites2.add(new Sprite_Box(0, 500, 800, 100));  // Bot
 		}
 	}
 	
@@ -249,12 +247,10 @@ public class Mode_Test_Sprites extends Mode {
 		private static final int SPEED = 100;
 		private static final boolean DEBUG_ON = false;
 		
-		private Vector2 lastPosition;
 		private Vector2 lastVelocity;
 		// Used as a second reference to the top level collision area
 		// This way we don't have to be downcasting all the time
 		CollisionArea_SingleCirc circ;
-		float colAreaWidth;
 		
 		public Sprite_Circle(int positionX, int positionY, int inWidth,
 				TextureRegion region, int ID) {
@@ -264,7 +260,6 @@ public class Mode_Test_Sprites extends Mode {
 			// Set up CollisionArea
 			circ = ((CollisionArea_SingleCirc) collisionArea);
 			circ.collisionArea = new Circle(position.x, position.y, width/2);
-			colAreaWidth = circ.collisionArea.radius*2;
 			// Set Random Velocity
 			setRandomVelocity();
 			lastVelocity = new Vector2(velocity);
@@ -353,23 +348,6 @@ public class Mode_Test_Sprites extends Mode {
 			// TODO Auto-generated method stub
 			circ.collisionArea.setPosition(position);
 		}
-
-		@Override
-		public Vector2 getLastPosition() {
-			return lastPosition;
-		}
-
-		@Override
-		public float get_CollisionArea_Width() {
-			// TODO Auto-generated method stub
-			return colAreaWidth;
-		}
-
-		@Override
-		public float get_CollisionArea_LeftEndpointX() {
-			// TODO Auto-generated method stub
-			return circ.collisionArea.x - circ.collisionArea.radius;
-		}
 	}
 	
 	
@@ -384,11 +362,6 @@ public class Mode_Test_Sprites extends Mode {
 			super(positionX, positionY, inWidth, inHeight, new CollisionArea_SingleRect(), true);
 			rect = (CollisionArea_SingleRect) super.collisionArea;
 			rect.collisionArea = new Rectangle(positionX, positionY, inWidth, inHeight);
-		}
-
-		@Override
-		public CollisionArea getCollisionArea() {
-			return rect;
 		}
 
 		@Override
@@ -423,25 +396,8 @@ public class Mode_Test_Sprites extends Mode {
 
 		@Override
 		public void updateCollisionArea() {
-
-		}
-
-		@Override
-		public Vector2 getLastPosition() {
 			// TODO Auto-generated method stub
-			return position;
-		}
-
-		@Override
-		public float get_CollisionArea_Width() {
-			// TODO Auto-generated method stub
-			return rect.collisionArea.getWidth();
-		}
-
-		@Override
-		public float get_CollisionArea_LeftEndpointX() {
-			// TODO Auto-generated method stub
-			return rect.collisionArea.getX();
+			
 		}
 	}
 
