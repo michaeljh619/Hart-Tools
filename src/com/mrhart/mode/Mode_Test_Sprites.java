@@ -13,6 +13,7 @@ import com.mrhart.collisions.CollisionArea_SingleRect;
 import com.mrhart.collisions.CollisionHandler;
 import com.mrhart.collisions.Resettable;
 import com.mrhart.renderable.RenderableTextureRegion;
+import com.mrhart.sprites.Sprite;
 import com.mrhart.sprites.SpriteHandler_Dangles;
 import com.mrhart.sprites.SpriteHandler;
 import com.mrhart.sprites.Sprite_Resettable;
@@ -318,7 +319,7 @@ public class Mode_Test_Sprites extends Mode {
 		}
 		
 		private boolean equals(Sprite_Circle other){
-			return this.ID == other.ID;
+			return this.getRenderLayer() == other.getRenderLayer();
 		}
 		
 		private void setRandomVelocity(){
@@ -348,6 +349,16 @@ public class Mode_Test_Sprites extends Mode {
 			// TODO Auto-generated method stub
 			circ.collisionArea.setPosition(position);
 		}
+
+		@Override
+		protected int compareTo_SameRenderLayer(Sprite other) {
+			if(this.position.y < other.position.y)
+				return -1;
+			else if(this.position.y == other.position.y)
+				return 0;
+			else
+				return 1;
+		}
 	}
 	
 	
@@ -359,7 +370,8 @@ public class Mode_Test_Sprites extends Mode {
 		private CollisionArea_SingleRect rect;
 
 		public Sprite_Box(int positionX, int positionY, int inWidth, int inHeight) {
-			super(positionX, positionY, inWidth, inHeight, new CollisionArea_SingleRect(), true);
+			super(positionX, positionY, inWidth, inHeight, new CollisionArea_SingleRect(),
+					DANGLE_BOXES, true);
 			rect = (CollisionArea_SingleRect) super.collisionArea;
 			rect.collisionArea = new Rectangle(positionX, positionY, inWidth, inHeight);
 		}
@@ -398,6 +410,16 @@ public class Mode_Test_Sprites extends Mode {
 		public void updateCollisionArea() {
 			// TODO Auto-generated method stub
 			
+		}
+
+		@Override
+		protected int compareTo_SameRenderLayer(Sprite other) {
+			if(this.position.y < other.position.y)
+				return 1;
+			else if(this.position.y == other.position.y)
+				return 0;
+			else
+				return -1;
 		}
 	}
 

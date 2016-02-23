@@ -17,12 +17,12 @@ import com.mrhart.renderable.RenderableObject;
  * @author Michael James Hart, MrHartGames@yahoo.com
  * @version v2.60
  */
-public class Sprite implements Comparable<Sprite> {
+public abstract class Sprite implements Comparable<Sprite> {
 	/*
 	 * Instance Vars
 	 */
 	// ID
-	public int ID;
+	private int renderLayer;
 	// Vectors
 	public Vector2 position, velocity, acceleration;
 	private Vector2 bastardVector;
@@ -35,7 +35,7 @@ public class Sprite implements Comparable<Sprite> {
 	// Comparable Methods
 	private boolean comparableX = false;
 	private boolean comparableY = false;
-	private boolean comparableID = true;
+	private boolean comparableRenderLayer = true;
 	
 	/**
 	 * Creates a new Sprite at a position with a width and height
@@ -103,7 +103,7 @@ public class Sprite implements Comparable<Sprite> {
 	public Sprite(int positionX, int positionY, int width, int height,
 			RenderableObject renderObject, int ID){
 		// Set up ID
-		this.ID = ID;
+		this.renderLayer = ID;
 		// Set up vectors
 		position = new Vector2(positionX, positionY);
 		velocity = new Vector2();
@@ -217,7 +217,7 @@ public class Sprite implements Comparable<Sprite> {
 	protected void use_Comparable_X(){
 		comparableX = true;
 		comparableY = false;
-		comparableID = false;
+		comparableRenderLayer = false;
 	}
 	/**
 	 * Compares based on the left most endpoint of the Sprite. If this is a
@@ -249,7 +249,7 @@ public class Sprite implements Comparable<Sprite> {
 	protected void use_Comparable_Y(){
 		comparableX = false;
 		comparableY = true;
-		comparableID = false;
+		comparableRenderLayer = false;
 	}
 	/**
 	 * Compares based on the left most endpoint of the Sprite. If this is a
@@ -278,34 +278,47 @@ public class Sprite implements Comparable<Sprite> {
 	 * After calling this function, the next call to compareTo will use the
 	 * compareTo_X method.
 	 */
-	protected void use_Comparable_ID(){
+	protected void use_Comparable_RenderLayer(){
 		comparableX = false;
 		comparableY = false;
-		comparableID = true;
+		comparableRenderLayer = true;
 	}
 	/**
-	 * Compares based on the left most endpoint of the Sprite. If this is a
-	 * Collidable Sprite, then its CollisionArea's left most endpoint will
-	 * be used.
+	 * Compares based on the render layer of the Sprite. Sprites with lower
+	 * render layers will be rendered first. If Sprites are at equal render
+	 * layers... TODO
 	 * 
 	 * @param other
 	 * @since v2.50
 	 * @version v1.10
 	 * @return
 	 */
-	private int compareTo_ID(Sprite other){
+	private int compareTo_RenderLayer(Sprite other){
 		/*
 		 *  Precedence order of compare
 		 */
-		float rPosThis = ID;
-		float rPosOther = other.ID;
+		int thisRenderLayer = renderLayer;
+		int otherRenderLayer = other.renderLayer;
 		// Position first
-		if(rPosThis > rPosOther)
+		if(thisRenderLayer > otherRenderLayer)
 			return 1;
-		else if(rPosThis < rPosOther)
+		else if(thisRenderLayer < otherRenderLayer)
 			return -1;
 		else
-			return 0;
+			return this.compareTo_SameRenderLayer(other);
+	}
+	
+	/**
+	 * This method will decide how sprites are rendered when they are at the
+	 * same render layer. If you don't care, just return 0. Otherwise, return
+	 * -1 for lower level sprites and 1 for sprites that are rendered at a 
+	 * higher level.
+	 * 
+	 * @param other The other Sprite to compareTo.
+	 * @return
+	 */
+	protected int compareTo_SameRenderLayer(Sprite other){
+		return 0;
 	}
 	
 	/**
@@ -319,8 +332,14 @@ public class Sprite implements Comparable<Sprite> {
 		else if(comparableY)
 			return compareTo_Y(other);
 		else
-			return compareTo_ID(other);
+			return compareTo_RenderLayer(other);
 	}
-	
-	
+
+	public int getRenderLayer() {
+		return renderLayer;
+	}
+
+	public void setRenderLayer(int renderLayer) {
+		this.renderLayer = renderLayer;
+	}
 }

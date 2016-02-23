@@ -74,6 +74,5 @@ public class Mode_Test_Selection extends Mode{
 			super(positionX, positionY, width, height, renderObject);
 			// TODO Auto-generated constructor stub
 		}
-		
 	}
 }

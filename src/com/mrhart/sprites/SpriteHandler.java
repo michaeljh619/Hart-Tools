@@ -19,7 +19,7 @@ public class SpriteHandler {
 	/*
 	 * Named Constants
 	 */
-	private static final int COMP_ID = 0;
+	private static final int COMP_RENDER_LAYER = 0;
 	private static final int COMP_X = 1;
 	private static final int COMP_Y = 2;
 	
@@ -28,7 +28,7 @@ public class SpriteHandler {
 	 */
 	private SortedArrayList<Sprite> sprites;
 	private LinkedList<Sprite> removedSprites;
-	private int currentComparator = COMP_ID;
+	private int currentComparator = COMP_RENDER_LAYER;
 	
 	public SpriteHandler(){
 		sprites = new SortedArrayList<Sprite>();
@@ -72,7 +72,10 @@ public class SpriteHandler {
 	 * @param runtime
 	 */
 	public void render(SpriteBatch batcher, float runtime){
+		this.setComparable(COMP_RENDER_LAYER);
+		sprites.sort();
 		for(int x = 0; x < sprites.size(); x++){
+//			System.err.println(sprites.get(x).getRenderLayer());
 			sprites.get(x).render(batcher, runtime);;
 		}
 	}
@@ -314,9 +317,9 @@ public class SpriteHandler {
 		}
 		else{
 			for(int x = 0; x < sprites.size(); x++){
-				sprites.get(x).use_Comparable_ID();
+				sprites.get(x).use_Comparable_RenderLayer();
 			}
-			currentComparator = COMP_ID;
+			currentComparator = COMP_RENDER_LAYER;
 		}
 	}
 	
