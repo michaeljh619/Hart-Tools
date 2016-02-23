@@ -35,7 +35,7 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 		// Create inputs
 		joystick = new Joystick(new Vector2(200, 300), 100, 50);
 		button = new Button(new Vector2(600, 300), 200, 200,
-				new Hart_Circle(new Circle(600, 300, 50)));
+				new Hart_Circle(600.0f, 300.0f, 50.0f));
 		
 		// Commands from joystick
 		commands = joystick.commands;

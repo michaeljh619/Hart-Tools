@@ -8,16 +8,23 @@ import com.badlogic.gdx.math.Circle;
  * @author Michael Hart, MrHartGames@yahoo.com
  * @version v1.00
  */
-public class Hart_Circle implements Hart_Shape2D {
-	public Circle circle;
-
-	public Hart_Circle(Circle circle){
-		this.circle = circle;
-	}
+public class Hart_Circle extends Circle implements Hart_Shape2D {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
+	public Hart_Circle(){
+		super();
+	}
+
+	public Hart_Circle(float x, float y, float radius) {
+		super(x, y, radius);
+	}
+
 	@Override
 	public boolean contains(float x, float y) {
 		// TODO Auto-generated method stub
-		return circle.contains(x, y);
+		return super.contains(x, y);
 	}
 }
