@@ -1,11 +1,5 @@
 package com.mrhart.collisions;
 
-import java.util.Iterator;
-
-import com.mrhart.sprites.Sprite;
-import com.mrhart.sprites.SpriteHandler_Dangles;
-import com.mrhart.sprites.SpriteNode;
-
 /**
  * A class providing static functions for collisions. Methods are provided
  * for checking collisions as well as for performing different styles of
@@ -14,7 +8,7 @@ import com.mrhart.sprites.SpriteNode;
  * @author Michael Hart, MrHartGames@yahoo.com
  * @version v1.00
  */
-public class CollisionHandler {
+public class Collisions {
 	/*
 	 * Named Constants
 	 */
@@ -23,191 +17,7 @@ public class CollisionHandler {
 	public static final int NEIGHBORS = 1;
 	// Collision Constants
 	private static final int LARGE_NUMBER = 2000000000;
-	
-	/**
-	 * Checks collisions for the Array of dangles of Sprites.
-	 *
-	 * @version v1.00
-	 * @since v1.00
-	 * @param sprites SpriteHandler to be checked for collisions
-	 */
-	public static void checkCollisions(SpriteHandler_Dangles sprites) {
-		checkCollisions(sprites.sprites);
-	}
 
-	/**
-	 * Checks collisions for the Array of dangles of Sprites.
-	 * 
-	 * @version v1.00
-	 * @since v1.00
-	 * @param sprites Sprite dangle array
-	 */
-	public static void checkCollisions(SpriteNode[] sprites) {
-		// Checks each dangle and each Sprite inside the dangle against
-		// every other dangle that comes after this dangle in the array.
-		// Notice we don't check the last dangle, because that dangle (at the
-		// end) has already been checked by all the others.
-		Sprite current;
-		for (int x = 0; x < (sprites.length - 1); x++) {
-			// If this isn't a collidable dangle, continue to next dangle.
-			if (!sprites[x].isCollidable()) {
-				continue;
-			}
-
-			// Use an iterator to traverse each ArrayList
-			for (Iterator<Sprite> iterator = sprites[x].iterator(); iterator
-					.hasNext();) {
-				current = iterator.next();
-				checkSingleSprite(sprites, current, x, false);
-			}
-		}
-	}
-
-	/**
-	 * Checks the current sprite with dangles based on mode.
-	 * 
-	 * @since v1.0
-	 * @version v1.0
-	 * @param sprites
-	 * @param current
-	 * @param index
-	 * @param mode
-	 */
-	private static void checkSingleSprite(SpriteNode[] sprites, Sprite current,
-			int index, boolean calledFromCollide) {
-		// Next Sprite
-		Sprite next;
-		// Current Sprite
-		boolean isOptimal = false;
-		boolean isCollidable = false;
-		// Mode
-		int newIndex;
-		boolean ALL_ready = true;
-		
-		// If called from a collide function, recheck the old sprites too
-		// since the sprite could have been pushed into another old sprite.
-		if(calledFromCollide){
-			newIndex = 0;
-		}
-		// Start at own dangle so we don't check old dangles
-		else{
-			newIndex = index;
-		}
-			
-		// Check what the current Sprite actually is
-		if(current instanceof OptimalCollidable){
-			isOptimal = true;
-		}
-		if(current instanceof Collidable){
-			if(((Collidable) current).canCollide())
-				isCollidable = true;
-		}
-
-		// Loop for checking against all Sprites in all Dangles that
-		// come after this dangle. This way we don't check old dangles that
-		// already checked this dangle.
-		if (isCollidable && sprites[index].isCollidable()){ 
-			for (int x = newIndex; x < sprites.length; x++) {
-				// Check continue
-				if(!sprites[x].canCollideWith(index)){
-					continue;
-				}
-				
-				if(!calledFromCollide && x == index){
-					ALL_ready = false;
-				}
-				
-				// Checks against all Sprites in this Dangle
-				for (Iterator<Sprite> iterator = sprites[x].iterator(); iterator
-						.hasNext();) {
-					// Get next Sprite
-					next = iterator.next();
-					// Skip checking this sprite against itself
-					if(current == next){
-						ALL_ready = true;
-						continue;
-					}
-					// In ALL mode, once the next sprite and the current sprite
-					// are detected to be the same, we can skip this iteration
-					// and start collision checking. Otherwise, we will be double
-					// colliding since sprite1 and sprite2 (for example) would both
-					// collision check each other and collide with each other.
-					if(!ALL_ready){
-						continue;
-					}
-
-					// Check if this is even a Collidable object
-					if (next instanceof Collidable) {
-						// Get the casted collidables for each Sprite
-						Collidable currCo = ((Collidable) current);
-						Collidable nextCo = ((Collidable) next);
-						// Check for Optimal Collisions
-						boolean isNextOptimal = false;
-						if(next instanceof OptimalCollidable){
-							isNextOptimal = true;
-						}
-						
-						/*
-						 * Check optimal collisions
-						 */
-						boolean check = false;
-						if(isOptimal && isNextOptimal){
-							OptimalCollidable currOp 
-								= ((OptimalCollidable) current);
-							OptimalCollidable nextOp
-								= ((OptimalCollidable) next);
-							
-							// Check Optimal Collisions
-							if(currOp.getOptimalCollisionArea().checkCollisions
-									(nextOp.getOptimalCollisionArea())){
-								check = true;
-							}
-						}
-						else if(!isOptimal && isNextOptimal){
-							OptimalCollidable nextOp
-								= ((OptimalCollidable) next);
-							
-							// Check Optimal Collisions
-							if(currCo.getCollisionArea().checkCollisions
-									(nextOp.getOptimalCollisionArea())){
-								check = true;
-							}
-						}
-						else if(isOptimal && !isNextOptimal){
-							OptimalCollidable currOp
-								= ((OptimalCollidable) current);
-
-							// Check Optimal Collisions
-							if(currOp.getOptimalCollisionArea().checkCollisions
-									(nextCo.getCollisionArea())){
-								check = true;
-							}
-						}
-						// If Neither is optimal collidable, then we can just
-						// check the regular collisions
-						else{
-							check = true;
-						}
-						
-						/*
-						 * Check collisions if made it through the optimal checks
-						 */
-						if(check){
-							// Finally check the collision!
-							if(currCo.getCollisionArea().checkCollisions
-									(nextCo.getCollisionArea())){
-								currCo.collide(nextCo, calledFromCollide);
-								nextCo.collide(currCo, calledFromCollide);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	
-	
 	/***************************************************************************
 	 * 							Hard Collide
 	 ***************************************************************************/

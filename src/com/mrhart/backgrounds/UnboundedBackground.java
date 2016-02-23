@@ -1,4 +1,4 @@
-package com.mrhart.sprites.background;
+package com.mrhart.backgrounds;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mrhart.backend.CameraDimensions;
@@ -37,15 +37,6 @@ public class UnboundedBackground {
 		
 		// Direction
 		this.unboundedDirection = unboundedDirection;
-	}
-	
-	/**
-	 * 
-	 * @param delta
-	 * @deprecated Unnecessary call.
-	 */
-	public void update(float delta){
-		
 	}
 
 	/**

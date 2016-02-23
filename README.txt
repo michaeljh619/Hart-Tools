@@ -18,6 +18,16 @@ If you have any questions on how anything works, feel free to email me.
 Commits
 =======
 02/23/16:
+- { Laptop Merge }
+- Updated Package: [Package - shapes] --> ALL FILES. Updated all classes to extend their respective shapes in LibGDX. Rather than using composition, inheritence was more natural.
+- Updated Package: [Package - renderable] --> ALL FILES. Updated all classes to extend their respective renderable objects in LibGDX.
+- Renamed Package: [Package - sprites.backgrounds] --> [Package - backgrounds]
+- Updated File: [Package - backgrounds] --> Background. Background is no longer a Sprite. Due to updates in SpriteHandling, a background no longer makes sense as a Sprite. It is only a renderable and should be handled in your mode's render function as such.
+- Renamed Package: [Package - spites.ui] --> [Package - ui]
+- Renamed File: [Package - collisions] CollisionHandler. CollisionHandler is now Collisions.
+- Deleted Class: [ALL] --> SpriteHandler_Dangles. SpriteHandler_Dangles is now officially removed and all references to it have been destroyed. SpriteHandler is the only class now available for handling sprites.
+
+02/23/16:
 - Updated File: [Package - sprites] --> Sprite. Sprite's ID instance variable is now renderLayer instead. renderLayers are exactly as they sound; Sprites in lower numbers of renderLayers are rendered first.
 - Updated File: [Package - sprites] --> Sprite. Sprite now has a method for handling what occurs when Sprites are in the same renderLayer. By overriding compareTo_SameRenderLayout, you can make comparisons to other sprites in the same renderLayer with whatever you like (position, velocity, etc.)
 

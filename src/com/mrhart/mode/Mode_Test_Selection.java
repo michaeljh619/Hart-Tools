@@ -6,9 +6,9 @@ import com.mrhart.input.KeyboardArrows;
 import com.mrhart.renderable.RenderableObject;
 import com.mrhart.renderable.RenderableTextureRegion;
 import com.mrhart.settings.Settings;
-import com.mrhart.spites.ui.Selection;
 import com.mrhart.sprites.Sprite;
 import com.mrhart.state.GameState;
+import com.mrhart.ui.Selection;
 
 public class Mode_Test_Selection extends Mode{
 	/*

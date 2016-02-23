@@ -1,4 +1,4 @@
-package com.mrhart.spites.ui;
+package com.mrhart.ui;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mrhart.backend.HartMath;

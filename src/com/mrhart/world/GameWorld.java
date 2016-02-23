@@ -72,25 +72,27 @@ public class GameWorld {
 
     	// TODO: DEV - Add Modes here and set JUMP_TO_STATE to that modes state to
     	//             jump to it.
-    	if(JUMP_TO_STATE == GameState.LOGO){
+    	switch(JUMP_TO_STATE){
+    	case GameState.LOGO:
     		mode_logo = new Mode_Logo();
     		currentMode = mode_logo;
-    	}
-    	else if(JUMP_TO_STATE == GameState.TEST_INPUT){
+    		break;
+    	case GameState.TEST_INPUT:
     		mode_test_input = new Mode_Test_Input();
     		currentMode = mode_test_input;
-    	}
-    	else if(JUMP_TO_STATE == GameState.TEST_SPRITES){
+    		break;
+    	case GameState.TEST_SPRITES:
     		mode_test_sprite = new Mode_Test_Sprites();
     		currentMode = mode_test_sprite;
-    	}
-    	else if(JUMP_TO_STATE == GameState.TEST_BACKGROUNDS){
+    		break;
+    	case GameState.TEST_BACKGROUNDS:
     		mode_test_background = new Mode_Test_Backgrounds(camera);
     		currentMode = mode_test_background;
-    	}
-    	else if(JUMP_TO_STATE == GameState.TEST_SELECTION){
+    		break;
+    	case GameState.TEST_SELECTION:
     		mode_test_selection = new Mode_Test_Selection();
     		currentMode = mode_test_selection;
+    		break;
     	}
     	
     	// Assets
@@ -138,10 +140,12 @@ public class GameWorld {
 			}
 			
 			// TODO: DEV - Decide what to do with the next state
-			if(nextState == GameState.MENU){
+			switch(nextState){
+			case GameState.MENU:
 				// Transition to this mode, for example:
-				// mode_menu = new Mode_Logo()
+				// mode_menu = new Mode_Menu()
 				// currentMode = mode_menu;
+				// break;
 			}
 		}
 		// Else we are going to load little blocks of the assets until its finished

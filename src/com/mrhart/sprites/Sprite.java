@@ -97,7 +97,7 @@ public abstract class Sprite implements Comparable<Sprite> {
 
 	public Sprite(int positionX, int positionY, int width, int height,
 			RenderableObject renderObject){
-		this(positionX, positionY, width, height, renderObject, 0);
+		this(positionX, positionY, width, height, renderObject, -1);
 	}
 	
 	public Sprite(int positionX, int positionY, int width, int height,

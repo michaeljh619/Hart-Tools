@@ -23,15 +23,6 @@ public class SpriteHandler_Action_AddSprites implements SpriteHandler_Action {
 		sprites.add(sprite);
 	}
 
-	@Override
-	public void performAction(SpriteHandler_Dangles spriteHandler) {
-		SpritePair current;
-		for(Iterator<SpritePair> i = spritePairs.iterator(); i.hasNext();){
-			current = i.next();
-			spriteHandler.add(current.index, current.sprite);
-		}
-	}
-
 	public void performAction(SpriteHandler spriteHandler) {
 		SpritePair current;
 		for(Iterator<SpritePair> i = spritePairs.iterator(); i.hasNext();){

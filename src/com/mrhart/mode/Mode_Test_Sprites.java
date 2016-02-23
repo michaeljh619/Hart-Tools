@@ -10,11 +10,10 @@ import com.mrhart.collisions.Collidable;
 import com.mrhart.collisions.CollisionArea;
 import com.mrhart.collisions.CollisionArea_SingleCirc;
 import com.mrhart.collisions.CollisionArea_SingleRect;
-import com.mrhart.collisions.CollisionHandler;
+import com.mrhart.collisions.Collisions;
 import com.mrhart.collisions.Resettable;
 import com.mrhart.renderable.RenderableTextureRegion;
 import com.mrhart.sprites.Sprite;
-import com.mrhart.sprites.SpriteHandler_Dangles;
 import com.mrhart.sprites.SpriteHandler;
 import com.mrhart.sprites.Sprite_Resettable;
 import com.mrhart.state.GameState;
@@ -24,20 +23,16 @@ public class Mode_Test_Sprites extends Mode {
 	/*
 	 * Named Constants
 	 */
-	private static final int TEST_DEFAULT = 0;
-	private static final int TEST_DANGLES = 1;
-	private static final int TEST = 0;
 	// Dangles
-	private static final int DANGLE_CIRCLE_A = 0;
-	private static final int DANGLE_CIRCLE_B = 1;
-	private static final int DANGLE_CIRCLE_X = 2;
-	private static final int DANGLE_CIRCLE_Y = 3;
-	private static final int DANGLE_CIRCLE_L = 4;
-	private static final int DANGLE_CIRCLE_R = 5;
-	private static final int DANGLE_BOXES = 6;
+	private static final int RENDER_LAYER_CIRC_A = 0;
+	private static final int RENDER_LAYER_CIRC_B = 1;
+	private static final int RENDER_LAYER_CIRC_C = 2;
+	private static final int RENDER_LAYER_CIRC_D = 3;
+	private static final int RENDER_LAYER_CIRC_L = 4;
+	private static final int RENDER_LAYER_CIRC_R = 5;
 	// Bench Test
 	private static final int MAX_TESTS = 1000;
-	private static final int NUM_OBJECTS = 300; // Times 6
+	private static final int NUM_OBJECTS = 100; // Times 6
 	// Sprites
 	private static final int WIDTH = 25;
 	
@@ -45,7 +40,6 @@ public class Mode_Test_Sprites extends Mode {
 	 * Instance Vars
 	 */
 	// Sprites
-	private SpriteHandler_Dangles sprites;
 	private SpriteHandler sprites2;
 	// Timer
 	private Timer benchTime = new Timer();
@@ -67,22 +61,7 @@ public class Mode_Test_Sprites extends Mode {
 		Loader_Input.loadButtonDark_Y(assets);
 		Loader_Input.loadButtonDark_R(assets);
 		Loader_Input.loadButtonDark_L(assets);
-		
-		if(TEST != TEST_DEFAULT){
-			// Sprite Handler
-			sprites = new SpriteHandler_Dangles(7);
-			// Set up adjacency list for collisions
-			sprites.addAllCollisions();
-			sprites.removeCollision(DANGLE_CIRCLE_A, DANGLE_CIRCLE_A);
-			sprites.removeCollision(DANGLE_CIRCLE_B, DANGLE_CIRCLE_B);
-			sprites.removeCollision(DANGLE_CIRCLE_X, DANGLE_CIRCLE_X);
-			sprites.removeCollision(DANGLE_CIRCLE_Y, DANGLE_CIRCLE_Y);
-			sprites.removeCollision(DANGLE_CIRCLE_L, DANGLE_CIRCLE_L);
-			sprites.removeCollision(DANGLE_CIRCLE_R, DANGLE_CIRCLE_R);
-		}
-		else{
-			sprites2 = new SpriteHandler();
-		}
+		sprites2 = new SpriteHandler();
 		// Timers
 		graceTime.initMilliseconds(1000);
 	}
@@ -95,19 +74,13 @@ public class Mode_Test_Sprites extends Mode {
 			isReadyToBenchTest = true;
 		
 		// Update all sprites
-		if(TEST == TEST_DANGLES)
-			sprites.update(delta);
-		else
-			sprites2.update(delta);
+		sprites2.update(delta);
 		
 		// Initialize Bench Time
 		if(isReadyToBenchTest)
 			benchTime.init();
 
-		if(TEST == TEST_DANGLES)
-			CollisionHandler.checkCollisions(sprites);
-		else
-			sprites2.checkCollisions();
+		sprites2.checkCollisions();
 
 		// Add to tested times
 		if(isReadyToBenchTest){
@@ -142,101 +115,53 @@ public class Mode_Test_Sprites extends Mode {
 	@Override
 	public void render(SpriteBatch batcher, float runtime) {
 		// Render all sprites
-		if(TEST == TEST_DANGLES)
-			sprites.render(batcher, runtime);
-		else
-			sprites2.render(batcher, runtime);
+		sprites2.render(batcher, runtime);
 	}
 
 	@SuppressWarnings("unused")
 	@Override
 	public void finalize() {
-		if(TEST == TEST_DANGLES){
-			// Add Circle A's
-			for(int x = 0; x < NUM_OBJECTS; x++){
-				sprites.add(DANGLE_CIRCLE_A, 
-					new Sprite_Circle(100, 100, WIDTH, 
-							Loader_Input.getButtonDark_A(assets), DANGLE_CIRCLE_A));
-			}
-			// Add Circle B's
-			for(int x = 0; x < NUM_OBJECTS; x++){
-				sprites.add(DANGLE_CIRCLE_B, 
-					new Sprite_Circle(700, 400, WIDTH, 
-							Loader_Input.getButtonDark_B(assets), DANGLE_CIRCLE_B));
-			}
-			// Add Circle X's
-			for(int x = 0; x < NUM_OBJECTS; x++){
-				sprites.add(DANGLE_CIRCLE_X, 
-					new Sprite_Circle(700, 100, WIDTH, 
-							Loader_Input.getButtonDark_X(assets), DANGLE_CIRCLE_X));
-			}
-			// Add Circle Y's
-			for(int x = 0; x < NUM_OBJECTS; x++){
-				sprites.add(DANGLE_CIRCLE_Y, 
-					new Sprite_Circle(100, 400, WIDTH, 
-							Loader_Input.getButtonDark_Y(assets), DANGLE_CIRCLE_Y));
-			}
-			// Add Circle L's
-			for(int x = 0; x < NUM_OBJECTS; x++){
-				sprites.add(DANGLE_CIRCLE_L, 
-					new Sprite_Circle(100, 250, WIDTH,
-							Loader_Input.getButtonDark_L(assets), DANGLE_CIRCLE_L));
-			}
-			// Add Circle R's
-			for(int x = 0; x < NUM_OBJECTS; x++){
-				sprites.add(DANGLE_CIRCLE_R, 
-					new Sprite_Circle(700, 250, WIDTH, 
-							Loader_Input.getButtonDark_R(assets), DANGLE_CIRCLE_R));
-			}
-			// Add Out of Screen Rects
-			sprites.add(DANGLE_BOXES, new Sprite_Box(-100, 0, 100, 500));
-			sprites.add(DANGLE_BOXES, new Sprite_Box(0, -100, 800, 100));
-			sprites.add(DANGLE_BOXES, new Sprite_Box(800, 0, 100, 500));
-			sprites.add(DANGLE_BOXES, new Sprite_Box(0, 500, 800, 100));
-		}
-		else{
 			// Add Circle A's
 			for(int x = 0; x < NUM_OBJECTS; x++){
 				sprites2.add(
 					new Sprite_Circle(100, 100, WIDTH, 
-							Loader_Input.getButtonDark_A(assets), DANGLE_CIRCLE_A));
+							Loader_Input.getButtonDark_A(assets), RENDER_LAYER_CIRC_A));
 			}
 			// Add Circle B's
 			for(int x = 0; x < NUM_OBJECTS; x++){ // x was at 700
 				sprites2.add(
 					new Sprite_Circle(400, 400, WIDTH, 
-							Loader_Input.getButtonDark_B(assets), DANGLE_CIRCLE_B));
+							Loader_Input.getButtonDark_B(assets), RENDER_LAYER_CIRC_B));
 			}
 			// Add Circle X's
 			for(int x = 0; x < NUM_OBJECTS; x++){ // x was at 700
 				sprites2.add(
 					new Sprite_Circle(400, 100, WIDTH, 
-							Loader_Input.getButtonDark_X(assets), DANGLE_CIRCLE_X));
+							Loader_Input.getButtonDark_X(assets), RENDER_LAYER_CIRC_C));
 			}
 			// Add Circle Y's
 			for(int x = 0; x < NUM_OBJECTS; x++){ 
 				sprites2.add(
 					new Sprite_Circle(100, 400, WIDTH, 
-							Loader_Input.getButtonDark_Y(assets), DANGLE_CIRCLE_Y));
+							Loader_Input.getButtonDark_Y(assets), RENDER_LAYER_CIRC_D));
 			}
 			// Add Circle L's
 			for(int x = 0; x < NUM_OBJECTS; x++){
 				sprites2.add(
 					new Sprite_Circle(100, 250, WIDTH,
-							Loader_Input.getButtonDark_L(assets), DANGLE_CIRCLE_L));
+							Loader_Input.getButtonDark_L(assets), RENDER_LAYER_CIRC_L));
 			}
 			// Add Circle R's
 			for(int x = 0; x < NUM_OBJECTS; x++){ // x was at 700
 				sprites2.add(
 					new Sprite_Circle(400, 250, WIDTH, 
-							Loader_Input.getButtonDark_R(assets), DANGLE_CIRCLE_R));
+							Loader_Input.getButtonDark_R(assets), RENDER_LAYER_CIRC_R));
 			}
 			// Add Out of Screen Rects
 			sprites2.add(new Sprite_Box(-100, 0, 100, 500)); // Left
 			sprites2.add(new Sprite_Box(0, -100, 800, 100)); // Top
 			sprites2.add(new Sprite_Box(800, 0, 100, 500));  // Right
 			sprites2.add(new Sprite_Box(0, 500, 800, 100));  // Bot
-		}
 	}
 	
 	
@@ -291,12 +216,12 @@ public class Mode_Test_Sprites extends Mode {
 			if(other instanceof Sprite_Circle){
 				if(DEBUG_ON)
 					System.out.println("Sprite_Circle: I collided with another Circle!");
-				CollisionHandler.collide_Hard(this, (Resettable) other);
+				Collisions.collide_Hard(this, (Resettable) other);
 			}
 			else if(other instanceof Sprite_Box){
 				if(DEBUG_ON)
 					System.out.println("Sprite_Circle: I collided with a Sprite_Box!");
-				CollisionHandler.collide_Hard(this, (Resettable) other); 
+				Collisions.collide_Hard(this, (Resettable) other); 
 			}
 			else{
 				if(DEBUG_ON)
@@ -371,7 +296,7 @@ public class Mode_Test_Sprites extends Mode {
 
 		public Sprite_Box(int positionX, int positionY, int inWidth, int inHeight) {
 			super(positionX, positionY, inWidth, inHeight, new CollisionArea_SingleRect(),
-					DANGLE_BOXES, true);
+					true);
 			rect = (CollisionArea_SingleRect) super.collisionArea;
 			rect.collisionArea = new Rectangle(positionX, positionY, inWidth, inHeight);
 		}

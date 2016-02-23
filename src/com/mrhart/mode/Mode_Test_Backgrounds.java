@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mrhart.assets.loaders.Loader_Sprite_Backgrounds;
 import com.mrhart.backend.CameraDimensions;
+import com.mrhart.backgrounds.Background;
+import com.mrhart.backgrounds.BoundedBackground;
+import com.mrhart.backgrounds.UnboundedBackground;
 import com.mrhart.renderable.RenderableTextureRegion;
 import com.mrhart.settings.Settings;
-import com.mrhart.sprites.background.Background;
-import com.mrhart.sprites.background.UnboundedBackground;
-import com.mrhart.sprites.background.BoundedBackground;
 import com.mrhart.state.GameState;
 
 public class Mode_Test_Backgrounds extends Mode {
@@ -20,7 +20,7 @@ public class Mode_Test_Backgrounds extends Mode {
 	private static final int U_BACKGROUND = 0;
 	private static final int V_BACKGROUND = 1;
 	// Change this type to render different backgrounds
-	private static int TYPE = U_BACKGROUND;
+	private static int TYPE = V_BACKGROUND;
 	
 	/*
 	 * Instance Vars
@@ -96,7 +96,7 @@ public class Mode_Test_Backgrounds extends Mode {
 		region = new RenderableTextureRegion(
 					Loader_Sprite_Backgrounds.get_Bright1(assets));
 		uBackground = new UnboundedBackground(new Background(region), 
-				cameraDimensions, UnboundedBackground.Y_UNBOUNDED);
+				cameraDimensions, UnboundedBackground.X_UNBOUNDED);
 	}
 
 }
