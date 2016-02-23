@@ -18,10 +18,44 @@ public abstract class Sprite_Resettable extends Sprite_Collidable implements Res
 	}
 
 	public Sprite_Resettable(int positionX, int positionY, int width, int height,
+			CollisionArea collisionArea, int ID){
+		this(positionX, positionY, width, height, null, collisionArea, ID);
+	}
+
+	public Sprite_Resettable(int positionX, int positionY, int width, int height,
 			RenderableObject renderObject, CollisionArea collisionArea) {
 		super(positionX, positionY, width, height, renderObject, collisionArea);
 		lastPosition = new Vector2(positionX, positionY);
 	}
+
+	public Sprite_Resettable(int positionX, int positionY, int width, int height,
+			RenderableObject renderObject, CollisionArea collisionArea, int ID) {
+		super(positionX, positionY, width, height, renderObject, collisionArea, ID);
+		lastPosition = new Vector2(positionX, positionY);
+	}
+	
+	public Sprite_Resettable(int positionX, int positionY, int width, int height,
+			CollisionArea collisionArea, boolean topLefted){
+		this(positionX, positionY, width, height, null, collisionArea, topLefted);
+	}
+
+	public Sprite_Resettable(int positionX, int positionY, int width, int height,
+			CollisionArea collisionArea, int ID, boolean topLefted){
+		this(positionX, positionY, width, height, null, collisionArea, ID, topLefted);
+	}
+
+	public Sprite_Resettable(int positionX, int positionY, int width, int height,
+			RenderableObject renderObject, CollisionArea collisionArea, boolean topLefted) {
+		super(positionX, positionY, width, height, renderObject, collisionArea, topLefted);
+		lastPosition = new Vector2(positionX, positionY);
+	}
+
+	public Sprite_Resettable(int positionX, int positionY, int width, int height,
+			RenderableObject renderObject, CollisionArea collisionArea, int ID, boolean topLefted) {
+		super(positionX, positionY, width, height, renderObject, collisionArea, ID, topLefted);
+		lastPosition = new Vector2(positionX, positionY);
+	}
+	
 	
 	@Override
 	public void update(float delta){
@@ -42,5 +76,4 @@ public abstract class Sprite_Resettable extends Sprite_Collidable implements Res
 	public Vector2 getLastPosition() {
 		return lastPosition;
 	}
-
 }

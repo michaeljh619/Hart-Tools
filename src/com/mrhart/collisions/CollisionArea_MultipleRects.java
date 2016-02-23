@@ -121,4 +121,48 @@ public class CollisionArea_MultipleRects implements CollisionArea {
 			return false;
 		}
 	}
+
+	@Override
+	public float getLeftMostEndPoint() {
+		float min = collisionArea[0].x;
+		float localMin;
+		for(int x = 1; x < collisionArea.length; x++){
+			localMin = collisionArea[x].x;
+			min = localMin < min ? localMin : min;
+		}
+		return min;
+	}
+
+	@Override
+	public float getTopMostEndPoint() {
+		float min = collisionArea[0].y;
+		float localMin;
+		for(int x = 1; x < collisionArea.length; x++){
+			localMin = collisionArea[x].y;
+			min = localMin < min ? localMin : min;
+		}
+		return min;
+	}
+
+	@Override
+	public float getRightMostEndPoint() {
+		float max = collisionArea[0].x + collisionArea[0].width;
+		float localMax;
+		for(int x = 1; x < collisionArea.length; x++){
+			localMax = collisionArea[x].x;
+			max = localMax > max ? localMax : max;
+		}
+		return max;
+	}
+
+	@Override
+	public float getBotMostEndPoint() {
+		float max = collisionArea[0].y + collisionArea[0].height;
+		float localMax;
+		for(int x = 1; x < collisionArea.length; x++){
+			localMax = collisionArea[x].y + collisionArea[x].height;
+			max = localMax > max ? localMax : max;
+		}
+		return max;
+	}
 }

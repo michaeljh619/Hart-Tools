@@ -3,7 +3,7 @@ package com.mrhart.collisions;
 import java.util.Iterator;
 
 import com.mrhart.sprites.Sprite;
-import com.mrhart.sprites.SpriteHandler;
+import com.mrhart.sprites.SpriteHandler_Dangles;
 import com.mrhart.sprites.SpriteNode;
 
 /**
@@ -31,7 +31,7 @@ public class CollisionHandler {
 	 * @since v1.00
 	 * @param sprites SpriteHandler to be checked for collisions
 	 */
-	public static void checkCollisions(SpriteHandler sprites) {
+	public static void checkCollisions(SpriteHandler_Dangles sprites) {
 		checkCollisions(sprites.sprites);
 	}
 
@@ -212,38 +212,6 @@ public class CollisionHandler {
 	 * 							Hard Collide
 	 ***************************************************************************/
 	/**
-	 * Performs a hard bounce collision on 2 Resettable objects. A hard bounce is
-	 * basically a bounce that takes whoever was responsible for the collision
-	 * and mirrors their velocity.
-	 * 
-	 * @version v1.00
-	 * @since v1.00
-	 * @param obj1
-	 * @param obj2
-	 */
-	public static void collide_Hard_Bounce(Resettable obj1, Resettable obj2){
-		float obj1VelocityX = obj1.getVelocity().x;
-		float obj1VelocityY = obj1.getVelocity().y;
-		float obj2VelocityX = obj2.getVelocity().x;
-		float obj2VelocityY = obj2.getVelocity().y;
-		
-		collide_Hard(obj1, obj2);
-		
-		if(obj1.getVelocity().x == 0 && obj1VelocityX != 0){
-			obj1.getVelocity().x = -obj1VelocityX;
-		}
-		if(obj1.getVelocity().y == 0 && obj1VelocityY != 0){
-			obj1.getVelocity().y = -obj1VelocityY;
-		}
-		
-		if(obj2.getVelocity().x == 0 && obj2VelocityX != 0){
-			obj2.getVelocity().x = -obj2VelocityX;
-		}
-		if(obj2.getVelocity().y == 0 && obj2VelocityY != 0){
-			obj2.getVelocity().y = -obj2VelocityY;
-		}
-	}
-	/**
 	 * Performs a hard collision on 2 Resettable-Collidable objects. A hard
 	 * collision is a collision where the two objects cannot overlap and the
 	 * one who is "responsible" for the collision, gets pushed back into the
@@ -303,20 +271,24 @@ public class CollisionHandler {
 			if(obj1X > 0){
 				obj1.setPosition(obj1.getLastPosition().x, obj1.getPosition().y);
 				obj1.setVelocity(0, obj1.getVelocity().y);
+				obj1.updateCollisionArea();
 			}
 			else if(obj1Y > 0){
 				obj1.setPosition(obj1.getPosition().x, obj1.getLastPosition().y);
 				obj1.setVelocity(obj1.getVelocity().x, 0);
+				obj1.updateCollisionArea();
 			}
 		}
 		else if(Math.max(obj2X, obj2Y) < Math.max(obj1X, obj1Y)){
 			if(obj2X > 0){
 				obj2.setPosition(obj2.getLastPosition().x, obj2.getPosition().y);
 				obj2.setVelocity(0, obj2.getVelocity().y);
+				obj2.updateCollisionArea();
 			}
 			else if(obj2Y > 0){
 				obj2.setPosition(obj2.getPosition().x, obj2.getLastPosition().y);
 				obj2.setVelocity(obj2.getVelocity().x, 0);
+				obj2.updateCollisionArea();
 			}
 		}
 		else{
@@ -325,20 +297,26 @@ public class CollisionHandler {
 				obj1.setVelocity(0, obj1.getVelocity().y);
 				obj2.setPosition(obj2.getLastPosition().x, obj2.getPosition().y);
 				obj2.setVelocity(0, obj2.getVelocity().y);
+				obj1.updateCollisionArea();
+				obj2.updateCollisionArea();
 			}
 			else if((obj1Y == obj2Y) && (obj1Y != 0)){
 				obj1.setPosition(obj1.getPosition().x, obj1.getLastPosition().y);
 				obj1.setVelocity(obj1.getVelocity().x, 0);
 				obj2.setPosition(obj2.getPosition().x, obj2.getLastPosition().y);
 				obj2.setVelocity(obj2.getVelocity().x, 0);
+				obj1.updateCollisionArea();
+				obj2.updateCollisionArea();
 			}
 			else if((obj1X == obj2Y) && (obj1X != 0)){
 				obj2.setPosition(obj2.getPosition().x, obj2.getLastPosition().y);
 				obj2.setVelocity(obj2.getVelocity().x, 0);
+				obj2.updateCollisionArea();
 			}
 			else{
 				obj1.setPosition(obj1.getPosition().x, obj1.getLastPosition().y);
 				obj1.setVelocity(obj1.getVelocity().x, 0);
+				obj1.updateCollisionArea();
 			}
 		}
 	}

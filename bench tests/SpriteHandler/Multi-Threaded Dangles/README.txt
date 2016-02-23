@@ -1,0 +1,1 @@
+	Since multi-threading will not work as fast, the dangle approach is no longer feasible and I have moved on to a single sorted list approach which is now more optimal. These notes will remain for purposes of seeing how the evolution of the current CollisionHandler developed, however Dangle collision handlers should no longer be used.

@@ -14,7 +14,7 @@ package com.mrhart.collisions;
  *		 character.
  *
  * @author Michael Hart, MrHartGames@yahoo.com
- * @version v2.00
+ * @version v2.10
  * @since 11/01/2015
  */
 public interface Collidable {
@@ -50,10 +50,52 @@ public interface Collidable {
 	 */
 	public boolean canCollide();
 	
+	public boolean canCollideWith(Collidable other);
+	
 	/**
 	 * Updates the CollisionArea. Should be called in your update method after
 	 * doing the vector position update. Will also be used in determining
 	 * collisions in the CollisionHandler.
 	 */
 	public void updateCollisionArea();
+	
+	/**
+	 * Gets the left most x point in a Collision area.
+	 * 
+	 * Used in collision handling, Sprites are sorted by their left X endpoints
+	 * to optimize collisions.
+	 * 
+	 * @return
+	 */
+	public abstract float get_CollisionArea_LeftEndpointX();
+
+	/**
+	 * Gets the bot most y point in a Collision area.
+	 * 
+	 * Used in collision handling, Sprites are sorted by their bot Y endpoints
+	 * to optimize collisions.
+	 * 
+	 * @return
+	 */
+	public abstract float get_CollisionArea_BotEndpointY();
+
+	/**
+	 * Gets the right most x point in a Collision area.
+	 * 
+	 * Used in collision handling, Sprites are sorted by their right X endpoints
+	 * to optimize collisions.
+	 * 
+	 * @return
+	 */
+	public abstract float get_CollisionArea_RightEndpointX();
+
+	/**
+	 * Gets the top most y point in a Collision area.
+	 * 
+	 * Used in collision handling, Sprites are sorted by their top Y endpoints
+	 * to optimize collisions.
+	 * 
+	 * @return
+	 */
+	public abstract float get_CollisionArea_TopEndpointY();
 }
