@@ -43,6 +43,7 @@ public class SpriteHandler {
 	 * @param delta
 	 */
 	public void update(float delta){
+		// Function Vars
 		Sprite current;
 		// This loop checks each individual nodes
 		// @version v1.02 - Removed iterators, slight performance benefit
