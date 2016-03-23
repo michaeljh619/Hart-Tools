@@ -36,6 +36,8 @@ public abstract class Sprite implements Comparable<Sprite> {
 	private boolean comparableX = false;
 	private boolean comparableY = false;
 	private boolean comparableRenderLayer = true;
+	// Decorators
+	
 	
 	/**
 	 * Creates a new Sprite at a position with a width and height

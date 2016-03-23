@@ -7,6 +7,7 @@ import com.mrhart.assets.loaders.Loader_Meta;
 import com.mrhart.collisions.CollisionUpdateable;
 import com.mrhart.mode.Mode;
 import com.mrhart.mode.Mode_Logo;
+import com.mrhart.mode.Mode_Test_TSP;
 import com.mrhart.mode.Mode_Test_Backgrounds;
 import com.mrhart.mode.Mode_Test_Input;
 import com.mrhart.mode.Mode_Test_Selection;
@@ -36,7 +37,7 @@ public class GameWorld {
 	// Used to initialize the game in a certain mode
 	private static int JUMP_TO_STATE = GameState.TEST_SPRITES;
 	// Load Time
-	private static final int LOAD_TIME = 1;
+	private static final int LOAD_TIME = 100;
 	
 	/*
 	 * Instance Vars
@@ -51,6 +52,7 @@ public class GameWorld {
 	private Mode_Test_Sprites mode_test_sprite;
 	private Mode_Test_Backgrounds mode_test_background;
 	private Mode_Test_Selection mode_test_selection;
+	private Mode_Test_TSP mode_test_tsp;
 	// Loading Screen Assets
 	protected AssetManager metaAssets;
 	protected Animation loadingIcon;
@@ -92,6 +94,10 @@ public class GameWorld {
     	case GameState.TEST_SELECTION:
     		mode_test_selection = new Mode_Test_Selection();
     		currentMode = mode_test_selection;
+    		break;
+    	case GameState.TEST_TSP:
+    		mode_test_tsp = new Mode_Test_TSP();
+    		currentMode = mode_test_tsp;
     		break;
     	}
     	

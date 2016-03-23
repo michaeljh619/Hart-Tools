@@ -8,7 +8,7 @@ package com.mrhart.settings;
  */
 public class Settings {
 	// Debuggable
-	public final static boolean DEBUG_ON = false;
+	public final static boolean DEBUG_ON = true;
 	// Screen Dimensions
 	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 500;

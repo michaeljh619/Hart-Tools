@@ -17,6 +17,11 @@ If you have any questions on how anything works, feel free to email me.
 =======
 Commits
 =======
+03/23/16:
+- Created File: [Package - mode] --> Mode_Test_TSP. A mode for playing around with the Travelling Salesman Problem (TSP).
+- Created File: [Package - backend] --> Permute. A class for handling permutations, still needs some work, as it uses recursion for creating permutations.
+- Created Skeleton Files. Will eventually fill these in.
+
 02/23/16:
 - { Laptop Merge }
 - Updated Package: [Package - shapes] --> ALL FILES. Updated all classes to extend their respective shapes in LibGDX. Rather than using composition, inheritence was more natural.

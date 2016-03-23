@@ -43,11 +43,11 @@ public class Assets {
 				positionX = x*regionWidth;
 				positionY = y*regionHeight;
 				// Create the region
-				returnRegions[y*numRows + x] 
+				returnRegions[y*numColumns + x] 
 						= new TextureRegion(loadedTexture, 
 								positionX, positionY, 
 								regionWidth, regionHeight);
-				returnRegions[y*numRows + x].flip(false, true);
+				returnRegions[y*numColumns + x].flip(false, true);
 			}
 		}
 		
