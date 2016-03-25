@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.mrhart.backend.Debuggable;
 import com.mrhart.backend.Permute;
-import com.mrhart.state.GameState;
 
 public class Mode_Test_TSP extends Mode implements Debuggable {
 	private static final int SHIFT_X = 50;
@@ -37,9 +36,9 @@ public class Mode_Test_TSP extends Mode implements Debuggable {
 	// Stop
 	private boolean done = false;
 
-	public Mode_Test_TSP() {
+	public Mode_Test_TSP(ModeBin modeBin) {
 		// Initialize Top Level Mode
-		super(GameState.TEST_TSP);
+		super(modeBin);
 		// Open File and read it
 		FileHandle handle = Gdx.files.internal(FILE_NAME);
 		String[] lines = handle.readString().split("\\r?\\n");
@@ -85,7 +84,7 @@ public class Mode_Test_TSP extends Mode implements Debuggable {
 	}
 
 	@Override
-	public int update(float delta) {
+	public Class update(float delta) {
 		// Calculates current permutation
 		/*
 		 * If statement: occurs every cycle
@@ -131,7 +130,7 @@ public class Mode_Test_TSP extends Mode implements Debuggable {
 			System.err.print("\n");
 			System.err.println("Best Distance: " + bestDist/SCALE);
 		}
-		return 0;
+		return null;
 	}
 
 	@Override
@@ -151,5 +150,11 @@ public class Mode_Test_TSP extends Mode implements Debuggable {
 			System.err.println("Point " + i + ": (" + x + ", " + y + ")");
 		}
 		
+	}
+
+	@Override
+	public ModeBin getNextModeBin() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

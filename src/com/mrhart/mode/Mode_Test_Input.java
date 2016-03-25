@@ -12,7 +12,6 @@ import com.mrhart.input.Joystick;
 import com.mrhart.input.JoystickCommands;
 import com.mrhart.renderable.RenderableTextureRegion;
 import com.mrhart.shapes.Hart_Circle;
-import com.mrhart.state.GameState;
 
 public class Mode_Test_Input extends Mode implements Debuggable{
 	/*
@@ -25,8 +24,8 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 	// Graphics
 	private TextureRegion jsStick, jsBackground, buttonRegion;
 	
-	public Mode_Test_Input(){
-		super(GameState.TEST_INPUT);
+	public Mode_Test_Input(ModeBin modeBin){
+		super(modeBin);
 		
 		// Load into AssetManager
 		Loader_Input.loadButtonLight_A(assets);
@@ -42,7 +41,7 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 	}
 	
 	@Override
-	public int update(float delta) {
+	public Class update(float delta) {
 		joystick.update();
 		button.update();
 		
@@ -55,7 +54,7 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 			System.err.println("Joystick Angle: " + commands.getAngle());
 		}
 		
-		return GameState.NULL;
+		return null;
 	}
 
 	@Override
@@ -82,5 +81,11 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 		// Finalize Button Region
 		buttonRegion = Loader_Input.getButtonLight_A(assets);
 		button.setRenderObject(new RenderableTextureRegion(buttonRegion));
+	}
+
+	@Override
+	public ModeBin getNextModeBin() {
+		// TODO Auto-generated method stub
+		return modeBin;
 	}
 }

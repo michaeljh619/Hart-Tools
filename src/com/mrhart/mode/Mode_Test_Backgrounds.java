@@ -11,7 +11,6 @@ import com.mrhart.backgrounds.BoundedBackground;
 import com.mrhart.backgrounds.UnboundedBackground;
 import com.mrhart.renderable.RenderableTextureRegion;
 import com.mrhart.settings.Settings;
-import com.mrhart.state.GameState;
 
 public class Mode_Test_Backgrounds extends Mode {
 	/*
@@ -35,20 +34,20 @@ public class Mode_Test_Backgrounds extends Mode {
 	private CameraDimensions cameraDimensions;
 	private OrthographicCamera camera;
 
-	public Mode_Test_Backgrounds(OrthographicCamera camera) {
+	public Mode_Test_Backgrounds(ModeBin modeBin) {
 		// Super Constructor
-		super(GameState.TEST_BACKGROUNDS);
+		super(modeBin);
 		
 		// Load assets
 		Loader_Sprite_Backgrounds.load_Bright1(assets);
 		
 		// Camera
-		this.camera = camera;
+		this.camera = modeBin.camera;
 		cameraDimensions = new CameraDimensions(camera);
 	}
 
 	@Override
-	public int update(float delta) {
+	public Class update(float delta) {
 		if(Gdx.input.isKeyPressed(Keys.LEFT)){
 			camera.translate(-5, 0);
 		}
@@ -67,7 +66,7 @@ public class Mode_Test_Backgrounds extends Mode {
 		cameraDimensions.update(camera);
 		
 		
-		return GameState.NULL;
+		return null;
 	}
 
 	@Override
@@ -99,4 +98,7 @@ public class Mode_Test_Backgrounds extends Mode {
 				cameraDimensions, UnboundedBackground.X_UNBOUNDED);
 	}
 
+	public ModeBin getNextModeBin(){
+		return modeBin;
+	}
 }
