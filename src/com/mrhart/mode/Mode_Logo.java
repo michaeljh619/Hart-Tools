@@ -9,7 +9,6 @@ import com.mrhart.assets.loaders.Loader_Effects;
 import com.mrhart.assets.loaders.Loader_Logo;
 import com.mrhart.settings.Settings;
 import com.mrhart.settings.Settings_Timer;
-import com.mrhart.state.GameState;
 import com.mrhart.tools.Timer;
 import com.mrhart.world.GameWorld;
 
@@ -67,9 +66,9 @@ public class Mode_Logo extends Mode {
 	private float runtime_sign;
 	private float runtime_underline;
 	
-	public Mode_Logo(){
+	public Mode_Logo(ModeBin modeBin){
 		// Set up top level constructor
-		super(GameState.LOGO);
+		super(modeBin);
 		
 		/*
 		 * Load assets
@@ -96,7 +95,7 @@ public class Mode_Logo extends Mode {
 	}
 
 	@Override
-	public int update(float delta) {
+	public Class update(float delta) {
 		// Wait for the global reset of loading assets to complete
 		if(globalResetTimer.isDone()){
 			Timer.unfreezeTimers(Settings_Timer.TIMER_ID_DEFAULT);
@@ -134,10 +133,10 @@ public class Mode_Logo extends Mode {
 		
 		// Now check the underline timer
 		if(isReadyToFinish && fadeTimer.isDone()){
-			return GameState.MENU;
+			return Mode_Logo.class;
 		}
 		else{
-			return GameState.NULL;
+			return null;
 		}
 	}
 
@@ -229,6 +228,12 @@ public class Mode_Logo extends Mode {
 		}
 		
 		return runtime - runtime_underline;
+	}
+
+	@Override
+	public ModeBin getNextModeBin() {
+		// TODO Auto-generated method stub
+		return modeBin;
 	}
 
 }

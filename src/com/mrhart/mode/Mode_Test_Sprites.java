@@ -16,7 +16,6 @@ import com.mrhart.renderable.RenderableTextureRegion;
 import com.mrhart.sprites.Sprite;
 import com.mrhart.sprites.SpriteHandler;
 import com.mrhart.sprites.Sprite_Resettable;
-import com.mrhart.state.GameState;
 import com.mrhart.tools.Timer;
 
 public class Mode_Test_Sprites extends Mode {
@@ -51,8 +50,8 @@ public class Mode_Test_Sprites extends Mode {
 	private boolean isReadyToBenchTest = false;
 
 	@SuppressWarnings("unused")
-	public Mode_Test_Sprites() {
-		super(GameState.TEST_SPRITES);
+	public Mode_Test_Sprites(ModeBin modeBin) {
+		super(modeBin);
 		
 		// Load Assets
 		Loader_Input.loadButtonDark_A(assets);
@@ -68,7 +67,7 @@ public class Mode_Test_Sprites extends Mode {
 
 	@SuppressWarnings("unused")
 	@Override
-	public int update(float delta) {
+	public Class update(float delta) {
 		// Allow grace time to finish before testing
 		if(graceTime.isDone())
 			isReadyToBenchTest = true;
@@ -108,7 +107,7 @@ public class Mode_Test_Sprites extends Mode {
 		}
 		
 		// Stuck in here forever! Muahahah
-		return GameState.NULL;
+		return null;
 	}
 
 	@SuppressWarnings("unused")
@@ -346,6 +345,14 @@ public class Mode_Test_Sprites extends Mode {
 			else
 				return -1;
 		}
+	}
+
+
+
+	@Override
+	public ModeBin getNextModeBin() {
+		// TODO Auto-generated method stub
+		return modeBin;
 	}
 
 

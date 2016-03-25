@@ -7,7 +7,6 @@ import com.mrhart.renderable.RenderableObject;
 import com.mrhart.renderable.RenderableTextureRegion;
 import com.mrhart.settings.Settings;
 import com.mrhart.sprites.Sprite;
-import com.mrhart.state.GameState;
 import com.mrhart.ui.Selection;
 
 public class Mode_Test_Selection extends Mode{
@@ -25,8 +24,8 @@ public class Mode_Test_Selection extends Mode{
 	private Box[][] boxes;
 	private int x, y;
 
-	public Mode_Test_Selection() {
-		super(GameState.TEST_SELECTION);
+	public Mode_Test_Selection(ModeBin modeBin) {
+		super(modeBin);
 		keys = new KeyboardArrows();
 		selection = new Selection(keys, X, Y, 0, 0);
 		// Selection Settings
@@ -38,11 +37,11 @@ public class Mode_Test_Selection extends Mode{
 	}
 
 	@Override
-	public int update(float delta) {
+	public Class update(float delta) {
 		selection.update();
 		x = selection.getCurrentStateX();
 		y = selection.getCurrentStateY();
-		return GameState.NULL;
+		return null;
 	}
 
 	@Override
@@ -74,5 +73,11 @@ public class Mode_Test_Selection extends Mode{
 			super(positionX, positionY, width, height, renderObject);
 			// TODO Auto-generated constructor stub
 		}
+	}
+
+	@Override
+	public ModeBin getNextModeBin() {
+		// TODO Auto-generated method stub
+		return modeBin;
 	}
 }

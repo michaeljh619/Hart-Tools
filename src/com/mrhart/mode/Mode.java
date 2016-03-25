@@ -19,16 +19,15 @@ public abstract class Mode {
 	/*
 	 * Instance Vars
 	 */
-	// StateID that is attached to a GameState
-	public int stateID;
 	// Assets
 	protected AssetManager assets;
+	protected ModeBin modeBin;
 	
-	public Mode(int stateID){
-		// ID
-		this.stateID = stateID;
+	public Mode(ModeBin modeBin){
 		// Assets
 		assets = new AssetManager();
+		// ModeBin
+		this.modeBin = modeBin;
 	}
 	
 	
@@ -39,16 +38,16 @@ public abstract class Mode {
 	/**
 	 * Update function to update objects
 	 * 
-	 * Returns an int that is the next state to update to. If there is
-	 * to be no state update, then return STATE_NULL or 0.
-	 * GameWorld should handle the state updates and memory management
-	 * when update returns a state update.
+	 * Returns a Class that is the next state to update to. If there is
+	 * to be no mode update, then return null.
+	 * GameWorld should handle the mode updates and memory management
+	 * when update returns a different class.
 	 * 
 	 * Pre-Condition: All assets must be finished loading.
 	 * 
 	 * @param delta Number of seconds in between each frame.
 	 */
-	public abstract int update(float delta);
+	public abstract Class<Mode> update(float delta);
 	
 	/**
 	 * Render function to render objects to the screen
@@ -116,4 +115,14 @@ public abstract class Mode {
 	public float getLoadProgress(){
 		return assets.getProgress();
 	}
+	
+	/**
+	 * Gets the ModeBin that will be passed to the next Mode. If you have
+	 * nothing to send, merely return the ModeBin you are currently using.
+	 * Otherwise, construct some child class of ModeBin and set its camera
+	 * to the camera the old ModeBin was using.
+	 * 
+	 * @return
+	 */
+	public abstract ModeBin getNextModeBin();
 }
