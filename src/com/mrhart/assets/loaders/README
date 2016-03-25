@@ -1,0 +1,37 @@
+Package: com.mrhart.assets.loaders
+Name: Loaders Package
+
+-------------------------------------------------------------------------------
+
+Description:
+	This is the Loaders Package, that will hold user defined classes that will
+load and retrieve assets. Some Loaders are pre-defined for generic assets that
+the developer may want, e.g. fade effects, joystick assets, etc.
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	Static functions in developer defined classes will load and get assets
+that will be needed in Modes.
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:
+	The developer should define two types of functions for every asset that
+they want to use: "load" and "get".
+	Load functions are used for loading assets to an AssetManager. To begin,
+a Load function should take an AssetManager as a parameter, with this 
+AssetManager you may load as many or as few assets as you want to it. Note
+that in a load, you have the capability to load multiple assets at the same
+time; so if you know that certain assets will always be loaded with each other
+(for example, different layers of a parallax background), then load all of the
+assets together.
+	Get functions are used for getting assets from an AssetManager. To begin,
+a Get function should take an AssetManager as a parameter. We need to return
+the loaded LibGDX class which holds the asset. For example, a .wav file might
+be held by a LibGDX "Sound" class. Once you have retrieved the LibGDX class,
+you should return it to the user. Since we are returning classes, it is
+suggested you write a get function for every single asset you load. However,
+if you know that multiple assets will always be used together, you could
+return an array of assets; just realize that when retrieving this array, you
+will need to know which index numbers correspond to which assets in your Mode.

@@ -35,7 +35,7 @@ public class GameWorld {
 	 */
 	// Files
 	// Used to initialize the game in a certain mode
-	private static int JUMP_TO_STATE = GameState.TEST_SPRITES;
+	private static int JUMP_TO_STATE = GameState.TEST_TSP;
 	// Load Time
 	private static final int LOAD_TIME = 100;
 	

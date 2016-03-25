@@ -32,7 +32,7 @@ public class Mode_Test_Sprites extends Mode {
 	private static final int RENDER_LAYER_CIRC_R = 5;
 	// Bench Test
 	private static final int MAX_TESTS = 1000;
-	private static final int NUM_OBJECTS = 10; // Times 6
+	private static final int NUM_OBJECTS = 150; // Times 6
 	// Sprites
 	private static final int WIDTH = 25;
 	
