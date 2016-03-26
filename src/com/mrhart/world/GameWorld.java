@@ -32,7 +32,7 @@ public class GameWorld {
 	// Used to initialize the game in a certain mode
 	private static Class STARTING_MODE = Mode_Logo.class;
 	// Load Time
-	private static final int LOAD_TIME = 100;
+	private static final int LOAD_TIME = 150;
 	
 	/*
 	 * Instance Vars
@@ -41,6 +41,7 @@ public class GameWorld {
 	protected Mode currentMode;
 	// Loading Screen Assets
 	protected AssetManager metaAssets;
+	protected AssetManager assets;
 	protected Animation loadingIcon;
 	// Volume Modifier
 	public static float volume = 1.0f;
@@ -58,18 +59,21 @@ public class GameWorld {
     	// Camera
     	this.camera = camera;
     	
+    	// Assets
+    	metaAssets = new AssetManager();
+    	assets = new AssetManager();
+    	Loader_Meta.loadIcon(metaAssets);
+    	
     	// Modes
     	ModeBin modeBin = new ModeBin(camera);
     	try {
-			currentMode = (Mode) STARTING_MODE.getConstructor(ModeBin.class).newInstance(modeBin);
+			currentMode = (Mode) STARTING_MODE
+					.getConstructor(ModeBin.class, AssetManager.class)
+					.newInstance(modeBin, assets);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-    	// Assets
-    	metaAssets = new AssetManager();
-    	Loader_Meta.loadIcon(metaAssets);
 	}
 
 	/**
@@ -92,7 +96,7 @@ public class GameWorld {
 		
 		// If the current mode is already loaded, then go ahead
 		// and continue with the current mode's update.
-		if(currentMode.isFinishedLoading()){
+		if(assets.getProgress() >= 1.0f){
 			// Update current mode
 			Class nextMode = currentMode.update(delta);
 			ModeBin nextModeBin = currentMode.getNextModeBin();
@@ -104,7 +108,7 @@ public class GameWorld {
 				((StateUpdateable) currentMode).updateStates();
 			// Dispose the currentMode's assets if currentMode is finished
 			if(nextMode != null){
-				currentMode.dispose();
+				currentMode.unloadAssets();
 			}
 			// Return if currentMode's update returns null, we are not transitioning
 			// to another mode.
@@ -115,7 +119,9 @@ public class GameWorld {
 			// TODO: DEV - Decide what to do with the next state
 			try {
 				nextModeBin.setLastMode(currentMode.getClass());
-				currentMode = (Mode) nextMode.getConstructor(ModeBin.class).newInstance(nextModeBin);
+				currentMode = (Mode) nextMode
+						.getConstructor(ModeBin.class, AssetManager.class)
+						.newInstance(nextModeBin, assets);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -123,13 +129,13 @@ public class GameWorld {
 		// Else we are going to load little blocks of the assets until its finished
 		else{
 			// Load little block of assets
-			currentMode.updateAssetManager(LOAD_TIME);
+			assets.update(LOAD_TIME);
 			if(DEBUG_ON)
-				System.err.println("Current Mode's Load Progress: " + currentMode.getLoadProgress());
+				System.err.println("Current Mode's Load Progress: " + assets.getProgress());
 			
 			// Check if current mode's assets are done loading to initialize
 			// all texture regions and animations
-			if(currentMode.isFinishedLoading()){
+			if(assets.getProgress() >= 1.0f){
 				currentMode.finalize();
 				if(DEBUG_ON)
 					System.err.println("Finalizing Current Mode's Assets");

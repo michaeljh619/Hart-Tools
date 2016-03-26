@@ -2,6 +2,7 @@ package com.mrhart.mode;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mrhart.assets.loaders.Loader_Sprite_Backgrounds;
@@ -34,9 +35,9 @@ public class Mode_Test_Backgrounds extends Mode {
 	private CameraDimensions cameraDimensions;
 	private OrthographicCamera camera;
 
-	public Mode_Test_Backgrounds(ModeBin modeBin) {
+	public Mode_Test_Backgrounds(ModeBin modeBin, AssetManager assets) {
 		// Super Constructor
-		super(modeBin);
+		super(modeBin, assets);
 		
 		// Load assets
 		Loader_Sprite_Backgrounds.load_Bright1(assets);

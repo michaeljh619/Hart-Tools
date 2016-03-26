@@ -3,11 +3,11 @@ package com.mrhart.mode;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.mrhart.backend.Debuggable;
 import com.mrhart.backend.Permute;
@@ -36,9 +36,9 @@ public class Mode_Test_TSP extends Mode implements Debuggable {
 	// Stop
 	private boolean done = false;
 
-	public Mode_Test_TSP(ModeBin modeBin) {
+	public Mode_Test_TSP(ModeBin modeBin, AssetManager assets) {
 		// Initialize Top Level Mode
-		super(modeBin);
+		super(modeBin, assets);
 		// Open File and read it
 		FileHandle handle = Gdx.files.internal(FILE_NAME);
 		String[] lines = handle.readString().split("\\r?\\n");

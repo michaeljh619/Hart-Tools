@@ -1,9 +1,9 @@
 package com.mrhart.mode;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.mrhart.assets.loaders.Loader_Input;
 import com.mrhart.backend.Debuggable;
@@ -24,8 +24,8 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 	// Graphics
 	private TextureRegion jsStick, jsBackground, buttonRegion;
 	
-	public Mode_Test_Input(ModeBin modeBin){
-		super(modeBin);
+	public Mode_Test_Input(ModeBin modeBin, AssetManager assets){
+		super(modeBin, assets);
 		
 		// Load into AssetManager
 		Loader_Input.loadButtonLight_A(assets);
@@ -61,11 +61,6 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 	public void render(SpriteBatch batcher, float runtime) {
 		joystick.render(batcher);
 		button.render(batcher, runtime);
-	}
-
-	@Override
-	public void dispose() {
-		
 	}
 	
 	public void debug(ShapeRenderer shapes){

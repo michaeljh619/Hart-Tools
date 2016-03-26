@@ -2,6 +2,7 @@ package com.mrhart.mode;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Modes are used for smooth transitions from different game states. Each
@@ -23,9 +24,9 @@ public abstract class Mode {
 	protected AssetManager assets;
 	protected ModeBin modeBin;
 	
-	public Mode(ModeBin modeBin){
+	public Mode(ModeBin modeBin, AssetManager assets){
 		// Assets
-		assets = new AssetManager();
+		this.assets = assets;
 		// ModeBin
 		this.modeBin = modeBin;
 	}
@@ -47,7 +48,7 @@ public abstract class Mode {
 	 * 
 	 * @param delta Number of seconds in between each frame.
 	 */
-	public abstract Class<Mode> update(float delta);
+	public abstract Class update(float delta);
 	
 	/**
 	 * Render function to render objects to the screen
@@ -72,48 +73,15 @@ public abstract class Mode {
 	public abstract void finalize();
 	
 	/**
-	 * Disposes assets in AssetManager
+	 * Unloads assets from the AssetManager, at SuperClass Mode level, all
+	 * assets are unloaded. If overridden, you may choose what to unload, as
+	 * perhaps assets may be reused in the next mode.
 	 */
-	public void dispose(){
-		assets.dispose();
-	}
-	
-	/**
-	 * Checks if the AssetManager is finished loading
-	 */
-	public boolean isFinishedLoading(){
-		return (assets.getProgress() >= 1.0f);
-	}
-	
-	/**
-	 * Calls the AssetManager's update method.
-	 * 
-	 * @return Boolean returned from AssetManager's update.
-	 */
-	public boolean updateAssetManager(){
-		return assets.update();
-	}
-
-	/**
-	 * Calls the AssetManager's update method for a set
-	 * amount of milliseconds.
-	 * 
-	 * @param milliseconds Milliseconds to load for.
-	 * @return Boolean returned from AssetManager's update.
-	 */
-	public boolean updateAssetManager(int milliseconds){
-		return assets.update(milliseconds);
-	}
-	
-	/**
-	 * Returns the current progress of the AssetManager's loading
-	 * as a float:
-	 *      - 0.0f = Nothing Loaded
-	 *      - 1.0f = Everything Loaded
-	 * @return
-	 */
-	public float getLoadProgress(){
-		return assets.getProgress();
+	public void unloadAssets(){
+		Array<String> files = assets.getAssetNames();
+		for(int x = 0; x < files.size; x++){
+			assets.unload(files.get(x));
+		}
 	}
 	
 	/**

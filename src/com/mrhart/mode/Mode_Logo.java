@@ -1,5 +1,6 @@
 package com.mrhart.mode;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
@@ -66,9 +67,9 @@ public class Mode_Logo extends Mode {
 	private float runtime_sign;
 	private float runtime_underline;
 	
-	public Mode_Logo(ModeBin modeBin){
+	public Mode_Logo(ModeBin modeBin, AssetManager assets){
 		// Set up top level constructor
-		super(modeBin);
+		super(modeBin, assets);
 		
 		/*
 		 * Load assets
@@ -229,7 +230,7 @@ public class Mode_Logo extends Mode {
 		
 		return runtime - runtime_underline;
 	}
-
+	
 	@Override
 	public ModeBin getNextModeBin() {
 		// TODO Auto-generated method stub

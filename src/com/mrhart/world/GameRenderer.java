@@ -77,7 +77,7 @@ public class GameRenderer {
 		batcher.enableBlending();
 		
 		// Renders current mode
-		if(gameWorld.currentMode.isFinishedLoading()){
+		if(gameWorld.assets.getProgress() >= 1.0f){
 			gameWorld.currentMode.render(batcher, runtime);
 		}
 		// Render the loading screen instead
@@ -89,7 +89,7 @@ public class GameRenderer {
 		batcher.end();
 		
 		if(gameWorld.currentMode instanceof Debuggable && Settings.DEBUG_ON
-				&& gameWorld.currentMode.isFinishedLoading()){
+				&& gameWorld.assets.getProgress() >= 1.0f){
 			shapes.setColor(Color.RED);
 			shapes.begin(ShapeType.Line);
 			((Debuggable) gameWorld.currentMode).debug(shapes);

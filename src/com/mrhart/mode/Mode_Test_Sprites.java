@@ -1,5 +1,6 @@
 package com.mrhart.mode;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
@@ -50,8 +51,8 @@ public class Mode_Test_Sprites extends Mode {
 	private boolean isReadyToBenchTest = false;
 
 	@SuppressWarnings("unused")
-	public Mode_Test_Sprites(ModeBin modeBin) {
-		super(modeBin);
+	public Mode_Test_Sprites(ModeBin modeBin, AssetManager assets) {
+		super(modeBin, assets);
 		
 		// Load Assets
 		Loader_Input.loadButtonDark_A(assets);

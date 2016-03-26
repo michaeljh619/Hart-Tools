@@ -1,5 +1,6 @@
 package com.mrhart.mode;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mrhart.assets.loaders.Loader_Sprite_Backgrounds;
 import com.mrhart.input.KeyboardArrows;
@@ -24,8 +25,8 @@ public class Mode_Test_Selection extends Mode{
 	private Box[][] boxes;
 	private int x, y;
 
-	public Mode_Test_Selection(ModeBin modeBin) {
-		super(modeBin);
+	public Mode_Test_Selection(ModeBin modeBin, AssetManager assets) {
+		super(modeBin, assets);
 		keys = new KeyboardArrows();
 		selection = new Selection(keys, X, Y, 0, 0);
 		// Selection Settings

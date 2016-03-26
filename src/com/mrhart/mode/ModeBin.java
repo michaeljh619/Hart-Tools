@@ -19,4 +19,8 @@ public class ModeBin {
 	public void setLastMode(Class lastMode){
 		this.lastMode = lastMode;
 	}
+	
+	public Class getLastMode(){
+		return lastMode;
+	}
 }
