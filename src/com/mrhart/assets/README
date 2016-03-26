@@ -1,0 +1,46 @@
+Package: com.mrhart.assets
+Name: Assets Package
+
+-------------------------------------------------------------------------------
+
+Description:
+	This is the Assets package, that provides functionality for your assets.
+Assets are defined as anything used in game, that is NOT source code. Examples
+include text files, images, fonts, etc. Using the assets classes will allow you
+ease of access when loading, retrieving, and modifying assets.
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	As of now, Assets has one class, aptly named "Assets." This class' sole
+responsibility is to provide some basic functionality in loading Assets to an
+AssetManager. In older versions of Hart Tools, assets were loaded and disposed
+manually, as well as relied on static versions of images and audio files. This
+practice is highly inefficient, as static variables have issues on different
+mobile platforms. AssetManagers allow for a developer to load blocks of assets,
+or load continuously which allows for a loading screen. More on how Hart Tools
+handling of AssetManagers is available in the World Package.
+	There is also a subpackage loaders, which is a series of user defined
+classes that allow for a one stop shop for loading and retrieving assets that
+a developer would use in their game. Another README is available in that
+package for further information.
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:
+	When creating your custom loaders, inevitably you will need to load
+Textures into RAM. To do so, Assets class provides loading functions, which
+automatically fill in TextureParameters that the developer would normally have
+to do themselves. For example, TextureFilters are automatically set to Nearest.
+However if the developer wishes to use custom TextureParameters, there is also
+a function for that.
+	When loading, you will need the relative path of the file starting at (but
+excluding) the assets folder. For example, "graphics/logo/file1.png" would be
+a relative path, meaning that there is a folder in assets called graphics, and
+inside graphics there is a folder logo, and inside logo there is a png file
+"file1".
+	You will also need this relative path when retrieving files from the
+AssetManager. To automatically create TextureRegions out of your Textures,
+merely use createRegions functions in the Assets class. TextureRegions are
+suggested for rendering Sprites, as Textures are the images themselves, and
+there are issues with using the Textures themselves versus regions.

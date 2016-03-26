@@ -1,0 +1,24 @@
+Package: com.mrhart.backend
+Name: Backend Package
+
+-------------------------------------------------------------------------------
+
+Description:
+	This is the Backend package, it provides supporting functions for math and
+common procedures that a developer may need.
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	Static functions in this class will allow developers to cut down on code
+size.
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:
+	Self-explanatory really, there are lots of common functions in this package
+to help reduce code size. For example, if you have a 360.0 degree rotation
+scale and you need to perform addition, adding two degrees together, the
+Rotation class has functions for that. Note that a lot of common functions can
+be found in Java standard library classes; however, I found that there were
+some functions missing and took the liberty of making those here.
