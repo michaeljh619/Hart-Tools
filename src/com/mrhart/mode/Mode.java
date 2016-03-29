@@ -48,7 +48,7 @@ public abstract class Mode {
 	 * 
 	 * @param delta Number of seconds in between each frame.
 	 */
-	public abstract Class update(float delta);
+	public abstract Class<? extends Mode> update(float delta);
 	
 	/**
 	 * Render function to render objects to the screen
