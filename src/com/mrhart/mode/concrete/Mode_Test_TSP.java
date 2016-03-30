@@ -1,4 +1,4 @@
-package com.mrhart.mode;
+package com.mrhart.mode.concrete;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.mrhart.backend.Debuggable;
 import com.mrhart.backend.Permute;
+import com.mrhart.mode.Mode;
+import com.mrhart.mode.ModeBin;
 
 public class Mode_Test_TSP extends Mode implements Debuggable {
 	private static final int SHIFT_X = 50;
@@ -84,7 +86,7 @@ public class Mode_Test_TSP extends Mode implements Debuggable {
 	}
 
 	@Override
-	public Class update(float delta) {
+	public Class<? extends Mode> update(float delta) {
 		// Calculates current permutation
 		/*
 		 * If statement: occurs every cycle

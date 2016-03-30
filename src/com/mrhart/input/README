@@ -1,0 +1,33 @@
+Package: com.mrhart.input
+Name: Input Package
+Type: Support
+Version: v2.00
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.00
+- Massive overhaul of system.
+
+-------------------------------------------------------------------------------
+
+Description:
+	This is the Input package, it provides classes that allow the user to give
+some type of input to the game.
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	Some objects in this package will be onscreen, as in Joysticks and Buttons,
+and others may just detect things, like KeyboardArrows. Most classes will need
+to have an update function called, as they check for touches, keystrokes, etc.
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:
+	Create your input object and detect your input. Usually you want to detect
+your input before any Sprite updates, if you have some Sprite that moves when
+something is pressed, you want it to occur immediately and not be delayed until
+the next cycle. The onscreen objects also need to be rendered to the screen,
+and more than likely will be rendered after all other objects have been
+rendered (you want your user to see the UI!).

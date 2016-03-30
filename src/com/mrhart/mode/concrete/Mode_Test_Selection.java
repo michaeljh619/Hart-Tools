@@ -1,9 +1,11 @@
-package com.mrhart.mode;
+package com.mrhart.mode.concrete;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mrhart.assets.loaders.Loader_Sprite_Backgrounds;
+import com.mrhart.assets.concrete.Loader_Sprite_Backgrounds;
 import com.mrhart.input.KeyboardArrows;
+import com.mrhart.mode.Mode;
+import com.mrhart.mode.ModeBin;
 import com.mrhart.renderable.RenderableObject;
 import com.mrhart.renderable.RenderableTextureRegion;
 import com.mrhart.settings.Settings;
@@ -38,7 +40,7 @@ public class Mode_Test_Selection extends Mode{
 	}
 
 	@Override
-	public Class update(float delta) {
+	public Class<? extends Mode> update(float delta) {
 		selection.update();
 		x = selection.getCurrentStateX();
 		y = selection.getCurrentStateY();

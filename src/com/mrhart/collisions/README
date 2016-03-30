@@ -1,0 +1,75 @@
+Package: com.mrhart.collisions
+Name: Collisions Package
+Type: System
+Version: v2.01
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.01
+- Removed CollidableUpdateable interface and added to Mode Package. Note that
+Modes are the only classes that use CollidableUpdateable, and it would cause
+programmers more problems forgetting where this interface was if it was not
+kept in the Mode package.
+	v2.00
+- Massive overhaul of system.
+
+
+-------------------------------------------------------------------------------
+
+Description:
+	This is the Collisions package, it provides classes for handling
+collisions. Note that here, we define a "collision" as the event when two
+Sprites overlap. To be more specific, it is when two Collidable Sprites'
+CollisionAreas are overlapping, more on this later.
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	Let's start with the Collidable interface. Collidable allows some object to
+have a CollisionArea and for it to collide with other Collidable objects. Note
+that since Collidable is an interface, the target object need not be a Sprite!
+This distinction has not yet become of importance to me, but in the future it
+may be important. For the scope of this package as of yet, we will assume that
+the target object is a Sprite, this way we can get the full use of the
+Collisions package with SpriteHandler.
+	CollisionAreas are merely areas of space where a Collidable object can
+collide with another Collidable object. Many people commonly refer to these
+areas as hitboxes. The essence of a CollisionArea, is that it uses some mixture
+of LibGDX Rectangles and Circles to detect collisions with other
+CollisionAreas. For most projects, a CollisionArea_SingleRect will suffice for
+most Sprites; this provides a single rectangle to encompass your Sprite.
+	OptimalCollidable interface provides a way to cut down on collision
+checking. Suppose I have some complex shaped object with a large amount of
+rectangles and circles. In SpriteHandler, it becomes tedious to check all these
+areas over and over against other Sprites. By using an OptimalCollisionArea,
+you can encompass all the extremities of your CollisionArea with a single
+CollisionArea (preferably a single rectangle or circle, otherwise what's the
+point amirite?), and merely check that one first; in this way, if I have to
+check collisions against 7 Sprites who the Sprite is not overlapping, I merely
+do 7 checks versus 7 times all the "inner" CollisionAreas. Although it is not
+enforced anywhere, which it may be in future versions, the optimal
+CollisionArea must encompass all the CollisionAreas of the Collidable Sprite.
+Otherwise, OptimalCollidable may say there is no collision occurring, when,
+in fact, there is some outer CollisionArea overlapping another Sprite.
+	Resettable is an extended interface of Collidable. A Resettable Sprite
+works just like a Collidable Sprite, with the added benefit of keeping track
+of the position it was in the last update. This allows us to "reset" Sprites to
+their last position when they collide with another object. In the Collisions
+class, we can use these Resettable Sprites to perform a Hard Collisions, which
+is a collision like we see in the normal world, where objects don't move
+through one another, and instead stop when pushed against each other. Note that
+I do not take weights of objects into account, and this means that by using
+Resettable, you are not able to push other objects around, you are only able
+to prevent objects from moving through one another.
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:
+	Collidable and Resettable Sprites are provided in the Sprites package. The
+only thing you need to work with is CollisionAreas, OptimalCollidable, and
+Collisions. CollisionAreas are just different types of CollisionAreas that will
+be given to your Collidable Sprites, choose wisely! OptimalCollidable can be
+used as an interface to Sprites with lots of CollisionAreas. Collisions will
+have static functions that can be called to handle different types of
+collisions.

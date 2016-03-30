@@ -1,9 +1,8 @@
-package com.mrhart.tools;
+package com.mrhart.backend;
 
 import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.TimeUtils;
-import com.mrhart.backend.Messages;
 
 /**
  * Timers are used to wait a certain amount of seconds or milliseconds. Timers use system time

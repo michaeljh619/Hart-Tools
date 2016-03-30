@@ -1,0 +1,83 @@
+Package: com.mrhart.mode
+Name: Mode Package
+Type: System
+Version: v2.00
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.00
+- Massive overhaul of system.
+
+-------------------------------------------------------------------------------
+
+Description:
+	This is the Mode package, it provides a way of having an automatically
+handled state system in LibGDX. Modes are where the majority of the programming
+will be done, as they offer bite sized sections of work and are excellent for
+splitting up work between programmers in teams.
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	In GameWorld, one mode is always currently running. It starts with the
+STARTING_MODE in the Initializer in the main package. Gameworld will first
+ensure that all the necessary assets in the AssetManager are loaded, if not,
+then your Mode will not be updated or rendered and instead the MetaMode will
+be updated and rendered instead. The MetaMode acts juts like any other mode,
+with the exception that its assets are block-loaded and it is updated and
+rendered only when there are queued assets to be loaded for the current mode.
+This makes the MetaMode perfect for a loading screen.
+	Once your mode has finished loading all assets GameWorld will first call
+the update function in your Mode, then if applicable, it will call the
+collision updates and the state updates last. The update method of a Mode 
+should return a Class object of the next Mode to transition to, if you return 
+null, then no transition will occur and you will remain in the same Mode,
+otherwise, assets will be disposed per your unloadAssets function and the next
+Mode will be created.
+	After all the updates in GameWorld, your Mode will be rendered via the
+render method, where you are given an initialized SpriteBatch object and the
+current runtime (added delta time since program execution, used for
+animations).
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:
+	To use this package, merely create subclasses of Mode in the Concrete Mode
+package. First and MOST IMPORTANT: create a Constructor in your mode that
+matches the parent Mode's Constructor, taking a ModeBin (more on this in a
+little) and an AssetManager. In GameWorld, Java's Reflection class is used to
+specifically call this constructor, if you do not have a Constructor that
+exactly matches those parameters, YOUR PROGRAM WILL CRASH. In order to take
+advantage of the class transition system that GameWorld offers, you must build
+your Constructors this way. In your constructor, you should also load any
+assets that will be needed for this mode. Note that you can load more than is
+needed for any next Modes that may occur.
+	For example, if I am at the logo screen and I don't want to deal with a
+loading screen when getting to the menu screen, I can load all the assets that
+I'll need for the Logo Mode and the Menu Mode and only dispose the Logo screen
+assets when the Logo Mode finishes, this way you load once for two modes.
+	Once all your assets are loaded, the finalize method will be called one
+time, in the finalize method, you should get all the assets and construct all
+your Sprites, Backgrounds, and any other objects with those assets that you
+loaded.
+	Now that you have all your assets loaded, your Mode will begin to run.
+The order of execution of a Mode is as follows: Update, UpdateCollisions,
+UpdateStates, Render. In the Update stage, all your Sprites should complete
+their position updates, using their velocities, and any input processing, etc.
+Then when you get to the UpdateCollisions stage, you will be guaranteed that
+all your Sprites are all updated and ready to check for collisions. Now you
+check for collisions and call the collide methods in all the Colliding Sprites,
+for more info on how the collision handler for Sprites works, visit the Sprite
+package's README. Now all updates and collisions have been processed, and
+Sprites may now update their respective states, since no more updates will
+occur after the State Update, you know that whatever state the Sprite is
+currently in, is the actual state the Sprite ended in for rendering. Now that 
+all the updates have occurred, rendering can begin via the render method call,
+in which you are given a SpriteBatch which has been initialized.
+	Last but not least, when you are done with the current Mode and are ready
+to transition to another Mode, your unloadAssets method will be called, to
+unload any loaded assets from the AssetManager that you don't need anymore
+(the default unloadAssets from Mode unloads all assets!). To transition to
+another mode, merely return some subclass of Mode's class object, using the
+.class variable of that Mode.

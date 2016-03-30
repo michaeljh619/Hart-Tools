@@ -1,0 +1,32 @@
+Package: com.mrhart.background
+Name: Background Package
+Type: Support
+Version: v2.00
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.00
+- Massive overhaul of system.
+
+
+-------------------------------------------------------------------------------
+
+Description:
+	This is the Background package, it provides classes for rendering
+background images to a game.
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	Each background has its own way of rendering to the screen, check out its
+render method for info. Some backgrounds may need to be updated and take
+CameraDimensions as a parameter.
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:
+	Create a background and render it before you render your sprites (or
+whenever your background should be rendered). Note that backgrounds are not
+sprites, since normally they don't need updates to work, however some back-
+grounds may need updates if they have more complex behaviors.

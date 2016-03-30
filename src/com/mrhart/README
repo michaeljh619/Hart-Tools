@@ -1,13 +1,26 @@
 Package: com.mrhart
 Name: Main Package
+Type: System
+Version: v2.10
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.10
+- Moved Initializer to (this) Main Package.
+- Removed Starting Mode authority from GameWorld and gave it to Initializer.
+This really is Initializer's job, and requires less code conflicts in GameWorld
+if it is modified.
+	v2.00
+- Massive overhaul of system.
 
 -------------------------------------------------------------------------------
 
 Description:
 	This is the "main" package of Hart Tools. It will only contain the most
-crucial classes for creating your LibGDX game. These classes will require 
-either little or no code modification to make your game run, usually the
-latter.
+crucial classes for creating your LibGDX game. The only places for code
+modification should be in the Initializer (originally in the Backend package)
+and maybe in the pause and resizing sections of GameScreen.
 
 -------------------------------------------------------------------------------
 
@@ -25,7 +38,7 @@ fulfilled by our `GameScreen` class.
 creates `GameWorld` and `GameRenderer`, as well as creates the Camera and
 Viewport (makes the view on every device look the same). `GameScreen` also
 keeps track of the current runtime in the game (for animations) and initializes
-everything in the `Initializer` (in Backend package).
+everything in the `Initializer`.
 	In `GameScreen`, the render function is called every cpu cycle. In the
 render function, first the delta time (seconds since last cpu cycle) is added
 to the current runtime. Next `GameWorld`'s update function is called and
@@ -39,3 +52,5 @@ the large majority of projects, these classes can run stand-alone. Places that
 could be modified would include the resizing, pausing, and hiding functions in
 `GameScreen`; these functions are called when the respective action is
 performed (e.g. pause is called when your application has been paused).
+	Initializer now sits in the main package; so to change your starting Mode,
+modify the Initializer's STARTING_MODE static constant.

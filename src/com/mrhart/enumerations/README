@@ -1,5 +1,13 @@
 Package: com.mrhart.enumerations
 Name: Enumerations Package
+Type: Support
+Version: v2.00
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.00
+- Massive overhaul of system.
 
 -------------------------------------------------------------------------------
 
@@ -10,14 +18,12 @@ with static named constants and static methods for enumerations.
 -------------------------------------------------------------------------------
 
 How it Works:
-	This package is pretty self explanatory. Essentially classes will have
-named constants which can be accessed with the classes name.
+	This package is pretty self explanatory. Essentially all classes in this
+package are enumerations.
 
 -------------------------------------------------------------------------------
 
 How the Dev should use this package:
-	As stated before, this package requires virtually no code modification. For
-the large majority of projects, these classes can run stand-alone. Places that
-could be modified would include the resizing, pausing, and hiding functions in
-`GameScreen`; these functions are called when the respective action is
-performed (e.g. pause is called when your application has been paused).
+	Access enumerations through the classes in this package and use however you
+need. Lots of support packages make use of these enumerations (e.g. Direction
+in joysticks and keyboard arrows).

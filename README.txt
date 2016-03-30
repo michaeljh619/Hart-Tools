@@ -17,6 +17,11 @@ If you have any questions on how anything works, feel free to email me.
 =======
 Commits
 =======
+03/29/16:
+- Added Documentation: Added READMEs to all the packages up to, but not including, Renderable package.
+- Refactoring: Moved around classes and deleted obsolete packages, introduced the concept of concrete packages, meaning that user defined classes should go in there.
+- Initializer now holds the starting mode that begins the GameWorld, and it is now contained in the Main package. 
+
 03/25/16:
 - Updated Package: [Package - modes] --> ALL FILES. Updated all files to recognize generic Class scheme rather than GameStates. Modes must now have a constructor with 1 parameter that takes a ModeBin object (a container object that can send messages from Mode to Mode). They must have a getNextBin method, which either returns the old ModeBin they were using or a new subclass of ModeBin that can hold objects for the next Mode. Finally, the update method now returns a Class, which is the next Mode that will be transitioned to, if returning null, then no Mode update will occur.
 

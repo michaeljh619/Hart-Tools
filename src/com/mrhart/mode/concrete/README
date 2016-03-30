@@ -1,0 +1,29 @@
+Package: com.mrhart.mode.concrete
+Name: Concrete Mode Package
+Type: User Defined
+Version: v2.00
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.00
+- Massive overhaul of system.
+
+-------------------------------------------------------------------------------
+
+Description:
+	This is the Concrete Mode package, user defined classes are placed here for
+organization of Modes. Some testing Modes are provided, feel free to delete
+these when creating your final executable, as you will not need most of them.
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	As all user defined classes go, it is just meant for creating subclasses of
+Mode in here.
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:
+	Create classes of type Mode and place them in here. This is where most of
+the work from your team should go.

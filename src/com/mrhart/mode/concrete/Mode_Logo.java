@@ -1,4 +1,4 @@
-package com.mrhart.mode;
+package com.mrhart.mode.concrete;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mrhart.assets.loaders.Loader_Effects;
-import com.mrhart.assets.loaders.Loader_Logo;
+import com.mrhart.assets.concrete.Loader_Effects;
+import com.mrhart.assets.concrete.Loader_Logo;
+import com.mrhart.backend.Timer;
+import com.mrhart.mode.Mode;
+import com.mrhart.mode.ModeBin;
 import com.mrhart.settings.Settings;
 import com.mrhart.settings.Settings_Timer;
-import com.mrhart.tools.Timer;
 import com.mrhart.world.GameWorld;
 
 /**
@@ -96,7 +98,7 @@ public class Mode_Logo extends Mode {
 	}
 
 	@Override
-	public Class update(float delta) {
+	public Class<? extends Mode> update(float delta) {
 		// Wait for the global reset of loading assets to complete
 		if(globalResetTimer.isDone()){
 			Timer.unfreezeTimers(Settings_Timer.TIMER_ID_DEFAULT);

@@ -1,4 +1,4 @@
-package com.mrhart.state;
+package com.mrhart.mode;
 
 public interface StateUpdateable {
 	public void updateStates();

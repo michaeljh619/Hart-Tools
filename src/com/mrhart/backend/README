@@ -1,5 +1,17 @@
 Package: com.mrhart.backend
 Name: Backend Package
+Type: Support
+Version: v2.01
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.01
+- Removed Initializer class from this package and moved it to the Main package.
+It makes more sense there, since it is considered a System class.
+	v2.00
+- Massive overhaul of system.
+
 
 -------------------------------------------------------------------------------
 

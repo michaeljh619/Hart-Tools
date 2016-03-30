@@ -1,15 +1,17 @@
-package com.mrhart.mode;
+package com.mrhart.mode.concrete;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mrhart.assets.loaders.Loader_Sprite_Backgrounds;
+import com.mrhart.assets.concrete.Loader_Sprite_Backgrounds;
 import com.mrhart.backend.CameraDimensions;
 import com.mrhart.backgrounds.Background;
 import com.mrhart.backgrounds.BoundedBackground;
 import com.mrhart.backgrounds.UnboundedBackground;
+import com.mrhart.mode.Mode;
+import com.mrhart.mode.ModeBin;
 import com.mrhart.renderable.RenderableTextureRegion;
 import com.mrhart.settings.Settings;
 
@@ -48,7 +50,7 @@ public class Mode_Test_Backgrounds extends Mode {
 	}
 
 	@Override
-	public Class update(float delta) {
+	public Class<? extends Mode> update(float delta) {
 		if(Gdx.input.isKeyPressed(Keys.LEFT)){
 			camera.translate(-5, 0);
 		}

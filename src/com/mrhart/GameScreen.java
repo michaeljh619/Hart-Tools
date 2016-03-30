@@ -3,7 +3,6 @@ package com.mrhart;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.mrhart.backend.Initializer;
 import com.mrhart.settings.Settings;
 import com.mrhart.world.GameRenderer;
 import com.mrhart.world.GameWorld;

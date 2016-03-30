@@ -1,15 +1,17 @@
-package com.mrhart.mode;
+package com.mrhart.mode.concrete;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.mrhart.assets.loaders.Loader_Input;
+import com.mrhart.assets.concrete.Loader_Input;
 import com.mrhart.backend.Debuggable;
 import com.mrhart.input.Button;
 import com.mrhart.input.Joystick;
 import com.mrhart.input.JoystickCommands;
+import com.mrhart.mode.Mode;
+import com.mrhart.mode.ModeBin;
 import com.mrhart.renderable.RenderableTextureRegion;
 import com.mrhart.shapes.Hart_Circle;
 
@@ -41,7 +43,7 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 	}
 	
 	@Override
-	public Class update(float delta) {
+	public Class<? extends Mode> update(float delta) {
 		joystick.update();
 		button.update();
 		

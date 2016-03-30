@@ -1,4 +1,4 @@
-package com.mrhart.assets.loaders;
+package com.mrhart.assets.concrete;
 
 public class Loader_Master {
 	// Directories

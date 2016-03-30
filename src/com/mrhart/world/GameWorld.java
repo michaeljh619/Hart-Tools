@@ -3,12 +3,12 @@ package com.mrhart.world;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.mrhart.assets.loaders.Loader_Meta;
-import com.mrhart.collisions.CollisionUpdateable;
+import com.mrhart.Initializer;
+import com.mrhart.assets.concrete.Loader_Meta;
+import com.mrhart.mode.CollisionUpdateable;
 import com.mrhart.mode.Mode;
 import com.mrhart.mode.ModeBin;
-import com.mrhart.mode.Mode_Logo;
-import com.mrhart.state.StateUpdateable;
+import com.mrhart.mode.StateUpdateable;
 
 /**
  * GameWorld handles all updates to game objects. To maintain an OOP design, GameWorld should be
@@ -30,7 +30,7 @@ public class GameWorld {
 	 */
 	// Files
 	// Used to initialize the game in a certain mode
-	private static Class STARTING_MODE = Mode_Logo.class;
+	private static Class<? extends Mode> STARTING_MODE = Initializer.STARTING_MODE;
 	// Load Time
 	private static final int LOAD_TIME = 150;
 	
@@ -65,9 +65,10 @@ public class GameWorld {
     	Loader_Meta.loadIcon(metaAssets);
     	
     	// Modes
-    	ModeBin modeBin = new ModeBin(camera);
+    	ModeBin modeBin = new ModeBin();
+    	modeBin.camera = camera;
     	try {
-			currentMode = (Mode) STARTING_MODE
+			currentMode = STARTING_MODE
 					.getConstructor(ModeBin.class, AssetManager.class)
 					.newInstance(modeBin, assets);
 		} catch (Exception e) {
@@ -98,7 +99,7 @@ public class GameWorld {
 		// and continue with the current mode's update.
 		if(assets.getProgress() >= 1.0f){
 			// Update current mode
-			Class nextMode = currentMode.update(delta);
+			Class<? extends Mode> nextMode = currentMode.update(delta);
 			ModeBin nextModeBin = currentMode.getNextModeBin();
 			// Update collisions if collision updateable
 			if(currentMode instanceof CollisionUpdateable)
@@ -118,8 +119,9 @@ public class GameWorld {
 			
 			// TODO: DEV - Decide what to do with the next state
 			try {
-				nextModeBin.setLastMode(currentMode.getClass());
-				currentMode = (Mode) nextMode
+				nextModeBin.lastMode = currentMode.getClass();
+				nextModeBin.camera = camera;
+				currentMode = nextMode
 						.getConstructor(ModeBin.class, AssetManager.class)
 						.newInstance(nextModeBin, assets);
 			} catch (Exception e) {

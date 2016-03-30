@@ -1,4 +1,4 @@
-package com.mrhart.assets.loaders;
+package com.mrhart.assets.concrete;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;

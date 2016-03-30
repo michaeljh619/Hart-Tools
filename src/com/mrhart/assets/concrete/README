@@ -1,5 +1,13 @@
-Package: com.mrhart.assets.loaders
+Package: com.mrhart.assets.concrete
 Name: Loaders Package
+Type: User Defined
+Version: v2.00
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.00
+- Massive overhaul of system.
 
 -------------------------------------------------------------------------------
 
@@ -7,6 +15,11 @@ Description:
 	This is the Loaders Package, that will hold user defined classes that will
 load and retrieve assets. Some Loaders are pre-defined for generic assets that
 the developer may want, e.g. fade effects, joystick assets, etc.
+	Make a note that it is not necessary at all for you to create Loader
+classes like this. You can load everything in your modes just the same way.
+However, if you have massive amounts of files, creating a Loader class allows
+the loading step to be self-contained in a class and reduces spaghetti code
+in your Modes.
 
 -------------------------------------------------------------------------------
 

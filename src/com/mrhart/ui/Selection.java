@@ -2,13 +2,13 @@ package com.mrhart.ui;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mrhart.backend.HartMath;
-import com.mrhart.enumerations.Directions;
+import com.mrhart.backend.Timer;
+import com.mrhart.enumerations.Direction;
 import com.mrhart.input.Directionable;
 import com.mrhart.input.Joystick;
 import com.mrhart.settings.Settings_Timer;
 import com.mrhart.structures.DFA;
 import com.mrhart.structures.DFA_State;
-import com.mrhart.tools.Timer;
 
 // TODO: Testing & Documentation
 public class Selection {
@@ -126,24 +126,24 @@ public class Selection {
 	/*************************************************************************
 	 * 									DFA
 	 *************************************************************************/
-	private class DFA_Sel extends DFA<Integer>{
+	private class DFA_Sel extends DFA<Direction>{
 
-		public DFA_Sel(DFA_State<Integer>[] states, int startStateIndex,
+		public DFA_Sel(DFA_State<Direction>[] states, int startStateIndex,
 				int[] finalStates) {
 			super(states, startStateIndex, finalStates);
 		}
 
 		@Override
-		public Integer readSymbol() {
+		public Direction readSymbol() {
 			// Get the current direction
-			int direction;
+			Direction direction;
 			if(directions4)
 				direction = input.getDirections4();
 			else
 				direction = input.getDirections8();
 			
 			// Hold
-			if(isHoldable && direction != Directions.NULL){
+			if(isHoldable && direction != Direction.NULL){
 				if(!holdWaitFinished){
 					if(!holdWaitTimer.isActive()){
 						holdWaitTimer.initMilliseconds(holdWait);
@@ -153,7 +153,7 @@ public class Selection {
 						holdIntervalTimer.initMilliseconds(holdInterval);
 					}
 					else{
-						return Directions.NULL;
+						return Direction.NULL;
 					}
 				}
 				else{
@@ -161,21 +161,21 @@ public class Selection {
 						holdIntervalTimer.initMilliseconds(holdInterval);
 					}
 					else{
-						return Directions.NULL;
+						return Direction.NULL;
 					}
 				}
 			}
-			else if(isHoldable && direction == Directions.NULL){
+			else if(isHoldable && direction == Direction.NULL){
 				holdWaitFinished = false;
 				holdWaitTimer.reset();
 				holdIntervalTimer.reset();
 			}
-			else if(!isHoldable && direction == Directions.NULL){
+			else if(!isHoldable && direction == Direction.NULL){
 				justPressed = false;
 			}
 			else{
 				if(justPressed)
-					return Directions.NULL;
+					return Direction.NULL;
 				else
 					justPressed = true;
 			}
@@ -183,7 +183,7 @@ public class Selection {
 			return direction;
 		}
 	}
-	private class DFA_Sel_State extends DFA_State<Integer>{
+	private class DFA_Sel_State extends DFA_State<Direction>{
 		private int width, height;
 		private boolean[][] nodes;
 		
@@ -195,17 +195,17 @@ public class Selection {
 		}
 		
 		@Override
-		public int update(Integer symbol) {
+		public int update(Direction symbol) {
 			int x, y;
 			// No Input
-			if(symbol == Directions.NULL){
+			if(symbol == Direction.NULL){
 				return this.ID;
 			}
 			// Calculate location
 			x = HartMath.rowMajorIndexTo_X(ID, width);
 			y = HartMath.rowMajorIndexTo_Y(ID, width);
-			int incX = Directions.getUnitX(symbol);
-			int incY = Directions.getUnitY(symbol);
+			int incX = Direction.getUnitX(symbol);
+			int incY = Direction.getUnitY(symbol);
 			
 			do{
 				x += incX;

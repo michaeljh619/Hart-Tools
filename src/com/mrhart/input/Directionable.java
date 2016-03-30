@@ -1,6 +1,8 @@
 package com.mrhart.input;
 
+import com.mrhart.enumerations.Direction;
+
 public interface Directionable {
-	public int getDirections4();
-	public int getDirections8();
+	public Direction getDirections4();
+	public Direction getDirections8();
 }

@@ -1,4 +1,4 @@
-package com.mrhart.mode;
+package com.mrhart.mode.concrete;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -6,18 +6,20 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.mrhart.assets.loaders.Loader_Input;
+import com.mrhart.assets.concrete.Loader_Input;
+import com.mrhart.backend.Timer;
 import com.mrhart.collisions.Collidable;
 import com.mrhart.collisions.CollisionArea;
 import com.mrhart.collisions.CollisionArea_SingleCirc;
 import com.mrhart.collisions.CollisionArea_SingleRect;
 import com.mrhart.collisions.Collisions;
 import com.mrhart.collisions.Resettable;
+import com.mrhart.mode.Mode;
+import com.mrhart.mode.ModeBin;
 import com.mrhart.renderable.RenderableTextureRegion;
 import com.mrhart.sprites.Sprite;
 import com.mrhart.sprites.SpriteHandler;
 import com.mrhart.sprites.Sprite_Resettable;
-import com.mrhart.tools.Timer;
 
 public class Mode_Test_Sprites extends Mode {
 	/*
@@ -66,9 +68,8 @@ public class Mode_Test_Sprites extends Mode {
 		graceTime.initMilliseconds(1000);
 	}
 
-	@SuppressWarnings("unused")
 	@Override
-	public Class update(float delta) {
+	public Class<? extends Mode> update(float delta) {
 		// Allow grace time to finish before testing
 		if(graceTime.isDone())
 			isReadyToBenchTest = true;

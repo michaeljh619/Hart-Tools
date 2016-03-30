@@ -2,25 +2,31 @@ package com.mrhart.mode;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
+/**
+ * A struct for holding objects from one Mode to another. By default, ModeBin
+ * has certain objects like the camera and the last mode. However, if you
+ * extend a ModeBin, you may send more objects and primitive types to the next
+ * mode as well; for example, high scores, sprites, etc.
+ * 
+ * @author Michael Hart, MrHartGames@yahoo.com
+ * @version v1.00
+ */
 public class ModeBin {
-	protected OrthographicCamera camera;
-	protected Class lastMode;
-	
-	public ModeBin(OrthographicCamera camera){
-		this.camera = camera;
-	}
+	/*
+	 * Instance Vars
+	 */
+	public OrthographicCamera camera;
+	public Class<? extends Mode> lastMode;
+	public float volume;
 	
 	/**
-	 * This method is used in GameWorld, any calls to this method
-	 * will be overwritten when GameWorld creates the next Mode.
+	 * GameWorld will automatically send you the camera and the last mode.
+	 * Volume needs to updated by you.
 	 * 
-	 * @param lastMode
+	 * @version v1.00
+	 * @since v1.00
 	 */
-	public void setLastMode(Class lastMode){
-		this.lastMode = lastMode;
-	}
-	
-	public Class getLastMode(){
-		return lastMode;
+	public ModeBin(){
+		volume = 1.0f;
 	}
 }
