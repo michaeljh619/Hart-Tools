@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Array;
  * stateID, which is essentially what state this Mode should be active in.
  *
  * @author Michael James Hart, mrhartgames@yahoo.com
- * @version v2.10
+ * @version v2.15
  */
 public abstract class Mode {
 	/*
@@ -66,9 +66,19 @@ public abstract class Mode {
 	 * 							Assets Functions						     *
 	 *************************************************************************/
 	/**
+	 * Loading assets to the AssetManager must occur in this function. The
+	 * actual file opening and loading to RAM will happen in GameWorld's Meta
+	 * Mode.
+	 * 
+	 * @since v2.15
+	 */
+	public abstract void loadAssets();
+	
+	/**
 	 * After all loading is finished, this function will get all the loaded
 	 * assets from the AssetManager and pull them into instance variables in the
 	 * child class.
+	 * @since v2.00
 	 */
 	public abstract void finalize();
 	
@@ -76,6 +86,7 @@ public abstract class Mode {
 	 * Unloads assets from the AssetManager, at SuperClass Mode level, all
 	 * assets are unloaded. If overridden, you may choose what to unload, as
 	 * perhaps assets may be reused in the next mode.
+	 * @since v2.10
 	 */
 	public void unloadAssets(){
 		Array<String> files = assets.getAssetNames();
@@ -91,6 +102,7 @@ public abstract class Mode {
 	 * to the camera the old ModeBin was using.
 	 * 
 	 * @return
+	 * @since v2.10
 	 */
 	public abstract ModeBin getNextModeBin();
 }

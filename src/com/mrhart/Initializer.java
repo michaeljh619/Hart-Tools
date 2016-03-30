@@ -2,6 +2,7 @@ package com.mrhart;
 
 import com.mrhart.backend.Timer;
 import com.mrhart.mode.Mode;
+import com.mrhart.mode.concrete.Mode_Logo;
 import com.mrhart.mode.concrete.Mode_Test_Input;
 import com.mrhart.mode.concrete.Mode_Test_Selection;
 
@@ -14,7 +15,7 @@ import com.mrhart.mode.concrete.Mode_Test_Selection;
  */
 public class Initializer {
 	// Change this to change your starting Mode
-	public static Class<? extends Mode> STARTING_MODE = Mode_Test_Input.class;
+	public static Class<? extends Mode> STARTING_MODE = Mode_Logo.class;
 	
 	public static void initialize(){
 		Timer.initialize();

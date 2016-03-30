@@ -29,10 +29,6 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 	public Mode_Test_Input(ModeBin modeBin, AssetManager assets){
 		super(modeBin, assets);
 		
-		// Load into AssetManager
-		Loader_Input.loadButtonLight_A(assets);
-		Loader_Input.loadJoystickLight(assets);
-		
 		// Create inputs
 		joystick = new Joystick(new Vector2(200, 300), 100, 50);
 		button = new Button(new Vector2(600, 300), 200, 200,
@@ -84,5 +80,12 @@ public class Mode_Test_Input extends Mode implements Debuggable{
 	public ModeBin getNextModeBin() {
 		// TODO Auto-generated method stub
 		return modeBin;
+	}
+
+	@Override
+	public void loadAssets() {
+		// Load into AssetManager
+		Loader_Input.loadButtonLight_A(assets);
+		Loader_Input.loadJoystickLight(assets);
 	}
 }

@@ -35,8 +35,6 @@ public class Mode_Test_Selection extends Mode{
 		selection.set4Directions();
 		selection.setWrappable(false);
 		selection.setJumpable(false);
-		// Load assets
-		Loader_Sprite_Backgrounds.load_Bright1(assets);
 	}
 
 	@Override
@@ -82,5 +80,12 @@ public class Mode_Test_Selection extends Mode{
 	public ModeBin getNextModeBin() {
 		// TODO Auto-generated method stub
 		return modeBin;
+	}
+
+	@Override
+	public void loadAssets() {
+		// Load assets
+		Loader_Sprite_Backgrounds.load_Bright1(assets);
+		
 	}
 }

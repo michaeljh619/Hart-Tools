@@ -41,9 +41,6 @@ public class Mode_Test_Backgrounds extends Mode {
 		// Super Constructor
 		super(modeBin, assets);
 		
-		// Load assets
-		Loader_Sprite_Backgrounds.load_Bright1(assets);
-		
 		// Camera
 		this.camera = modeBin.camera;
 		cameraDimensions = new CameraDimensions(camera);
@@ -103,5 +100,11 @@ public class Mode_Test_Backgrounds extends Mode {
 
 	public ModeBin getNextModeBin(){
 		return modeBin;
+	}
+
+	@Override
+	public void loadAssets() {
+		// Load assets
+		Loader_Sprite_Backgrounds.load_Bright1(assets);
 	}
 }

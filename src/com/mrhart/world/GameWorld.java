@@ -2,10 +2,10 @@ package com.mrhart.world;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.mrhart.Initializer;
-import com.mrhart.assets.concrete.Loader_Meta;
 import com.mrhart.mode.CollisionUpdateable;
+import com.mrhart.mode.AssetsNotLoadedException;
+import com.mrhart.mode.MetaMode;
 import com.mrhart.mode.Mode;
 import com.mrhart.mode.ModeBin;
 import com.mrhart.mode.StateUpdateable;
@@ -31,18 +31,17 @@ public class GameWorld {
 	// Files
 	// Used to initialize the game in a certain mode
 	private static Class<? extends Mode> STARTING_MODE = Initializer.STARTING_MODE;
-	// Load Time
-	private static final int LOAD_TIME = 150;
 	
 	/*
 	 * Instance Vars
 	 */
 	// Current Mode
 	protected Mode currentMode;
+	protected MetaMode metaMode;
+	protected boolean isInMeta;
 	// Loading Screen Assets
 	protected AssetManager metaAssets;
 	protected AssetManager assets;
-	protected Animation loadingIcon;
 	// Volume Modifier
 	public static float volume = 1.0f;
 	// Camera
@@ -62,19 +61,24 @@ public class GameWorld {
     	// Assets
     	metaAssets = new AssetManager();
     	assets = new AssetManager();
-    	Loader_Meta.loadIcon(metaAssets);
     	
-    	// Modes
+    	// CurentMode
     	ModeBin modeBin = new ModeBin();
     	modeBin.camera = camera;
     	try {
 			currentMode = STARTING_MODE
 					.getConstructor(ModeBin.class, AssetManager.class)
 					.newInstance(modeBin, assets);
+			currentMode.loadAssets();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	
+    	// MetaMode
+    	metaMode = new MetaMode(modeBin, assets, metaAssets);
+    	metaMode.loadAssets();
+    	isInMeta = false;
 	}
 
 	/**
@@ -92,12 +96,40 @@ public class GameWorld {
 			if(DEBUG_ON)
 				System.err.println("Block-loading metaAssets");
 			metaAssets.finishLoading();
-			loadingIcon = Loader_Meta.getIcon(metaAssets);
+			metaMode.finalize();
+		}
+		
+		if(assets.getProgress() < 1.0f)
+			isInMeta = true;
+
+		// If there are assets to be loaded in the AssetManager, then call the
+		// metaMode's update method, which will load little chunks of assets.
+		if(isInMeta){
+			// Will update the meta mode which should be loading assets as well
+			// as whatever else you want it to do. If it returns true and the
+			// assets are not done loading, an AssetsNotLoaded Exception will
+			// be thrown.
+			try{
+				updateMeta(delta);
+			}
+			catch(AssetsNotLoadedException e){
+				e.printStackTrace();
+			}
+			if(DEBUG_ON)
+				System.err.println("Current Mode's Load Progress: " + assets.getProgress());
+			
+			// Check if current mode's assets are done loading to initialize
+			// all texture regions and animations
+			if(!isInMeta){
+				currentMode.finalize();
+				if(DEBUG_ON)
+					System.err.println("Finalizing Current Mode's Assets");
+			}
 		}
 		
 		// If the current mode is already loaded, then go ahead
 		// and continue with the current mode's update.
-		if(assets.getProgress() >= 1.0f){
+		if(!isInMeta){
 			// Update current mode
 			Class<? extends Mode> nextMode = currentMode.update(delta);
 			ModeBin nextModeBin = currentMode.getNextModeBin();
@@ -117,32 +149,38 @@ public class GameWorld {
 				return;
 			}
 			
-			// TODO: DEV - Decide what to do with the next state
+			// Construct next mode
 			try {
 				nextModeBin.lastMode = currentMode.getClass();
 				nextModeBin.camera = camera;
+				metaMode.modeBin = nextModeBin;
 				currentMode = nextMode
 						.getConstructor(ModeBin.class, AssetManager.class)
 						.newInstance(nextModeBin, assets);
+				currentMode.loadAssets();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		// Else we are going to load little blocks of the assets until its finished
-		else{
-			// Load little block of assets
-			assets.update(LOAD_TIME);
-			if(DEBUG_ON)
-				System.err.println("Current Mode's Load Progress: " + assets.getProgress());
-			
-			// Check if current mode's assets are done loading to initialize
-			// all texture regions and animations
-			if(assets.getProgress() >= 1.0f){
-				currentMode.finalize();
-				if(DEBUG_ON)
-					System.err.println("Finalizing Current Mode's Assets");
-			}
+	}
+	
+	/**
+	 * Updates the MetaMode and asserts that when the MetaMode returns true to
+	 * transition to another mode, that the assets AssetManager is finished
+	 * loading.
+	 * 
+	 * @param delta
+	 * @throws AssetsNotLoadedException
+	 */
+	private void updateMeta(float delta) throws AssetsNotLoadedException{
+		if(metaMode.update(delta) == true){
+			isInMeta = false;
 		}
-
+		else{
+			isInMeta = true;
+		}
+		
+		if(!isInMeta && assets.getProgress() < 1.0f)
+			throw new AssetsNotLoadedException();
 	}
 }

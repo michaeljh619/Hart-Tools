@@ -25,13 +25,6 @@ import com.mrhart.settings.Settings;
  */
 
 public class GameRenderer {
-	/*
-	 * Named Constants
-	 */
-	private static final int LOAD_ICON_X = 700;
-	private static final int LOAD_ICON_Y = 400;
-	private static final int LOAD_ICON_WIDTH = 50;
-	private static final int LOAD_ICON_HEIGHT = 50;
 	
 	/*
 	 *  Instance Variables
@@ -64,7 +57,6 @@ public class GameRenderer {
 	 * 
 	 * @param delta
 	 */
-	@SuppressWarnings("unused")
 	public void render(float runtime) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -80,9 +72,9 @@ public class GameRenderer {
 		if(gameWorld.assets.getProgress() >= 1.0f){
 			gameWorld.currentMode.render(batcher, runtime);
 		}
-		// Render the loading screen instead
+		// Render the meta Mode instead
 		else{
-			renderLoadingScreen(batcher, runtime);
+			gameWorld.metaMode.render(batcher, runtime);
 		}
 			
 
@@ -100,9 +92,4 @@ public class GameRenderer {
 	/*****************************************
 	 * Main Methods [END]
 	 *****************************************/
-	
-	private void renderLoadingScreen(SpriteBatch batcher, float runtime){
-		batcher.draw(gameWorld.loadingIcon.getKeyFrame(runtime), 
-				LOAD_ICON_X, LOAD_ICON_Y, LOAD_ICON_WIDTH, LOAD_ICON_HEIGHT);
-	}
 }

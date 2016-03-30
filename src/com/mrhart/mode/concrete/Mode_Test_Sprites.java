@@ -56,13 +56,6 @@ public class Mode_Test_Sprites extends Mode {
 	public Mode_Test_Sprites(ModeBin modeBin, AssetManager assets) {
 		super(modeBin, assets);
 		
-		// Load Assets
-		Loader_Input.loadButtonDark_A(assets);
-		Loader_Input.loadButtonDark_B(assets);
-		Loader_Input.loadButtonDark_X(assets);
-		Loader_Input.loadButtonDark_Y(assets);
-		Loader_Input.loadButtonDark_R(assets);
-		Loader_Input.loadButtonDark_L(assets);
 		sprites2 = new SpriteHandler();
 		// Timers
 		graceTime.initMilliseconds(1000);
@@ -355,6 +348,17 @@ public class Mode_Test_Sprites extends Mode {
 	public ModeBin getNextModeBin() {
 		// TODO Auto-generated method stub
 		return modeBin;
+	}
+
+	@Override
+	public void loadAssets() {
+		// Load Assets
+		Loader_Input.loadButtonDark_A(assets);
+		Loader_Input.loadButtonDark_B(assets);
+		Loader_Input.loadButtonDark_X(assets);
+		Loader_Input.loadButtonDark_Y(assets);
+		Loader_Input.loadButtonDark_R(assets);
+		Loader_Input.loadButtonDark_L(assets);
 	}
 
 

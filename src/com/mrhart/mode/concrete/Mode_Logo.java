@@ -74,14 +74,6 @@ public class Mode_Logo extends Mode {
 		super(modeBin, assets);
 		
 		/*
-		 * Load assets
-		 */
-		// Load Logo Graphics
-		Loader_Logo.loadLogo(assets);
-		// Load Fade Graphics
-		Loader_Effects.loadFade(assets);
-		
-		/*
 		 *  Setup timers
 		 */
 		// Signature Timers
@@ -237,6 +229,17 @@ public class Mode_Logo extends Mode {
 	public ModeBin getNextModeBin() {
 		// TODO Auto-generated method stub
 		return modeBin;
+	}
+
+	@Override
+	public void loadAssets() {
+		/*
+		 * Load assets
+		 */
+		// Load Logo Graphics
+		Loader_Logo.loadLogo(assets);
+		// Load Fade Graphics
+		Loader_Effects.loadFade(assets);
 	}
 
 }

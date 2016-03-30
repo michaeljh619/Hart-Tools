@@ -159,4 +159,9 @@ public class Mode_Test_TSP extends Mode implements Debuggable {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void loadAssets() {
+		
+	}
 }
