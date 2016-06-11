@@ -1,0 +1,41 @@
+Package: com.mrhart.renderable
+Name: Renderable Package
+Type: System
+Version: v2.00
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.00
+- Massive overhaul of system.
+
+-------------------------------------------------------------------------------
+
+Description:
+	This is the Renderable package, it contains classes for renderable objects.
+Sprites have a RenderableObject pointer that can be built with a constructor;
+once a Sprite has a RenderableObject, it will automatically render it centered
+at its origin when its render method is called.
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	Renderable objects are merely extensions of LibGDX's TextureRegion and
+Animation classes. The problem I faced when creating sprites was that I needed
+an object that could take either an Animation or a TextureRegion, since
+essentially they do the same thing by just being rendered to the screen. The
+generic RenderableObject has one method, getTextureRegion(float runtime), this
+method allows both an Animation and a TextureRegion to behave the same way by
+returning the TextureRegion if its a RenderableTR and gets the current frame
+if its a RenderableAnim.
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:
+	Use the classes just like LibGDX Animation and TextureRegion. To take
+advantage of what this class offers, you can have some generic RenderableObject
+and then polymorphically cast it to either a RenderableTextureRegion or a
+RenderableAnimation depending on what you need. Then when rendering the
+RenderableObject, just call its getTextureRegion with the correct runtime and
+you can render the TextureRegion that's returned without ever knowing whether
+the RenderableObject is an Animation or TextureRegion!

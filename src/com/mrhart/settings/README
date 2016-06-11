@@ -1,0 +1,26 @@
+Package: com.mrhart.renderable
+Name: Settings Package
+Type: System
+Version: v2.00
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.00
+- Massive overhaul of system.
+
+-------------------------------------------------------------------------------
+
+Description:
+	Contains settings files which have a lot of named constants and static
+variables.
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	Self explanatory, just classes with static variables and named constants.
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:
+	Just use the static variabled and constants to your heart's content.

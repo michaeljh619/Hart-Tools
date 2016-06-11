@@ -3,8 +3,6 @@ package com.mrhart;
 import com.mrhart.backend.Timer;
 import com.mrhart.mode.Mode;
 import com.mrhart.mode.concrete.Mode_Logo;
-import com.mrhart.mode.concrete.Mode_Test_Input;
-import com.mrhart.mode.concrete.Mode_Test_Selection;
 
 /**
  * Initializes all the necessary classes and static variables to get the game

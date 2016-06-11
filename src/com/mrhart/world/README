@@ -1,5 +1,13 @@
 Package: com.mrhart.world
 Name: World Package
+Type: System
+Version: v2.00
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.00
+- Massive overhaul of system.
 
 -------------------------------------------------------------------------------
 
@@ -67,11 +75,27 @@ this mode will be using sprites and handling collisions, it should implement
 CollisionUpdateable. If this mode will be updating states of objects after the
 normal updates and collision handling occur, it should implement StateUpdateable.
 Both of these will be called per stated before.
-	Next, in GameState, add a new state for your new Mode. Follow the GameState
-instructions on how to add new States; essentially your new state should
-correspond only to this new Game Mode.
-	Now, in GameWorld, under "TODO: DEV - Modes of the game" add your new Mode.
-In GameWorld's update method, under "TODO: DEV - Decide what to do with the next
-state", create an if statement checking if the nextState is the new State that
-you added, and inside that if block construct your Mode and make the currentMode
-equal to the new Mode you created. Voila! Your Mode should now be working.
+	The most important thing about your Mode is that it has a constructor of the
+format: Constructor(ModeBin modeBin, AssetManager assets). GameWorld knows
+nothing of what Mode it will be getting, it only knows that you are going to be
+telling it that the current mode is an instance of a Mode. GameWorld will
+automatically construct that mode with the constructor that you are required to
+have. If you do not implement this constructor, then your game will crash when
+GameWorld attempts to call the non-existent constructor.
+	The initializer in the main package contains info on how to make your game
+start on a specific Mode and the Mode's update method will return whatever the
+next Mode should be that GameWorld will automatically construct.
+2.) Modifying Loading Time:
+	When a new Mode is constructed, its assets are automatically loaded before
+it can begin running. Each cycle the load will run for a certain number of
+milliseconds specified by the LOAD_TIME constant in GameWorld. Note that making
+this value very small will make your load screen (MetaMode) run smoother, but
+your load will take longer. Making this value too large will have the opposite
+effects, where you have a choppy load screen but your loads will happen much
+faster; I highly encourage you play with this number to reach a happy medium.
+
+- GameRenderer -
+	GameRenderer should not really be modified. However, if you plan to
+implement 3D games, this would need to absolutely be modified. You must
+remember however, that this system is targeted to 2D games and would most
+likely require lots of code modification to get a 3D game working!

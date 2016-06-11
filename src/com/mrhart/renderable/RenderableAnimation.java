@@ -15,6 +15,10 @@ public class RenderableAnimation extends Animation implements RenderableObject{
 	public RenderableAnimation(float frameDuration, Array<? extends TextureRegion> regions, PlayMode playMode){
 		super(frameDuration, regions, playMode);
 	}
+
+	public RenderableAnimation(float frameDuration, TextureRegion[] regions){
+		super(frameDuration, regions);
+	}
 	
 	@Override
 	public TextureRegion getTextureRegion(float runtime) {

@@ -128,7 +128,7 @@ public class Mode_Logo extends Mode {
 		
 		// Now check the underline timer
 		if(isReadyToFinish && fadeTimer.isDone()){
-			return Mode_Logo.class;
+			return Mode_Test_Input.class;
 		}
 		else{
 			return null;

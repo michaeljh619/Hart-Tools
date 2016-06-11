@@ -1,0 +1,186 @@
+Package: com.mrhart.sprites
+Name: Sprite Package
+Type: System
+Version: v2.00
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.00
+- Massive overhaul of system.
+
+-------------------------------------------------------------------------------
+
+Description:
+	This is the "Sprite" package of Hart Tools. It contains classes that
+form Sprites. A sprite in the context of Hart Tools is merely some object in
+your game that has a position, velocity, acceleration, and some way to render
+to the screen. In other words, if we take a classic example from Mario Bros.,
+then the Sprites in that game would include:
+		Mario, enemies, coins, powerups, bricks (tiles), pipes, etc.
+	Pretty much every "thing" in your game other than simply visual objects like
+backgrounds and backend objects.
+
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	Any objects that extend Sprite gain access to its instance variables and
+functions:
+
+- Vectors -
+	Vectors are the position, velocity, and acceleration of your Sprite. 
+Vectors here are, in the simplest way of explaining them, merely an x and y
+coordinate. The position vector tells you where the sprite is in the world,
+this position can be thought of as a dot in the center of your Sprite. The
+velocity vector updates your position, its your speed essentially and
+Acceleration updates your velocity.
+
+- Renderable Object -
+	Each Sprite has some RenderableObject as well. This makes it very easy to
+construct a Sprite with either an Animation or a Texture and the Sprite will
+automatically render that RenderableObject to the screen at the Sprite's
+position.
+
+- Update Function -
+	The update function is a function that is called every game cycle. It is
+essentially what makes your Sprite "do" what it does. For example, an update
+function would include position, health, damage, and input updates, etc. Note
+that update takes a float called delta; this delta is the difference in the
+amount of time it took to reach this update since the last update. This is
+important to scale our position and velocity updates by this delta, otherwise
+faster devices may show object moving faster than slower devices. This is taken
+care of in all the Abstract Sprite update methods, but if you wish to directly
+modify these values, you should take this into account.
+	An important note to make is that there are already updates built into each
+abstract Sprite. Noted below are the updates for each class of Sprite:
+- Sprite: Updates the position based on velocity and the velocity based on
+acceleration. Make sure if you call this update method with super.update(delta),
+that you call it after you have made any changes to your velocity and
+acceleration, otherwise the updates will occur the next cycle and this can
+cause weird bugs that will be VERY difficult to track down.
+- Sprite_Collidable: Calls the Sprite's update method that updates its velocity
+and position. After doing this, it updates the CollisionArea that is associated
+with the collidable by calling the updateCollisionArea function that is defined
+by you. This, in effect, updates your sprite like normal and then places the
+collision area in the right position to reflect those position updates.
+- Sprite_Resettable: Calls the Sprite_Collidable's update method, but only
+after updating its lastPosition vector. "lastPosition" is exactly what it
+sounds like; essentially, a resettable sprite keeps track of the position it
+was in the last cycle. This allows us to implement collisions quite easily. For
+example, let's say you have a character that runs into a wall while he was
+moving to the right. That character will have its x position reset to the last
+position's x coordinate, and in the last cycle the character was not
+colliding with the wall. Of course this does not work for all types of
+collisions, but for most it will be enough.
+
+- Render Function -
+	Most of the time you will overwrite this method, however the generic
+Sprite's render method will be explained in full detail in below. A render
+method takes in a float runtime and a SpriteBatch batcher. "runtime" is the
+amount of time that has passed since the start of the execution of this
+program. "runtime" helps with LibGDX Animations, more details on that can be
+found on the LibGDX's API for Animation. SpriteBatch is the actual thing that
+you render Textures and Animations to the screen with, when you receive the
+SpriteBatch in your render function, its "begin()" function has already been
+called, meaning it is ready to render to the screen without having to call
+begin().
+	The generic Sprite's render method essentially just renders the
+RenderableObject that was passed to the Sprite if its not null. This can cut
+down on code size if you already know that something's Animations or Textures
+are never going to change, like a tile object in your game.
+	Note that the order in which you render objects to the screen is important!
+Sprites that have their render function called first will be rendered lower on
+the screen. For example, if I want to render a background to my game, its
+render function should be the first one that is called since all other Sprites
+will be rendered over it!
+	Luckily, there is already an intricate system to handle proper rendering in
+Hart Tools. Each Sprite has an instance variable that is an int called
+"renderLayer". As the name suggests, this is the layer that the Sprite will be
+rendered to; lower numbers will be rendered first and higher numbers will be
+rendered after. It is suggested that you start at 0 and work your way up, as
+the backgrounds in the background package use -1 as their render layer so that
+they are always rendered first. So, if we have some class of objects that are
+always rendered lower than some other class of objects, we can merely set those
+object's renderLayer to some number lower than the other objects.
+	What if, however, there are objects that in the same renderLayer and you
+want to have a specific way those objects should overlap as well. I'll give you
+an example, suppose at renderLayer -1 there is a background rendered first, at
+renderLayer 0 there are tiles which are rendered, and at renderLayer 1 there
+are 2 characters. Now suppose these two characters can overlap each other
+somehow, but you want the character who has a higher y position to always be
+rendered first. One solution would be to change the renderLayer based on the
+character's y position relative to the other character's y position, but this
+is a horribly difficult solution, as we can imagine a situation in which we
+have many render layers and many characters the render layers numbering system
+starts to get out of control.
+	Instead, we can have our characters keep render layer 1, and override the 
+character's "compareTo_sameRenderLayer" function that is defined in the Sprite
+class. This allows you to compare a sprite to another sprite that are in the
+same renderLayer and sort them based on what you want. This is essentially a
+compare function, so returning -1 means this Sprite should be rendered first,
+returning 0 is a don't care or equivalence, and returning 1 means this sprite
+should be rendered after the other Sprite.
+
+- SpriteHandler -
+	To make the updating, rendering, and colliding of sprites more automated,
+a developer should use a SpriteHandler. It contains a sorted ArrayList that
+holds all the sprites and is sorted based on what is trying to be accomplished.
+The stages in the SpriteHandler go as follows:
+
+			Update, Collide, StateUpdate, Render.
+
+- Updates:
+	During updates, the sorting order doesn't matter, since updates of sprites
+should be independent of other sprite's updates. Every sprite's update function
+is called, this stage generally goes by very quick, so there is a lack of
+optimizations in this stage.
+- Collide:
+	The collision stage is by far one of the most intricate things in Hart
+Tools. First, two standard deviations are calculated in the x and y positions
+of each Sprite, whichever is greater is the way the Sprites will be sorted. The
+reasoning of this being that the standard deviation that is greater will
+be the axis that has Sprites more spread out; this is crucial in optimizing
+collision handling. The way collisions are handled, is we first sort all
+sprites based on their x or y coordinates (determined by the previous step),
+and then begin at the first Sprite and check each consecutive sprite to see if
+they are colliding. So if the first sprite is not colliding with the next
+Sprite, then it cannot possibly be colliding with any of the sprites afterwards,
+since they are all further in the x direction than the second sprite that the
+first sprite was not colliding with. 
+	This algorithm allows us to have a best case scenarion of O(n)! "n" being
+the total number of sprites. Compare this with the naive implementation where
+every sprite must check against every other sprite to see if they are
+colliding: O(n^2). When there are any overlaps of sprites in a direction, we
+must check if they are colliding. Suppose we check in the x direction and there
+are two sprites that are overlapping in the x direction but not colliding. To
+envision this, think of two squares where they are stacked on top of each other
+and push the top square slightly to the right; in the x direction they are
+technically overlapping, since you can view them both on a number line
+occupying the same space. However, in 2-dimensional space there is a y
+coordinate and we can see that the Sprites are not actually touching each other!
+This is why the SpriteHandler must try to sort based on which axis has the
+greater standard deviation, since we could have a game that is stretched in the
+y direction, and a lot of sprites are overlapping in the x axis (think of a
+bunch of boxes stacked on top of each other but not touching). If we attempted
+to sort in the x direction, we may actually get to the worst possible running
+time of this algorithm: O(n^2); however, sorting in the y direction yields O(n)!
+A lot of testing went into this and the logs can be found in the bench tests
+folder that comes with Hart Tools.
+	There are many more intricacies as well, there is a pass system, since if
+there is a collision, a Sprite may have been pushed back into another Sprite;
+so several collision passes may be utilized. If you are interested, I highly
+suggest opening up the SpriteHandler's collision function and try to optimize
+it more; this is where your game will spend most of its time processing, so
+getting this to run faster will benefit you immensely!
+- StateUpdate:
+	State updates occur after collisions and regular updates, since this is the
+stage where all the sprites have finished moving around and changing things and
+have finally settled. This stage is important for both rendering and future
+updates, as the rendering can rely on knowing what state you are in. For
+example, suppose you have a sprite that in its update stage, received input to
+jump. As a naive approach, the developer may be tempted to label this as the
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:

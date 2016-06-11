@@ -1,0 +1,27 @@
+Package: com.mrhart.structures
+Name: Structures Package
+Type: System
+Version: v2.00
+
+-------------------------------------------------------------------------------
+
+Updates:
+	v2.00
+- Massive overhaul of system.
+
+-------------------------------------------------------------------------------
+
+Description:
+	This package provides different data structures classes. Some of these
+structures are used in system packages, therefore this package must be
+classified as a system type.
+
+-------------------------------------------------------------------------------
+
+How it Works:
+	They work just like data structures work.
+
+-------------------------------------------------------------------------------
+
+How the Dev should use this package:
+	Use the structures for things the structures need to be used for.
