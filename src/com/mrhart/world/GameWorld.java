@@ -133,6 +133,9 @@ public class GameWorld {
 			// Update current mode
 			Class<? extends Mode> nextMode = currentMode.update(delta);
 			ModeBin nextModeBin = currentMode.getNextModeBin();
+			if(nextModeBin == null){
+				nextModeBin = new ModeBin();
+			}
 			// Update collisions if collision updateable
 			if(currentMode instanceof CollisionUpdateable)
 				((CollisionUpdateable) currentMode).updateCollisions();
