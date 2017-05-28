@@ -18,7 +18,7 @@ If you have any questions on how anything works, feel free to email me.
 Commits
 =======
 03/30/16:
-- Updated Mode: There is not a loadAssets function, self-explanatory.
+- Updated Mode: There is now a loadAssets function, self-explanatory.
 - Updated GameWorld: There is now a MetaMode that acts just like a regular mode, it runs when there are assets to be loaded.
 
 03/29/16:
